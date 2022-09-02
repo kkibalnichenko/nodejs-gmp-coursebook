@@ -163,10 +163,84 @@ This will remove update anomaly from our table and if project type is changed we
 
 #### 3 Normal form
 
-### Relations
+The third normal form states that you should eliminate fields in a table that do not depend on the key.
 
-- Normal forms (1,2,3)
-- Relations (1:1, 1:n, m:n)
+- A Table is already in 2 NF
+- Non-Primary key columns shouldn’t depend on the other non-Primary key columns
+- There is no transitive functional dependency
+
+In a simple words, values in a record that are not part of that record's key do not belong in the table. In general, anytime the contents
+of a group of fields may apply to more than a single record in the table, consider placing those fields in a separate table.
+Let's check our model, we have `Office Address` and `Office City` and here we have functional dependency.
+
+![functional-dep](/img/rdb/functional-dep.PNG)
+
+Office city rather depends on office address than on employeeId, and also you can check yourself that information of address and city
+will be duplicated lots of time, and thats and update anomaly. So to make our model satisfy 3NF we need to move office information
+from Employees table.
+
+![3-NF](/img/rdb/3-NF.PNG)
+
+Now there are no updates anomalies, no insert anomalies and no deletion anomalies.
+
+:::caution
+
+Adhering to the third normal form, while theoretically desirable, is not always practical. If you have a Customers table 
+and you want to eliminate all possible duplications, you must create separate tables for cities, ZIP codes, 
+customer classes, and any other factor that may be duplicated in multiple records. In theory, normalization is worth pursing. 
+However, many small tables may degrade performance or exceed open file and memory capacities.
+
+:::
+
+### Relationships
+Now that you understand the modelling process and when you have your data held in clearly defined, compact tables, 
+you can connect or relate the data held in different tables. There are three types of relationships between the data you are 
+likely to encounter: one-to-one, one-to-many, and many-to-many. To be able to identify these relationships, you need to examine 
+the data and have an understanding of what business rules apply to the data and tables.
+
+#### One-to-one
+A one-to-one (1:1) relationship means that each record in Table A relates to one, and only one, record in Table B, 
+and each record in Table B relates to one, and only one, record in Table A. 
+Look at the following example of tables from a company's Employees database:
+
+![one-to-one](/img/rdb/one-to-one.PNG)
+
+Let’s say you’re organizing employee information, and you also want to keep track of each employee’s computer.
+Since each employee only gets one computer and those computers are not shared between employees, you could add fields to your Employee table
+that hold information like the OS, year, RAM of each computer. However, that can get messy from a semantic standpoint —
+does computer information really belong in a table about employees? That’s for you to decide,
+but another option is to create a Computers table with a one-to-one relationship to the Employee table.
+Relationship maintained by foreign key (FK) and `laptopId` points to one specific laptop. If we make a unique index from `laptopId`
+it will become impossible to assign one computer to several employees. 
+
+#### One-to-many
+One-to-many relationships are the most common type of relationships between tables in a database.
+In a one-to-many (sometimes called many-to-one) relationship, a record in one table corresponds to zero, one, or many records 
+in another table. Relationship is also maintained by FK column in one of the tables. 
+Let's take our previous example and say that now every person may have several laptops. All that we need to do is to 
+move FK column to `Laptops` table.
+
+![one-to-many](/img/rdb/one-to-many.PNG)
+
+Now, every employee can have zero, one or several laptops, but laptop can be own only by one employee.
+
+
+#### Many-to-many
+
+A many-to-many relationship indicates that multiple records in a table are linked to multiple records in another table. 
+Those records may only be associated with a single record (or none at all) but the key is that they can and often are linked 
+to more than one. Many-to-many relation is implemented by creating a third table, known as a join table,
+and create one-to-many relationships between it and your two starting tables. 
+Imagine that you need to store information about employees and theirs projects. There are lots of employees and projects,
+one employee can work on several projects and one project usually has some team of developers. We have already had example
+of many-to-many relationship for such business rules, check 2NF once more.
+
+![many-to-many](/img/rdb/2-NF-final.PNG)
+
+Here you can see join table and common technique is to create composite primary key using primary keys from main tables.
+So we took `employeeId` and `projectId` for composite key,combination of these will always point us at one particular row.
+
+
 - Indexes
 
 ## SQL basics
