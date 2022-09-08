@@ -1,0 +1,31 @@
+---
+sidebar_position: 3
+title: NoSQL. CAP/BASE/ACID
+sidebar_label: CAP/BASE/ACID
+custom_edit_url: null
+pagination_label: Databases. NoSQL - CAP/BASE/ACID
+---
+### Overview
+
+
+
+### CAP
+
+- ```C```onsistency: Data should be sequential consistent(refers to linearizability across all nodes of a distributed system, such that all nodes in a system return same data after a successful write operation.
+- ```A```vailability: Every request served by a non-failing node must result in a response in a reasonable amount of time.
+- ```P```artition tolerance: In the case of partition failure, System will continue to work and provide consistent data.
+
+
+### BASE
+
+- ```B```asically ```A```vailable. Writing and reading operations are available as much as possible even if it’s a failure.
+- ```S```oft State. No guarantees that the data eventually becomes consistent.
+- ```E```ventual Consistency. The components in the system may not reflect the same value/state of a record at a given point in time. They will settle it eventually.
+
+### ACID
+
+- ```A```tomicity. Only the specified data is affected by an operation.
+- ```C```onsistency. Each operation moves the database from one consistent state to another consistent state.
+- ```I```solation. One operation does not affect other concurrent operations.
+- ```D```urability. Once written, a transaction’s updates should not be lost.
+
