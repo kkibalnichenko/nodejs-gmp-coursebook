@@ -19,7 +19,7 @@ or
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 ```
 
-To install nvm on Windows platform you need to download [nvm-setup.zip](https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip) and run `nvm-setup.exe` from the archive.`
+To install nvm on Windows platform you need to download [nvm-setup.zip](https://github.com/coreybutler/nvm-windows/releases/download/1.1.9/nvm-setup.zip) and run `nvm-setup.exe` from the archive.
 
 Run the following command to check that nvm was installed successfully:
 
