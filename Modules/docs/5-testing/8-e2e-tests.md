@@ -1,4 +1,4 @@
 ---
 sidebar_position: 8
 ---
-# Practice: E2E tests
+# E2E tests
