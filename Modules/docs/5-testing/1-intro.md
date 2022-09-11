@@ -23,7 +23,7 @@ Before we dive deep into testing practices in Node.js, let’s start by answerin
 - [Getting started with Jest](/docs/testing/getting-started-with-jest)
 - [Jest core concepts](/docs/testing/jest-core-concepts)
 - [Unit tests](/docs/testing/unit-tests)
-- [Practice: Integration tests](/docs/testing/practice-integration-tests)
-- [Practice: E2E tests](/docs/testing/practice-e2e-tests)
+- [Integration tests](/docs/testing/integration-tests)
+- [E2E tests](/docs/testing/e2e-tests)
 - [Test coverage](/docs/testing/test-coverage)
 
