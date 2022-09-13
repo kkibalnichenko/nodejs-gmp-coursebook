@@ -25,5 +25,5 @@ Before we dive deep into testing practices in Node.js, let’s start by answerin
 - [Unit tests](/docs/testing/unit-tests)
 - [Integration tests](/docs/testing/integration-tests)
 - [E2E tests](/docs/testing/e2e-tests)
-- [Test coverage](/docs/testing/test-coverage)
+- [Code coverage](/docs/testing/test-coverage)
 

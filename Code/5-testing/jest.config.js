@@ -4,6 +4,11 @@ module.exports = {
   roots: ['./src'],
   silent: false,
   verbose: true,
-  collectCoverageFrom: ['src/**/*.{ts}'],
-  coverageReporters: ['html', 'text', 'text-summary'],
+  collectCoverageFrom: ['src/**'],
+  coverageReporters: ['text'],
+  coverageThreshold: {
+    global: {
+      lines: 98
+    }
+  }
 };
