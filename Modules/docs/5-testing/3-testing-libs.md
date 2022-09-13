@@ -12,6 +12,4 @@ Based on [npm trends](https://npmtrends.com/jest-vs-mocha) Jest is playing a lea
 
 Mocha is a little more complicated than Jest when it comes to ease of use. Jest is designed to be simple and straightforward, while Mocha has more options and can be more difficult to learn. 
 
-So if you want a tool that is easy to get started with and doesn’t require learning a new syntax, Jest is a better choice. If you’re looking for a more powerful tool, Mocha might be the better option.
-
 For learning purposes we will use Jest. So in the next sections we will dive deep into the tool and learn some basics.

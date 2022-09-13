@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 # Intro
 
-Before we dive deep into testing practices in Node.js, let’s start by answering the main question: why is testing so important and why should developers write tests? 
+Before we dive deep into testing practices in Node.js, let’s start by answering the main question: **why is testing so important and why should developers write tests?**
 
 **Writing tests helps you to:**
 1. build confidence in how your code works
@@ -17,13 +17,4 @@ Before we dive deep into testing practices in Node.js, let’s start by answerin
 - learn how to use Jest as a tool for writing tests
 - see examples of unit, integration and e2e tests
 
-**Table of content:**
-- [Testing Pyramid](/docs/testing/testing-pyramid)
-- [Testing libraries in Node.js](/docs/testing/testing-libs)
-- [Getting started with Jest](/docs/testing/getting-started-with-jest)
-- [Jest core concepts](/docs/testing/jest-core-concepts)
-- [Unit tests](/docs/testing/unit-tests)
-- [Integration tests](/docs/testing/integration-tests)
-- [E2E tests](/docs/testing/e2e-tests)
-- [Code coverage](/docs/testing/test-coverage)
-
+Happy learning! 😊
