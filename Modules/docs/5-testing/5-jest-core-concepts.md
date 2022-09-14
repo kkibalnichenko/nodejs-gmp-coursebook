@@ -3,11 +3,9 @@ sidebar_position: 5
 ---
 # Jest core concepts
 
-## Introduction
-
 In the previous section you implemented your first Jest test. Let's review some core Jest concepts before we actually start writing unit / integration / e2e tests.
 
-### Grouping tests
+## Grouping tests
 
 In the previous section you learnt that tests can be defined with function `test()`. It is not the only way to do it. You can also use `it()` that will produce the same output.
 
@@ -34,7 +32,7 @@ describe('Create user', () => {
 })
 ```
 
-### Test lifecycle
+## Test lifecycle
 
 There are use cases when you need to do some setup jobs before the actual tests or do some cleanup when they finish execution. Jest provides several global methods that can be executed before or after tests.
 
@@ -48,12 +46,12 @@ There are use cases when you need to do some setup jobs before the actual tests 
 
 ![Test lifecycle](/img/5-jest-core-concepts.png)
 
-### Mocks
+## Mocks
 
 Let's imagine a situation when you want to write some tests for `function A` that calls another `function B`. In this specific case you want to concentrate on testing the behavior of `function A`. `function B` is quite slow because it makes request to another API. So instead of calling it, you just want to "hardcode" the returned value.
 
 **Mocks** allow you to replace the actual implementation of a function. You can track if mock function was called, how many times and with what arguments.
-#### jest.mock()
+### jest.mock()
 
 The most basic strategy for mocking is to reassign a function to the mock function. Then, anywhere the reassigned functions are used, the mock will be called instead of the original function.
 
@@ -118,7 +116,7 @@ describe('[Mocks] Get gender by name', () => {
 });
 ```
 
-#### jest.spyOn()
+### jest.spyOn()
 
 Sometimes you only want to watch a method being called, but keep the original implementation or you may want to mock the implementation, but restore the original later in the suite. **Spies** allow you to do that.
 
@@ -156,7 +154,7 @@ describe('[Spies] Get gender by name', () => {
 
 In most cases it's better to use `jest.spyOn()` instead of `jest.mock()` since mocking the whole module is not needed. The examples above show some typical mocks and spies cases. No worries if it seems hard for you at first glance. It’s quite a complicated topic, but once you get more practice - things become much easier. Don’t be afraid to google particular mock cases.
 
-### Useful links
+## Useful links
 
 - [Jest Mock functions](https://jestjs.io/docs/mock-functions)
 - [Understanding Jest mocks](https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c)
