@@ -3,7 +3,7 @@ sidebar_position: 2
 ---
 # Testing Pyramid
 
-I am pretty sure that you’ve heard the term “testing pyramid” quite a lot of times. But let’s quickly go through it and refresh our memory on some core concepts. 
+I am pretty sure that you’ve heard the term `Testing Pyramid` quite a lot of times. But let’s quickly go through it and refresh our memory on some core concepts. 
 
 To verify the correctness of an application, we can use different types of testing. Each type of test has a different scope of tested elements and requires different time and resources to run.
 
@@ -51,9 +51,9 @@ E2E tests are at the top of the Testing Pyramid because they involve the largest
 
 :::tip Definition
 
-E2E tests can be treated differently depending on what part of the application you are working on.
-- for frontend applications, E2E tests are UI tests where the actual user interaction is checked in combination with backend
-- for backend applications, E2E tests are more like API tests, where we test how our API is responding to requests
+E2E tests can be treated differently depending on the application you are working on.
+- for frontend applications, E2E tests are UI tests where the actual user interaction is checked in combination with API.
+- for backend applications, E2E tests are more like API tests, where we test how our API is responding to requests.
 
 :::
 
