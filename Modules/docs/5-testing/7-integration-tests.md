@@ -13,7 +13,11 @@ In the previous section we’ve learnt how to write unit tests. The key differen
 - Do not forget to clean up everything that you’ve done during integration testing. For example: when testing integration between your code and database, you will likely create new entities. Do not forget to drop them once integration tests are finished.
 - Make sure that you have covered error scenarios in integration tests. But pay attention only to errors that are thrown by external or other services and if you handle them properly. Integration testing is not about testing incorrect input arguments and validation.
 
-And now let’s have a look at how integration tests can be written using Jest. We will consider a typical case when testing interaction between code and database. So we have:
+And now let’s have a look at how integration tests can be written using Jest.
+
+## Implementation
+
+We will consider a typical case when testing interaction between code and database. So we have:
 - database (`Users`) that contains users
 - repository (`UserRepository`) that is a single entry point to database and contains methods to querying database
 - service (`UserSerivice`) that calls repository for any data needed from database
@@ -21,6 +25,8 @@ And now let’s have a look at how integration tests can be written using Jest. 
 The interaction between all of them is shown in the picture below.
 
 ![Interaction example](/img/5-integration-test-example.png)
+
+### Interfaces
 
 Before we dive into the code, let’s have a look at interfaces that we would use. They are `IUser` and  `IUserExtended`. As you can see, we have the simplest user model possible with typical attributes.
 
@@ -37,6 +43,8 @@ export interface IUserExtended extends IUser {
   password: string;
 }
 ```
+
+### Database
 
 For simplicity, we will have a database as an array stored in memory. That’s how our database looks like:
 
@@ -73,6 +81,8 @@ export default [
 ];
 ```
 
+### Repository
+
 Repository is just a wrapper over database queries. It contains `create()`, `getOneByEmail()`, `getOneById()`, `getAll()` and `delete()` methods. Since we have an in-memory database, we are just operating with `users` array using array methods. 
 
 ```js title="/src/integration-tests/example-1/db/user.repository.ts"
@@ -108,6 +118,8 @@ const userRepository = {
 
 export default userRepository;
 ```
+
+### Service
 
 And now let’s have a look at our `UserService` which we will cover with integration tests. We will expose 3 methods externally - `create()`, `getAll()` and `delete()`.
 
@@ -148,11 +160,15 @@ const userService = {
 export default userService;
 ```
 
+## Testing
+
 So what integration tests should we have for our `UserService`? First of all, it exposes 3 methods that we should test. Secondly, some methods like `create()` and `delete()` have some error handling logic, which should be tested as well.
 
 :::note
 Once again, no mocks or spies should be there. We are testing real interaction between modules.
 :::
+
+### Create user - success path
 
 Let’s start with integration tests for creating users. First of all we check if a user with such email exists in our database. If not, we create that user. Otherwise, we throw an error.
 
@@ -189,6 +205,8 @@ describe('User service', () => {
 
 Pay attention that at the end of the test scenario we are pushing user ids that we've created to `userIdsToDelete` array. That is what was previously mentioned: we collect those ids to do cleanup later.
 
+### Create user - error path
+
 And now let’s look at how error scenarios testing would look like. We simply try to create the same user twice. The second call throws an error that user with such email already exists. 
 
 ```js title="/src/integration-tests/example-1/user.service.test.ts"
@@ -208,6 +226,8 @@ test('should throw error if user exists', () => {
 });
 ```
 
+### Get all users
+
 Tests for getting all users are quite simple and straightforward: we get all users, create new one, then get all users again and expect that the number of users after creation would be +1.
 
 ```js title="/src/integration-tests/example-1/user.service.test.ts"
@@ -225,6 +245,8 @@ describe('get all users', () => {
   });
 });
 ```
+
+### Delete user
 
 Delete user integration tests are very similar to creating user ones. We would not stop much at them. So just have a look.
 
@@ -245,6 +267,8 @@ describe('delete user', () => {
 });
 ```
 
+### Clean up
+
 And the last important bit is to do cleanup. So every time we created a new user, we pushed their id to `userIdsToDelete` array. Now let’s remove all those users so as not to mess up the database with test data.
 
 ```js title="/src/integration-tests/example-1/user.service.test.ts"
@@ -252,6 +276,8 @@ afterAll(() => {
   userIdsToDelete.forEach((id) => id && userService.delete(id));
 });
 ```
+
+### Final test
 
 That’s how our final integration tests for `UserService` would look like.
 

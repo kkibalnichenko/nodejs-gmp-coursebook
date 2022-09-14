@@ -13,11 +13,15 @@ If there is a frontend part for your backend application, E2E tests will likely 
 - Think of cover testing different status codes, not only 200.
 - Make sure that the structure of response returned is the one that you expect.
 
+## Libraries for E2E testing
+
 For doing E2E testing focused on API, we will be using [npm package](https://www.npmjs.com/package/supertest) `supertest`. This package allows you to listen to any connections on particular url, call API endpoints and validate the response in combination with Jest.
 
 :::note
 `supertest` is just an example. You can simply use `fetch` or `axios` to make API calls and then validate output with Jest.
 :::
+
+## API overview
 
 We will do E2E testing against public Cat facts API ([Swagger](https://catfact.ninja/)) not to spend much time on implementing our own API. If you check Swagger, Cat facts API has 3 endpoints:
 - `/fact` - to get single fact
@@ -26,7 +30,11 @@ We will do E2E testing against public Cat facts API ([Swagger](https://catfact.n
 
 Facts endpoints allow you to specify `max_length` query param. By Swagger docs, if this attribute is specified, you will be returned a fact or facts that are no longer than `max_length`.
 
+## Testing
+
 What is important to check in E2E tests? Status codes and response body structure.
+
+### /fact endpoint
 
 Let’s have a look at how E2E tests for `/fact` endpoint would look like. We have 3 test scenarios:
 1. check if get random cat fact returns status code 200 and body that contains `fact` and `length` props. 
@@ -73,6 +81,7 @@ describe('Cats API', () => {
   });
 });
 ```
+### /breeds endpoint
 
 For `/breeds` endpoint, we have 2 things to check:
 1. check if breeds with `limit = 2` specified returns status code 200 and two objects containing `breed`, `country`, `origin`, `coat` and `pattern` props.
@@ -123,6 +132,8 @@ describe('/breeds', () => {
   });
 });
 ```
+
+### /facts endpoint
 
 We haven’t covered `/facts` endpoint because the tests are the same as in `/breeds` endpoint. So that’s how our E2E tests for Cat facts API look like:
 
@@ -210,6 +221,3 @@ describe('Cats API', () => {
   });
 });
 ```
-
-
-

@@ -13,9 +13,13 @@ In the previous sections we’ve learnt what unit testing is. Let’s now remind
 
 Let’s have a look at some examples of unit tests.
 
-### Example 1
+## Example 1
 
-Let’s start with a simple example. Photos are stored in s3 buckets. There is a function `getS3PhotoPath()` that calculates the path to a photo in s3. Path is made up of bucket name, base64 encoded photo id and photo id in the end.
+Let’s start with a simple example.
+
+### Implementation
+
+Photos are stored in s3 buckets. There is a function `getS3PhotoPath()` that calculates the path to a photo in s3. Path is made up of bucket name, base64 encoded photo id and photo id in the end.
 
 ```js title="/src/unit-tests/example-1/get-s3-photo-path.ts"
 const getS3PhotoPath = (bucketName: string, photoId: string) => {
@@ -25,6 +29,8 @@ const getS3PhotoPath = (bucketName: string, photoId: string) => {
 
 export default getS3PhotoPath;
 ```
+
+### Testing
 
 We want to write a simple unit test that will check if the path to a photo in s3 is correct with the bucket name and photo id provided. Here is how the test would look like.
 
@@ -42,9 +48,13 @@ describe('Get S3 photo path', () => {
 });
 ```
 
-### Example 2
+## Example 2
 
-Looks simple? Let’s move on and have a look at more complex examples. Suppose we have a function `getGenderByName()` that returns gender and probability by name provided. This function:
+Looks simple? Let’s move on and have a look at more complex examples.
+
+### Implementation
+
+Suppose we have a function `getGenderByName()` that returns gender and probability by name provided. This function:
 - has validation for `name` argument: only English letters are allowed. Otherwise, it throws an error.
 - calls external Genderize API and passes name to it. This API returns gender by name and probability
 - if probability is less than 90%, the function throws an error. Otherwise returns `gender`, `name`, `probability` and `count`.
@@ -81,6 +91,8 @@ export default getGenderByName;
 
 And now let’s think what unit tests can be written for that function. 
 
+### Testing function returned value
+
 First of all we should check that the function returns data that is expected. As it was mentioned above, unit testing is done in isolation from any external dependencies. It means that request to Genderize API should be mocked. Instead of calling a real API, we set up a spy on `axios.get()` and mock the implementation. Axios is promise-based, so we have to return promise. We know which data real API returns, so we will do the same in our spy.
 
 ```js title="/src/unit-tests/example-2/get-gender-by-name.test.ts"
@@ -106,6 +118,8 @@ describe('Get gender by name', () => {
 });
 ```
 
+### Testing arguments passed when calling API
+
 Secondly, we want to make sure that Genderize API is called with proper arguments (in our case `name` is passed as query param). In this case we can use spie on `axios.get()` as well. We can assign spy to a variable and track the arguments it was called with.
 
 ```js title="/src/unit-tests/example-2/get-gender-by-name.test.ts"
@@ -118,6 +132,8 @@ test('should call API with proper arguments', async () => {
   expect(axiosGetSpy).toHaveBeenCalledWith(`https://api.genderize.io?name=${GENDER_JOHN.name}`);
 });
 ```
+
+### Testing error thrown by invalid input
 
 Now let’s think about errors that our function throws. The first error is thrown when there is a validation error for `name`. We allow only English letters. In this case `getGenderByName()` returns Promise rejected and specific error message. 
 
@@ -133,6 +149,8 @@ test('should throw error if name contains numbers', async () => {
 });
 ```
 
+### Testing error thrown by probability check
+
 And the last thing to test is probability check. Again let’s use spy on `axios.get()` and in mocked implementation return an object with probability `0.79`. Our function should return Promise rejected and specific error messages.
 
 ```js title="/src/unit-tests/example-2/get-gender-by-name.test.ts"
@@ -147,6 +165,8 @@ test('should throw error if probability is less than 90%', async () => {
 });
 ```
 
+### Clear spies
+
 Do not forget to clear all spies after all tests in `afterAll()` function. When doing that, we make sure that mocks that we set up for this specific function will not affect other test scenarios. Otherwise, we might see some unpredicted behavior when testing other bits of code.
 
 ```js title="/src/unit-tests/example-2/get-gender-by-name.test.ts"
@@ -155,6 +175,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 ```
+### Final test
 
 That’s how our file with final test scenarios would look like. 
 
