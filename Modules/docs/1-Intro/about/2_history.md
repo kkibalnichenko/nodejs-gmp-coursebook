@@ -5,12 +5,9 @@ title: History of Node.js
 # History of Node.js
 
 Before 2009, web browsers used JavaScript. JS was invented in the 1990s by Netscape's [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich) as a scripting language for adding dynamic features to a web page from an HTML file running in the Netscape browser. On the other hand, [Ryan Dahl](https://en.wikipedia.org/wiki/Ryan_Dahl) created a runtime environment for JavaScript to operate outside of web browsers in 2009. npm, a package manager for the Node.js environment, was released in January 2010.
-
 One key factor that led to the rise of Node.js was the timing. Just a few years earlier, JavaScript had started to be considered as a more serious language, thanks to "[Web 2.0](https://en.wikipedia.org/wiki/Web_2.0)" applications (such as Flickr, Gmail, etc.) that showed the world what a modern experience on the web could be like.
-
 JavaScript engines improved considerably as many browsers competed to offer users the best performance. Development teams behind major browsers worked hard to offer better support for JavaScript and find ways to make JavaScript run faster, review [The Browser Wars](https://www.mozilla.org/en-US/firefox/browsers/browser-history/). 
 The engine Node.js uses under the hood, V8 (also known as Chrome V8 for being the open-source JavaScript engine of The Chromium Project), improved significantly due to this competition.
-
 
 ## Node.js milestones:
 
@@ -51,7 +48,6 @@ easy to use, and free for everyone.
 - npm introduces private modules
 - [Node.js 4](https://nodejs.org/en/blog/release/v4.2.0/) (versions 1, 2 and 3 never previously released)
 
-
 ### Node.js in 2016
 - [npm has more than 210.000 users](https://blog.npmjs.org/post/143451680695/how-many-npm-users-are-there)
 - The [leftpad incident](https://blog.npmjs.org/post/141577284765/kik-left-pad-and-npm)
@@ -75,7 +71,6 @@ easy to use, and free for everyone.
 - Node.js v12 – [New Features](https://blog.risingstack.com/node-js-12-new-features/)
 - Node.js 13
 - Ryan Dahl:[Deno, a new way to JavaScript](https://www.youtube.com/watch?v=z6JRlx5NC9E)
-
 
 ### Node.js in 2020
 - Node.js 14

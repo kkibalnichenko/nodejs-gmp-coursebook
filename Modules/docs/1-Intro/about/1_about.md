@@ -52,7 +52,6 @@ Based on that it can be readily combined with a browser or database that support
 
 
 ## Node.js use cases
-
 Node.js is designed to build scalable network applications. Node.js is primarily used in server applications, and it's true. 
 Node.js can be installed on almost any machine and used for any purpose, including running applications on your PC or even your tablet, smartphone, or microcomputer.
 What kind of applications and functionalities can developers build using Node.js? Below is a compiled list of the main types of applications, each with a real-world example:
