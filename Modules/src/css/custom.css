@@ -30,3 +30,12 @@
 }
 
 html[data-theme='dark'] .navbar .navbar__logo { content: url(/static/img/logo.svg) }
+
+img[src*="nodejs-intro"] {
+  max-width:50%;
+  height:auto;
+  margin:0 auto;
+  display: block;
+  filter: hue-rotate(45deg);
+}
+
