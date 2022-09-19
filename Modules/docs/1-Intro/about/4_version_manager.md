@@ -1,11 +1,12 @@
 ---
-sidebar_position: 8
+title: Node version management
 ---
-# Node version manager
+
+# What is NVM
 
 Using nvm (Node.js Version Manager) makes it easier to install and manage multiple versions of Node.js on a single local environment.
 
-![Node version manager](img/nvm.png)
+![Node version manager](../img/nvm.png)
 
 ## Install nvm
 
@@ -55,4 +56,6 @@ To avoid specifying Node.js version manually every time when we need to change i
 v16.15.0
 ```
 
-and run `nvm install` command in root of the project to install Node.js version specified in this file
+This will allow you to use `nvm install` command in root of the project to install Node.js version specified in this file.
+
+You can read more about nvm on [github](https://github.com/nvm-sh/nvm) of this project.
