@@ -2,8 +2,6 @@
 sidebar_position: 99
 ---
 
-# Module recap
-
 ## What is Node.js?
 As a programming framework released in 2009, Node.js solves some of the complexities of the JavaScript programming language. It is particularly useful in helping developers build fast, scalable applications.
 
