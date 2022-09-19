@@ -241,7 +241,60 @@ Here you can see join table and common technique is to create composite primary 
 So we took `employeeId` and `projectId` for composite key,combination of these will always point us at one particular row.
 
 
-- Indexes
+### Indexes and keys
+
+A _KEY_ in SQL is a value used to identify records in a table uniquely. An SQL KEY is a single column or combination of
+multiple columns used to uniquely identify rows or tuples in the table. SQL Key is used to identify duplicate information,
+and it also helps establish a relationship between multiple tables in the database.
+
+:::note
+
+Columns in a table that are NOT used to identify a record uniquely are called non-key columns.
+
+:::
+
+#### What is a Primary Key (or PK)? 
+
+A primary is a single column value used to identify a database record uniquely.
+
+It has following attributes:
+
+- A primary key cannot be NULL
+- A primary key value must be unique
+- The primary key values should rarely be changed
+- The primary key must be given a value when a new record is inserted.
+
+#### What is Composite Key? 
+
+A composite key is a primary key composed of multiple columns used to identify a record uniquely.
+
+![composite-key](/img/rdb/composite-key.PNG)
+
+In a given example we have two offices in the same city Kharkiv, but they are situated on a different streets. We cannot 
+also identify office only be street, because there are lots of streets with same name throughout country, so composite key
+helps us uniquely identify one particular office.
+
+#### What is Foreign Key?
+
+We have already used Foreign Keys (FK) during normalization process to build relations.
+
+![foreign-key](/img/rdb/foreign-key.PNG)
+
+Foreign Key references the primary key of another Table! It helps connect your Tables.
+
+- A foreign key can have a different name from its primary key
+- It ensures rows in one table have corresponding rows in another
+- Unlike the Primary key, they do not have to be unique. Most often they aren’t
+- Foreign keys can be null even though primary keys can not
+
+![foreign-key2](/img/rdb/foreign-key2.PNG)
+
+Why do you need a foreign key? Suppose, a novice inserts a record in `Hardware` such as
+
+![foreign-key-integrity](/img/rdb/fk-integrity.PNG)
+
+You will only be able to insert values into your foreign key that exist in the unique key in the parent table. 
+This helps in referential integrity.
 
 ## SQL basics
 - DDL
