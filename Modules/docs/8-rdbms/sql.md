@@ -296,6 +296,41 @@ Why do you need a foreign key? Suppose, a novice inserts a record in `Hardware` 
 You will only be able to insert values into your foreign key that exist in the unique key in the parent table. 
 This helps in referential integrity.
 
+#### Indexes
+
+Indexing is the way to get an unordered table into an order that will maximize the query’s efficiency while searching.
+When there is no index, and you try to search something in database its engine has to scan through every row to find
+all matching records. While nowadays hardware can be really performant still such operations are time-consuming, 
+especially if you have millions and millions of rows. Looking through every single row is not very efficient.
+
+For example, the table below represents hardware list, that is completely unordered.
+The database would have to search through all 10 rows in the order they appear in the table, from top to bottom, one at a time.
+So to search for all of the potential instances of the `RAM` equals to 64, the database must look through the entire 
+table for all appearances of 64 in the `RAM` column.
+
+![search-example](/img/rdb/searching-example.PNG)
+
+What indexing does is sets up the column in a sorted order to assist in optimizing query performance.
+The index causes the database to create a data structure,and this structure type is very likely a B-Tree. 
+While the advantages of the B-Tree are numerous, the main advantage for our purposes is that it is sortable.
+
+![btree](/img/rdb/btree.PNG)
+
+As you see B-Tree greatly reduces the number of comparisons. What it does under the hood is also stores pointers which 
+are simply reference information for the location of the additional information in memory. 
+Basically the index holds the column value and that particular row’s home address on the memory disk.
+With that index, the query can search for only the rows in the column that have 15 value and then using the pointers 
+can go into the table to find the specific rows where that pointer lives.
+
+:::caution
+
+Keep in mind that indexes are separate datastructures, and they need additional disk and memory space. When new record is inserted 
+or indexed column value is updated B-Tree should be updated too. So you cannot simply throw index on every column in your
+50-column table. Technically its possible of course, but performance will degrade over time as the numbers of rows in table increases.
+
+Use indexes on the most "popular" columns, that are used in queries frequently.
+:::
+
 ## SQL basics
 - DDL
 - DML (selects,inserts,updates,deletes)
@@ -311,4 +346,4 @@ This helps in referential integrity.
 - Migrations
 - Models and relations
 - Transactions
-- CRUD example 
+- CRUD example
