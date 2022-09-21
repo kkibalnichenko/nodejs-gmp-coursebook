@@ -10,7 +10,7 @@ The moment you type something on a keyboard, read a file from a disk or download
 
 ![Streams in HTTP](img/streams_in_http.png)
 
-If you learn to work with these streams of bits, you'll be able to build performant and valuable applications. For example, think of when you watch a video on YouTube. You don't have to wait until the full video downloads. Once a small amount buffers, it starts to play, and the rest keeps on downloading as you watch. Node.js includes a built-in module called `stream` which lets us work with streaming data.
+If you learn to work with these streams of bits, you'll be able to build performant and valuable applications. For example, think of when you watch a video on YouTube. You don't have to wait until the full video downloads. Once a small amount buffers, it starts to play, and the rest keeps on downloading as you watch. Node.js includes a built-in module called `stream` which lets us work with streaming data. For example, in a Node.js based [HTTPs](/docs/standard-library/https) server, `request` is a readable stream and `response` is a writable stream. But while an HTTPs response is a writable stream on the server, it’s a readable stream on the client. This is because in the HTTPs case, we basically read from one object `http.IncomingMessage` as the request and write to the other `http.ServerResponse`. Or read from `http.ServerRequest` and write to `http.OutGoingMessage` as the response. When HTTPs request is a readable stream on the server, and it’s a writable stream on the client.
 
 Streams of data serve as a bridge between where data is stored and where it will be processed. Node.js streams are used to read and continuously write data. Streams work differently from traditional techniques that read or write data, which require the data to be read and stored in memory before being processed. For instance, to read a file, the entire file needs to be copied into memory before it can be processed adding to application latency. On the other hand, applications that use streams will read a file sequentially in chunks, where each of these chunks is processed one at a time.
 
@@ -364,7 +364,46 @@ pipeline(
 );
 ```
 
-`pipeline` should be used instead of `pipe`, as pipe is unsafe.
+`pipeline` should be used instead of `pipe`, as pipe is unsafe. For example let's take a look at the following code:
+
+```js
+const { createReadStream } = require('fs');
+const { createServer } = require('http');
+const server = createServer(
+    (req, res) => {
+        createReadStream(__filename).pipe(res);
+    }
+);
+
+server.listen(3000);
+```
+
+If the response will quit or the client closes the connection - then the read stream is not closed or destroy which leads to a memory leak. So if you use pipeline, it would close all other streams and make sure that there are no memory leaks.
+
+```js
+const { createReadStream } = require('fs');
+const { createServer } = require('http');
+const { pipeline } = require('stream');
+
+const server = createServer(
+    (req, res) => {
+        pipeline(
+            createReadStream(__filename),
+            res,
+            err => {
+                if (err)
+                    console.error('Pipeline failed.', err);
+                else
+                    console.log('Pipeline succeeded.');
+            }
+        );
+    }
+);
+
+server.listen(3000);
+```
+
+
 
 ## Streams-powered Node APIs
 
