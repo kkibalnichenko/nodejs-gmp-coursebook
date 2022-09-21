@@ -21,20 +21,6 @@ Every piece of data sent to the computer is first converted to binary by a micro
 One cool thing about the Node.js buffer module is that you don’t need to import it into your application before using its methods. Let’s review some important Node.js buffer methods that you should know.
 
 
-
-### Buffer.write()
-
-The `Buffer.write()` method writes a string to the buffer, which can be useful when you need to stream strings in the form of buffers. You can write a string to a buffer using the below method:
-
-```js
-const buf = Buffer.alloc(100); // Creating a new Buffer
-const len = buf.write("Hello world!"); // Writing to the Buffer
-
-// len is now 12
-```
-
-The `Buffer.write()` function returns the length of the string, which is stored in the buffer.
-
 ### Buffer.byteLength()
 
 You can check the length of a buffer object with the `Buffer.byteLength(`) method. The code below demonstrates how to create a buffer, attach a size to it, and check the size of the buffer you just created:
@@ -110,22 +96,23 @@ You can also specify the number of bytes to expose with the length parameter, es
 The example below shows how to create a buffer from strings, arrays, and `ArrayBuffer()` using the `buffer.from()` method:
 
 ```js
-// Create a buffer from a buffer
 // Create buffer from string
-let mybuff = Buffer.from("Nigeria");
-// Create buffer from the first buffer created
-let buff = Buffer.from(mybuff);
-// Print out final buffer created.
-console.log(buff);
+let buffFromString = Buffer.from("Nigeria");
+console.log(buffFromString);
+
+// Create buffer from the buffer(which we created from string)
+let buffFromBuffer = Buffer.from(buffFromString);
+console.log(buffFromBuffer);
 
 // create a buffer from an array
-const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+const buffFromArray = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+console.log(buffFromArray);
 
 // Create a buffer from an arraybuffer
-const ab = new ArrayBuffer(10);
+const buffFromArrayBuffer = new ArrayBuffer(10);
 // Specify offset and length
-const buf = Buffer.from(ab, 0, 2);
-console.log(buff);
+const buffSpecifyOffsetAndLength = Buffer.from(buffFromArrayBuffer, 0, 2);
+console.log(buffSpecifyOffsetAndLength);
 ```
 
 ### buff.includes()
