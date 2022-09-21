@@ -332,7 +332,86 @@ Use indexes on the most "popular" columns, that are used in queries frequently.
 :::
 
 ## SQL basics
-- DDL
+There is special language to manipulate data in RDB - SQL. Structured Query Language(SQL) is the database language by the 
+use of which we can perform certain operations on the existing database, and also we can use this language to create a database.
+SQL uses certain commands like Create, Drop, Insert, etc. to carry out the required tasks.
+
+These SQL commands are mainly categorized into four categories as:
+
+- DDL – Data Definition Language
+- DQl – Data Query Language
+- DML – Data Manipulation Language
+- DCL – Data Control Language
+
+### DDL (Data Definition Language)
+
+DDL or Data Definition Language actually consists of the SQL commands that can be used to define the database schema.
+It simply deals with descriptions of the database schema and is used to create and modify the structure of database 
+objects in the database. DDL is a set of SQL commands used to create, modify, and delete database structures but not data. 
+
+#### Create  
+This command is used to create the database or its objects (like table, index, function, views, store procedure, and triggers).
+:::note
+
+The syntax for creating entities may vary among different databases. Therefore: Check the syntax for your database.
+We will use PostgreSQL syntax in next examples;
+
+:::
+To create database:
+```sql
+CREATE DATABASE test;
+```
+
+To create index on `Name` column of Employee table ([docs](https://www.postgresql.org/docs/current/sql-createindex.html)):
+```sql
+CREATE INDEX idx_name
+ON Employee (Name);
+```
+
+To create table:
+```sql
+CREATE TABLE [IF NOT EXISTS] table_name (
+   column1 datatype(length) column_contraint,
+   column2 datatype(length) column_contraint,
+   column3 datatype(length) column_contraint,
+   table_constraints
+);
+```
+
+Let's create some tables from our previous examples. To create `Employee` and `Hardware` tables with relation
+we need to execute next commands:
+
+```sql
+CREATE TABLE Employee (
+    id serial PRIMARY KEY,
+    name character varying NOT NULL,
+    joinDate TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
+CREATE TABLE Harware (
+    "Serial" character varying PRIMARY KEY,
+    os character varying NOT NULL,
+    year integer NOT NULL,
+    ram integer NOT NULL,
+    employeeId integer,
+    CONSTRAINT fk_employee FOREIGN KEY(employeeId) REFERENCES Employee(id)
+);
+```
+
+Note how we marked foreign and primary keys in each table and applied `NOT NULL` constraints on columns. It means 
+that if we won't provide some values database will throw an error, another good way to maintain data integrity. Also, we 
+have to use quotes with `Serial` column name, because serial is a datatype, so it's a reserved word.
+
+:::tip
+Useful links:
+
+Datatype can be found [here](https://www.postgresql.org/docs/current/datatype.html).  
+Constraints can be found [here](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-EXCLUSION)  
+Article about foreign key constraints is highly recommended for reading: [link](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-foreign-key/)
+
+:::
+
+
 - DML (selects,inserts,updates,deletes)
 - How to query relations
 - Transactions
@@ -347,3 +426,4 @@ Use indexes on the most "popular" columns, that are used in queries frequently.
 - Models and relations
 - Transactions
 - CRUD example
+
