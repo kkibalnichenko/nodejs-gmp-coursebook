@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## What is event emitter?
 
-The core of NodeJS is event-driven programming. In NodeJS, we achieve event-driven programming with the [event-emitter class](https://nodejs.org/api/events.html#class-eventemitter). 
+The core of NodeJS is event-driven programming. In NodeJS, we achieve event-driven programming with the [event-emitter class](https://nodejs.org/api/events.html#class-eventemitter). Event-driven programming is a great approach for building complex systems. It embodies the divide-and-conquer principle while allowing you to continue using other approaches like synchronous calls. Event-driven programming is a paradigm where entities (objects, services, and so on) communicate indirectly by sending messages to one another through an intermediary. The messages are typically stored in a queue before being handled by the consumers. Unlike in using direct calls, event-driven programming completely decouples the producer from the consumer, leading to some noteworthy benefits. For example, multiple producers and multiple consumers can all collaborate to process incoming requests. Retrying failed operations and maintaining an event history are also simplified. Event-driven programming also makes it easier to scale large systems, adding capacity simply by adding consumers.
 
 EventEmitter is a class that helps us create a publisher-subscriber pattern in NodeJS. With an event emitter, we can simply raise a new event from a different part of an application, and a listener will listen to the raised event and have some action performed for the event.
 
