@@ -26,13 +26,13 @@ One cool thing about the Node.js buffer module is that you don’t need to impor
 You can check the length of a buffer object with the `Buffer.byteLength(`) method. The code below demonstrates how to create a buffer, attach a size to it, and check the size of the buffer you just created:
 
 ```js
-const buf = Buffer.alloc(6);
+const buff = Buffer.alloc(6);
 
 //check the length of buffer created
-const buffLen = Buffer.byteLength(buf);
+const buffLength = Buffer.byteLength(buff);
 
 //print buffer length
-console.log(buffLen);
+console.log(buffLength);
 // This will print <6>
 ```
 
@@ -46,29 +46,29 @@ You can compare buffer objects with the `Buffer.compare()` method as seen below:
 //This will return 0
 console.log(a);
 
-let buf1 = Buffer.from('x');
-let buf2 = Buffer.from('y');
-let a = Buffer.compare(buf1, buf2);
+let buff1 = Buffer.from('x');
+let buff2 = Buffer.from('y');
+let a = Buffer.compare(buff1, buff2);
 
 //This will return -1
 console.log(a);
 
-let buf1 = Buffer.from('y');
-let buf2 = Buffer.from('x');
-let a = Buffer.compare(buf1, buf2);
+let buff1 = Buffer.from('y');
+let buff2 = Buffer.from('x');
+let a = Buffer.compare(buff1, buff2);
 
 //This will return 1
 console.log(a);
 ```
 
-### buf.entries()
+### Buffer.entries()
 
 With `buf.entries()`, you can return a loop of indexes and bytes from the content of a buffer object, which is used to know the position and size of buffer contents:
 
 ```js
-let buf = Buffer.from('xyz');
+let buff = Buffer.from('xyz');
 
-for (a of buf.entries()) {
+for (a of buff.entries()) {
 /*This will print arrays of indexes and byte of buffer content \\[ 0, 120 \][ 1, 121 \][ 2, 122 ]*/
   console.log(a);
 } 
@@ -79,9 +79,9 @@ for (a of buf.entries()) {
 The `Buffer.fill()` method enables you to create a buffer, allocate a size, and fill it with a specified value. The expression below shows how to use the `Buffer.fill()` method:
 
 ```js
-const b = Buffer.alloc(10).fill('a');
+const buff = Buffer.alloc(10).fill('a');
 
-console.log(b.toString());
+console.log(buff.toString());
 // This will print aaaaaaaaaa
 ```
 
@@ -115,16 +115,16 @@ const buffSpecifyOffsetAndLength = Buffer.from(buffFromArrayBuffer, 0, 2);
 console.log(buffSpecifyOffsetAndLength);
 ```
 
-### buff.includes()
+### Buffer.includes()
 
 If you want to determine whether a buffer object contains any values, you can use the `buff.includes()` method. With this method, you can search buffers to ascertain whether they contain expressions you wish to search for. The method returns a boolean `true` or `false` depending on whether a value is found:
 
 ```js
-const buf = Buffer.from('this is a buffer');
+const buff = Buffer.from('this is a buffer');
 console.log(buf.includes('this'));
 // This will print true
 
-console.log(buf.includes(Buffer.from('a buffer example')));
+console.log(buff.includes(Buffer.from('a buffer example')));
 // This will print false
 ```
 
@@ -146,40 +146,40 @@ console.log(Buffer.isEncoding('hey'));
 // This will print false
 ```
 
-### Buffer swap
+### Buffer.swap
 
 Buffer swap is used to swap the byte order of a buffer object. This method can also be used for fast [endianness](https://en.wikipedia.org/wiki/Endianness) conversion.
 
-You can use `buf.swap16()`, `buf.swap32()`, and `buf.swap64()` to swap the byte order of a 16-bit, 32-bit, and 64-bit buffer object, respectively:
+You can use `buff.swap16()`, `buff.swap32()`, and `buff.swap64()` to swap the byte order of a 16-bit, 32-bit, and 64-bit buffer object, respectively:
 
 ```js
-const buf1 = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8]);
-console.log(buf1);
+const buff = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8]);
+console.log(buff);
 // This will print <Buffer 01 02 03 04 05 06 07 08>
 
 //swap byte order to 16 bit
-buf1.swap16();
-console.log(buf1);
+buff.swap16();
+console.log(buff);
 // This will print <Buffer 02 01 04 03 06 05 08 07>
 
 //swap byte order to 32 bit
-buf1.swap32();
-console.log(buf1);
+buff.swap32();
+console.log(buff);
 // This will print <Buffer 03 04 01 02 07 08 05 06>
 
 //swap byte order to 64 bit
-buf1.swap64();
-console.log(buf1);
+buff.swap64();
+console.log(buff);
 ```
 
-### buf.json()
+### Buffer.json()
 
 The buf.json() method returns a JSON version of the buffer object:
 
 ```js
-const buf = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8]);
+const buff = Buffer.from([0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8]);
 
-console.log(buf.toJSON());
+console.log(buff.toJSON());
 // This will print {"type":"Buffer", data:[1,2,3,4,5,6,7,8]}
 ```
 
