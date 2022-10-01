@@ -17,7 +17,7 @@ From the service provider's point of view, this approach can be more secure for 
   - saves users the hassle of creating and maintaining multiple usernames and passwords with single sign-on (SSO)
   - client application doesn't have to be concerned about protecting personally identifiable information (PII)
 
-##Types of identity providers
+## Types of identity providers
 The two main types of identity providers are enterprise-based and social-based. An enterprise based identity provider used in a corporate enterprise for identity and access management (IAM).
 
 Popular companies that offer IdP services include the following:

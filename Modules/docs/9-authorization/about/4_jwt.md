@@ -3,6 +3,7 @@ sidebar_position: 3
 ---
 
 # JSON Web Token
+## Definition
 SON Web Token (JWT) is an open standard that provide compact and self-contained way for securely information between components of the system as a JSON object that is digitally signed. JWT can be signed using a secret or a public/private key pair.
 
 Authentication is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token.
