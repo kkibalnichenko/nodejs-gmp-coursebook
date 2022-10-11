@@ -15,7 +15,7 @@ Testing Pyramid is a visual representation of unit, integration, and e2e tests r
 
 Let’s check the diagram below and review each layer of the pyramid separately.
 
-![Testing Pyramid](/img/5-testing-pyramid.png)
+![Testing Pyramid](./img/5-testing-pyramid.png)
 
 ### Unit tests
 

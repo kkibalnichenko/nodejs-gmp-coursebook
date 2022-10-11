@@ -44,7 +44,7 @@ There are use cases when you need to do some setup jobs before the actual tests 
 
 `afterEach()` - runs after each test.
 
-![Test lifecycle](/img/5-jest-core-concepts.png)
+![Test lifecycle](./img/5-jest-core-concepts.png)
 
 ## Mocks
 

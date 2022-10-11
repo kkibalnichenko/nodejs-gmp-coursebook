@@ -24,7 +24,7 @@ We will consider a typical case when testing interaction between code and databa
 
 The interaction between all of them is shown in the picture below.
 
-![Interaction example](/img/5-integration-test-example.png)
+![Interaction example](./img/5-integration-test-example.png)
 
 ### Interfaces
 
