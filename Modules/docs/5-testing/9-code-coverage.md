@@ -42,11 +42,11 @@ module.exports = {
 
 Now it’s time to run `test:coverage` command and check what our report looks like. The screen below is the output we received. My congratulations! Coverage for code prepared for this module is 100%. 
 
-![Code coverage 1](/img/5-code-coverage-1.png)
+![Code coverage 1](./img/5-code-coverage-1.png)
 
 Let’s comment one test in `get-gender-by-name.test.ts`  and see how coverage changes. As you can see on the screenshot below, coverage for that file has changed from 100% to 92.3%. The general coverage decreased to 97.95%.
 
-![Code coverage 2](/img/5-code-coverage-2.png)
+![Code coverage 2](./img/5-code-coverage-2.png)
 
 ### Configuring a coverage threshold
 
@@ -75,7 +75,7 @@ module.exports = {
 
 When running `test:coverage` command, you will see the following output (pay attention to the last line):
 
-![Code coverage threshold](/img/5-code-coverage-threshold.png)
+![Code coverage threshold](./img/5-code-coverage-threshold.png)
 
 As you can see, we didn’t meet the goal. Code coverage is 95.91% while 98% is expected. As a result, coverage command failed. 
 
