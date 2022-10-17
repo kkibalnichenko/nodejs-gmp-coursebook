@@ -1,5 +1,6 @@
 ---
 title: Module recap
+sidebar_position: 3
 ---
 
 ## What is Node.js?
