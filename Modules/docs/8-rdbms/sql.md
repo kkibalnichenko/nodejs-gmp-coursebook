@@ -552,7 +552,8 @@ SELECT * from Employee INNER JOIN Hardware ON Employee.id = Hardware.employeeId
 ```
 ![inner_join](/img/rdb/inner-join.PNG)
 As you can see we selected only users who have some hardware (who have record in employeeId column). Employee with ID 4 
-is not present in result, because he has no matching records is second table.
+is not present in result, because he has no matching records is second table. User with id 3 present 2 times, because he has
+2 laptops.
 
 But let's say you want to select every employee, even if he doesn't have any laptop yet. For this we can use `LEFT JOIN`:
 ```sql
@@ -573,10 +574,63 @@ SELECT * from Employee FULL JOIN Hardware ON Employee.id = Hardware.employeeId
 ```
 ![full_join](/img/rdb/full-join.PNG)
 
-- Transactions
+### Transactions
+As we discussed previously, transaction is a unit of work that is performed against a database. Transactions are units 
+or sequences of sql commands accomplished in a logical order, whether in a manual fashion by a user or automatically by 
+some sort of database program.
+
+Practically, you will club many SQL queries into a group, and you will execute all of them together as a part of a transaction.
+
+In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with `BEGIN` and `COMMIT` commands.
+Let`s create a transaction for our very first example, when Bob is trying to transfer 100$ to his friend Alice.
+
+```sql
+BEGIN;
+UPDATE accounts SET balance = balance - 100.00
+    WHERE name = 'Bob';
+    
+UPDATE accounts SET balance = balance + 100.00
+    WHERE name = 'Alice';
+
+COMMIT;
+```
+
+If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's 
+balance went negative) or something goes wrong in application, we (node driver) can issue the command ROLLBACK 
+instead of COMMIT, and all our updates so far will be canceled.
 
 ## How to use it in Node
-- Node native postgres module
+
+### Local installation
+Before we start we need some local instance of PostgreSQL. The easiest way is to run a docker container with PostgreSQL image.
+If you don't have docker on your machine go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and
+install it for your OS.
+
+Next, create a file in your project named `docker-compose.yml` and place such content in it
+
+```yml
+version: '3'
+services:
+  postgres-db:
+    image: "postgres:12"
+    container_name: "node-gmp-db"
+    environment:
+      - POSTGRES_USER=node_gmp
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=node_gmp
+    restart: always
+    ports:
+      - '5432:5432'
+```
+
+After that open terminal in this folder and run `docker-compose up -d` command.
+You can connect to this instance using any DB client, i.e. DBeaver or pgAdmin.
+Host is `localhost`, DB name and user are `node_gmp`, password is `password123`.
+
+![connection_example](/img/rdb/docker-connection.PNG)
+
+
+### Node native postgres module
 - ORMs (overview, pros/cons)
 
 ## MikroORM and example
