@@ -1,0 +1,77 @@
+---
+sidebar_position: 3
+title: Examples
+sidebar_label: Examples
+custom_edit_url: null
+pagination_label: Databases. NoSQL - ODM. Examples
+---
+
+## [Mongoose](https://mongoosejs.com/docs/index.html)
+
+:::info
+Mongoose provides a straight-forward, schema-based solution to model your application data.
+It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.
+:::
+
+### Requirements
+- Installed NodeJS
+- MongoDB on your machine or use the MongoDB cloud
+- Installed ```mongoose``` npm package to your project
+
+### Before start
+
+- Before use ODM, create your first database in MongoDB. Then, create your first collection (Example - ```User```).
+- Create file ```index.js``` in your project.
+
+## Step 1
+
+- Include ```mongoose``` in your project
+- Open a connection to the created database. [How to connect](https://mongoosejs.com/docs/connections.html)
+
+```js
+  const mongoose = require('mongoose');
+
+  mongoose.connect("YOUR_DB_CONNECTION_STRING");
+```
+
+## Step 2
+
+- Create database schema using ```mongoose```. [About schema](https://mongoosejs.com/docs/guide.html)
+- Create new model using this schema. [About model](https://mongoosejs.com/docs/models.html)
+
+```js
+  const Schema = mongoose.Schema;
+
+  const userSchema = new Schema({
+      name: String,
+      age: Number
+  });
+
+  const User = mongoose.model("User", userSchema);
+```
+[Schemas types](https://mongoosejs.com/docs/schematypes.html) for ```mongoose```.
+When we created ```User``` model, it means that ```mongoose``` will automatically look for your created collection.
+Now, you are able to work with this collection.
+
+## Step 3
+
+- Create new model entity
+- Save this entity into DB. [Model API])(https://mongoosejs.com/docs/api/model.html)
+- Close connection to DB
+
+```js
+  const user = new User({
+      name: "Name",
+      age: 18
+  });
+
+  user.save()
+  .then((entity) => {
+      console.log(entity);
+      mongoose.disconnect();
+  })
+  .catch((error) => {
+      console.log(error);
+      mongoose.disconnect();
+  });
+```
