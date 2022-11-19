@@ -30,7 +30,7 @@ Before OAuth 2.0 can be used, the client should get its own credentials (client 
 The token request, exchange, and response follow this general flow:
   - client (mobile app, web app, desktop) requests authorization from the authorization server, supplying the client id and secret to as identification; it also provides the scopes and redirect URI to send the access token
   - client receives an authorization grant
-  - client requests an access token through identity verification with the help of the authorization server and authorization grant provision.
+  - client requests an access token through identity verification with the help of the authorization server and authorization grant provision
   - authorization server verifies the client by checking the authorization grant
   - client use access token to get access to the secure resources
   - provider checks the access token and, if valid, serves the request

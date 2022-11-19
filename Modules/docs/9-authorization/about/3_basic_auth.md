@@ -14,4 +14,4 @@ Authorization: Basic dGVzdHVzZXI6dGVzdHBhc3N3b3Jk
 
 When server receive the request, there are should be function responsible for verification access. This function will extract authorization token, decode it, extract user and password and verify if the provided user has exact same password saved in database. If verification is failed, server will send response with 401 HTTP code.
 
-Basic authentication strategy not recommended for production code and usually is using for development purposes (for example: for the dev team when they work on new pages, features and only for dev/staging environments).
+Basic authentication strategy not recommended for production code and usually is using for development purposes, as example, for the dev team when they work on new pages, features and only for dev/staging environments
