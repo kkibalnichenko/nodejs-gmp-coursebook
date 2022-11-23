@@ -155,7 +155,7 @@ const config = {
               {
                 label: 'Download Node.js',
                 href: 'https://nodejs.org/en/download/',
-              },,
+              },
               {
                 label: 'Node.js on GitHub',
                 href: 'https://github.com/nodejs/node',
