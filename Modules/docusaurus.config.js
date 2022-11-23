@@ -18,7 +18,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Epam', // Usually your GitHub org/user name.
+  organizationName: 'gitbud.epam.com/Igor_Skobelev/', // Usually your GitHub org/user name.
   projectName: 'node.js-global-mentoring-program', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -39,7 +39,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://gitbud.epam.com/Igor_Skobelev/node.js-global-mentoring-program',
           exclude: ['**/node_modules/**'],
         },
         blog: {
@@ -47,7 +47,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://gitbud.epam.com/Igor_Skobelev/node.js-global-mentoring-program',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -56,21 +56,80 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        id: 'doc-1',
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: '/manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: '#000',
+          },
+          {
+            tagName: 'link',
+            rel: 'apple-touch-icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'mask-icon',
+            href: '/img/docusaurus.svg',
+            color: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileImage',
+            content: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileColor',
+            content: '#000',
+          },
+        ],
+        offlineModeActivationStrategies: ["always"],
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Node JS',
+        title: 'Node.js',
         logo: {
-          alt: 'Node JS Logo',
+          alt: 'Node.js Logo',
           src: 'img/logo.svg',
-          href: '/docs/intro',
+          href: 'docs/Intro/introduction',
         },
         items: [
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
+            type: 'doc',
+            docId: 'Intro/introduction',
+            position: 'left',
+            label: 'Tutorial',
           },
         ],
       },
@@ -82,7 +141,7 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
+                to: 'docs/Intro/introduction',
               },
             ],
           },
@@ -90,22 +149,29 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Node.js Documentation',
+                href: 'https://nodejs.org/en/docs/',
               },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Download Node.js',
+                href: 'https://nodejs.org/en/download/',
+              },,
+              {
+                label: 'Node.js on GitHub',
+                href: 'https://github.com/nodejs/node',
+              },
+              {
+                label: 'Offical Guides',
+                href: 'https://nodejs.org/en/docs/guides/',
+              },
+              {
+                label: 'Community Guides',
+                href: 'https://nodejs.dev/en/learn/',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()}. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()}. Node.js Global mentoring program (GMP). Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
