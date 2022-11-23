@@ -161,7 +161,7 @@ const config = {
                 href: 'https://github.com/nodejs/node',
               },
               {
-                label: 'Offical Guides',
+                label: 'Official Guides',
                 href: 'https://nodejs.org/en/docs/guides/',
               },
               {
