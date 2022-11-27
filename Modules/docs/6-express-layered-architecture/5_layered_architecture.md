@@ -152,12 +152,13 @@ app.post('/post', async (req: Request<{}, any, RequestBody>, res: Response<Respo
 Much better, don’t you think so? But, can we do better? Imagine that you created a bunch of endpoints following the
 principle of separating a big controller into smaller ones. And after a while architecture come to you and says: ‘We
 need to switch from MongoDB to PostgreSQL due to performance issues. Also, our customer hates express and we need to
-rewrite our application with Koa/Hapi/Fastify/Nest/whatever else.’. Now, take a look at our code, and find the functions
-that should be changed to satisfy new requirements from architecture. How many functions will be affected? The answer is
+rewrite our application with Koa/Hapi/Fastify/Nest/whatever else.’.  
+Now, take a look at our code, and find the functions that should be changed to satisfy new requirements from
+architecture. How many functions will be affected? The answer is - **all of them.** That is the thing, our
+code became more readable and understandable, but it’s not ready to be changed.    
 
-- **all of them.** That is the thing, our code became more readable and understandable, but it’s not ready to be
-  changed. In software development, we have often changing requirements and it’s important to make our application
-  changeable.
+> If rising the codebase of your application slows down the time for delivering a single feature, then you have a **bad architecture**.   
+The idea of **good architecture** is to be changeable and requirements that are often changed shouldn't affect development speed. 
 
 ## Three layered architecture
 
@@ -304,10 +305,10 @@ app.post('/post', validation, async (req, res, next) => {
 ```
 
 This layer is responsible for the calling method of the Service layer. It also might have logic related to input
-validation and we created a separate middleware for that. This layer doesn’t know what will happen during post-creation,
-what database is used, and what other services will be called. But, it does know that HTTP is used as a communication
-protocol, which data format it might receive, and what format should be used in response. If your customer decides to
-switch to WebSockets, RPC, or even SMTP (email protocol) only logic inside this layer should be changed.
+validation, and we created a separate middleware for that. This layer doesn’t know what will happen during
+post-creation, what database is used, and what other services will be called. But, it does know that HTTP is used as a
+communication protocol, which data format it might receive, and what format should be used in response. If your customer
+decides to switch to WebSockets, RPC, or even SMTP (email protocol) only logic inside this layer should be changed.
 
 As was already mentioned, it’s a simple example of three-layered architecture, but the idea will remain the same:
 following principles and layer separation. In more complex applications you might be needed to have some intermediate
