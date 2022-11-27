@@ -5,7 +5,7 @@ sidebar_position: 4
 # Overview of Express
 The code snippet below creates a simple [Express](https://expressjs.com/en/guide/using-middleware.html) server:
 
-```jsx
+```ts
 const express = require('express');
 
 const app = express();
@@ -15,12 +15,12 @@ app.listen(3000, () => {
 })
 ```
 
-`app` is an instance of our server and will be used for adding routers, middlewares, and error handlers.
+`app` is an instance of our server and will be used for adding routers, middleware, and error handlers.
 
 Expressjs provides us with **three major features:**
 
 - routing
-- middlewares
+- middleware
 - error handling
 
 In this module, we will explain all three parts.
@@ -35,7 +35,7 @@ As you might notice from our previous example of using HTTP it doesn’t have an
 
 For example:
 
-```jsx
+```ts
 app.get('/users/:userId', () => {});
 app.put('/users/:userId/groups', () => {});
 app.post('/comments', () => {});
@@ -47,7 +47,7 @@ You might notice column`:` symbol in the path, that’s route **param**. `/users
 
 In big applications can be a big amount of endpoints. For example, a lot of that might be started with `/users/`. Expressjs provides routers to separate such logic. We can improve our previous example by using routers:
 
-```jsx
+```ts
 const app = express();
 const usersRouter = express.Router();
 const commentsRouter = express.Router();
@@ -69,8 +69,8 @@ In this example, two routers were created. After adding endpoint to routers, we 
 Middleware - is a function that has 3 arguments request, response, and next.
 These functions might be used for some logic that should be executed for several or even all endpoints. For example, if you need to log information about every request you can add a logger invocation in every handler, but much better to implement it only once. Another use case is user authentication. You can create auth middleware that will reject all requests that don’t have correct tokens in their headers. Example of logger middleware:
 
-```jsx
-const logger = (req, res, next) => {
+```ts
+const logger = (req: Request, res: Response, next: NextFunction) => {
     console.log(`New request: ${req.method}, ${req.url}`);
     next();
 }
@@ -78,39 +78,53 @@ const logger = (req, res, next) => {
 
 To add middleware to all routes you can use `use` method of express instance:
 
-```jsx
+```ts
 app.use(logger);
 ```
 
 You can also specify paths when a middleware should be executed:
 
-```jsx
+```ts
 app.use('/api', logger);
 ```
 
 In the example above `logger` will be executed for all routes starting with `/api` . Even if the route has more slashes. It means that both `/api` and `/api/users/31` routes will be logged.
 
-> It’s the main difference between `use` and `all` methods of Express. The first one is for middlewares and they will be executed for all routes that start with provided path, unlike `all` method that will work for the exact path that you provide and will ignore paths that have more slashes.
+> It’s the main difference between `use` and `all` methods of Express. The first one is for middleware, and they will be executed for all routes that start with provided path, unlike `all` method that will work for the exact path that you provide and will ignore paths that have more slashes.
 >
 
 Middlewares also can be added to specific routes. To add middleware to some routes, you can just add it after the route path, and before the handler.  Actually, your handler it’s a middleware, but in most cases, we do not need the next function in our handlers, because it’s the last stop for our request and the response will be sent in it.
 
-```jsx
-app.get('/api/users/:userId', logger, (req, res) => {
+```ts
+app.get('/api/users/:userId', logger, (req: Request, res: Response) => {
     res.send();
 })
 ```
-Below you can take a look at visualization of how middlewares in Express work:
+Below you can take a look at visualization of how middleware in Express work:
 
-![Express middlewares](img/express-middlewares.png)
+![Express middleware](img/express-middleware.png)
+
+Express provide some built-in middleware:
+
+- [express.static](https://expressjs.com/en/4x/api.html#express.static)
+- [express.json](https://expressjs.com/en/4x/api.html#express.json)
+- [express.urlencoded](https://expressjs.com/en/4x/api.html#express.urlencoded)
+
+But there are plenty open-source ones that you can use. Here a small list of middleware that Express team developed:
+
+- [body-parser](https://github.com/expressjs/body-parser)
+- [cookie-parser](https://github.com/expressjs/cookie-parser)
+- [cors](https://github.com/expressjs/cors)
+- [multer](https://github.com/expressjs/multer)
+- [server-static](https://github.com/expressjs/serve-static)
 
 ### Error handling
 
 Express has its own error handling out of the box. If any of your middleware throws an exception, it will be caught by a built-in error handler and return an HTML string with a message and stack trace from an error object.
 
-You can create error handler middleware that will be invocated only when there is an exception in middlewares (or handlers) that were declared before the error handler. To convert a middleware into an error handler middleware, you need just to add one more argument at the beginning of the arguments list - error. Express distinguishes regular middlewares from error handlers by the number of arguments that they have. For example:
+You can create error handler middleware that will be invocated only when there is an exception in middleware (or handlers) that were declared before the error handler. To convert a middleware into an error handler middleware, you need just to add one more argument at the beginning of the arguments list - error. Express distinguishes regular middleware from error handlers by the number of arguments that they have. For example:
 
-```jsx
+```ts
 app.get('/api/users/:userId', () => {
     throw new Error('User was not found');
 });
@@ -126,8 +140,8 @@ The error from the handler will be caught in the error handler. It’s still mid
 
 Because an error handler it's a middleware, the order matters. If the error handler declared before middleware that throws an exception, this exception will not be caught by the error handler:
 
-```jsx
-app.use((err, req, res, next) => {
+```ts
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     res.status(500);
     res.send({ message: err.message });
@@ -138,10 +152,10 @@ app.get('/api/users/:userId', () => {
 });
 ```
 
-It’s possible to have several error handlers that you can declare in the same way as regular middlewares:
+It’s possible to have several error handlers that you can declare in the same way as regular middleware:
 
-```jsx
-const errorHandler = (err, req, res, next) => {
+```ts
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     res.status(500);
     res.send({ message: err.message });
@@ -161,11 +175,11 @@ Moreover, you can declare an error handler after another error handler, to catch
 
 For example:
 
-```jsx
-app.use((err, req, res, next) => {
+```ts
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
    throw new Error('Error from error handler');
 });
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(err);
     res.status(500);
     res.send({ message: err.message });
@@ -173,3 +187,87 @@ app.use((err, req, res, next) => {
 ```
 
 The error from the first error handler will be caught in the second one. In most cases, it’s enough to have one error handler and this example just shows the mechanism of how it works, it’s not recommended to have a complex error-handling flow.
+
+### Useful examples
+
+#### Query parameters
+
+Query parameters are automatically parsed, and you can find them in `req.query`. For example, if we make a request `/users/search?firstName=John&age=27` we will have an object with `firstName` and `age` fields.
+```ts
+app.use('/users/search', (req: Request<{}, any, any, { age: number[] }>, res: Response, next: NextFunction) => {
+  console.log(req.query); // { firstName: 'John', age: 27 }
+  // ...  
+});
+```
+
+Arrays are also supported in query parameters. If you want to send an array, you can simply provide several query params with the same name and express will combine them to an array. Let's try to find users that are 27 and 28 years old: `/users/search?age=27&age=28` or `/users/search?age[]=27&age[]=28` 
+```ts
+app.use('/users/search', (req: Request<{}, any, any, { firstName: string, age: number }>, res: Response, next: NextFunction) => {
+  console.log(req.query); // { age: [27, 28] }
+  // ...  
+});
+```
+
+#### Typescript
+
+Express was written on JS, probably, because when 1.0.0 ExpressJS was introduced TS didn't exist at all. It doesn't mean that you cannot use TS in your Express application. There is typing for it and you can add them to your project by installing `@types/express` package.
+```shell
+npm install --save-dev @types/express
+```
+
+It might be challenging to use proper types in your Express application. Let's take a look at simple middleware:
+```ts
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // ...  
+});
+```
+
+Express typings provide types for each argument: `Request`, `Response`, and `NextFunction`. Now, you can use `req.url` or `res.send` because your TS compiler understands their types.  
+But, what if we have a param? Or do we want to use some query parameters? Actually, the answer was shown in Query parameters examples: `Request<{}, any, any, { firstName: string, age: number }>`. `Request` and `Response` types have generics, which can help you to specify params, body, or query parameters. `Request` has 4 generic types:
+```ts
+interface Request<
+        P = core.ParamsDictionary,
+        ResBody = any,
+        ReqBody = any,
+        ReqQuery = core.Query,
+        Locals extends Record<string, any> = Record<string, any>
+    > extends core.Request<P, ResBody, ReqBody, ReqQuery, Locals> {}
+```
+
+_P_ - is a params object (`req.params`)  
+_ResBody_ - is a type of response body we are going to send in `req.res.send`, `req.res.json`, or `req.res.jsonp` methods. Since we have a separate object for response, it's rarely used  
+_ReqBody_ - is a type for body (`req.body`)  
+_ReqQuery_ - is a type for query parameters (`req.query`)  
+_Locals_ - is a type for [locals](https://expressjs.com/en/api.html#res.locals) object of res (`req.res.locals`)  
+
+`Respons` type has fewer generic types, and they are presented in `Request` as well:
+```ts
+interface Response<
+  ResBody = any,
+  Locals extends Record<string, any> = Record<string, any>
+  > extends core.Response<ResBody, Locals> {}
+```
+
+Here is an example of using such types:
+```ts
+interface User {
+  firsName: string;
+  lastName: string;
+  age: number;
+}
+
+app.put('users/:userId', async (
+  req: Request<{ userId: string }, any, Partial<User>, { notify: string }>,
+  res: Response<{ message: string }>
+) => {
+  const { userId } = req.params;
+  const notify = req.query.notify === 'true';
+  
+  const user = await updateUserById(userId, req.body);
+  if (notify) {
+    await sendNotificationByUserId(userId, 'User was updated');
+  }
+  
+  res.send({ message: 'Users successfully updated' })
+});
+```
