@@ -28,8 +28,8 @@ Resources:
     Description: Bucket for static website hosting
     Properties:
       BucketName: !If [ HasBucketName, !Ref BucketName, !Ref AWS::NoValue ]
-      VersioningConfiguration:
-        Status: Enabled
+#      VersioningConfiguration:
+#        Status: Enabled
       AccessControl: Private
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -109,7 +109,7 @@ Resources:
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
         Origins:
-          - DomainName: !Sub ${S3Bucket}.s3.amazonaws.com
+          - DomainName: !Sub ${S3Bucket}.s3.${AWS::Region}.amazonaws.com
             Id: s3Origin
             ## Origin Access Control (OAC) settings:
             S3OriginConfig:
