@@ -20,6 +20,8 @@ image: node:18.12
 
 stages:          # List of stages for jobs, and their order of execution
 #  - test
+  - prepare-infrastructure
+  - update-infrastructure
   - build
   - deploy
 
@@ -36,6 +38,36 @@ stages:          # List of stages for jobs, and their order of execution
 #    - echo "Linting code... This will take about 10 seconds."
 #    - sleep 10
 #    - echo "No lint issues found."
+
+infrastructure-prepare-change-set-job:
+  stage: prepare-infrastructure
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  script:
+    - echo "Preparing a change set of app's infrastructure..."
+    - aws cloudformation create-change-set \
+      --stack-name ${CF_STACK_NAME}  \
+      --change-set-name ${CF_CHANGE_SET_NAME} \
+      --template-body file://Modules/cloud-formation.yaml \
+      --capabilities CAPABILITY_IAM \
+      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN} \ 
+      --region ${AWS_DEFAULT_REGION} \
+      --output text \
+      --query "Id" > change-set-id.txt
+    - aws cloudformation wait change-set-create-complete \
+      --change-set-name $(cat change-set-id.txt)
+  artifacts:
+    paths:
+      - change-set-id.txt
+
+infrastructure-execute-change-set-job:
+  stage: update-infrastructure
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  script:
+    - echo "Executing a changes set. Updating infrastructure resources..."
+    - aws cloudformation execute-change-set \
+      --change-set-name $(cat change-set-id.txt) \
+      --region ${AWS_DEFAULT_REGION}
+    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
