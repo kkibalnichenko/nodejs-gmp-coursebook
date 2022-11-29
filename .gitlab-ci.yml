@@ -49,11 +49,11 @@ infrastructure-prepare-change-set-job:
       --change-set-name ${CF_CHANGE_SET_NAME}
       --template-body file://Modules/cloud-formation.yaml
       --capabilities CAPABILITY_IAM
-      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN} \ 
+      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN}
       --region ${AWS_DEFAULT_REGION}
       --output text
       --query "Id" > change-set-id.txt
-    - aws cloudformation wait change-set-create-complete \
+    - aws cloudformation wait change-set-create-complete
       --change-set-name $(cat change-set-id.txt)
   artifacts:
     paths:
