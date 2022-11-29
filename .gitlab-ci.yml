@@ -49,6 +49,7 @@ stages:          # List of stages for jobs, and their order of execution
 #    - aws cloudformation create-change-set
 #      --stack-name ${CF_STACK_NAME}
 #      --change-set-name ${CF_CHANGE_SET_NAME}
+#      --change-set-type "$([[ "$(aws cloudformation describe-stack-resources --stack-name ${CF_STACK_NAME} --output json --query "StackResources" || echo "[]")" == "[]" ]] && echo "CREATE" || echo "UPDATE")"
 #      --template-body file://Modules/cloud-formation.yaml
 #      --capabilities CAPABILITY_IAM
 #      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN}
@@ -71,7 +72,6 @@ stages:          # List of stages for jobs, and their order of execution
 #      --change-set-name $(cat change-set-id.txt)
 #      --region ${AWS_DEFAULT_REGION}
 #    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
-
 
 #infrastructure-update-job:
 #  stage: infrastructure-update
