@@ -22,7 +22,7 @@ stages:          # List of stages for jobs, and their order of execution
 #  - test
 #  - prepare-infrastructure
 #  - update-infrastructure
-  - infrastructure-update
+#  - infrastructure-update
   - build
   - deploy
 
@@ -73,18 +73,18 @@ stages:          # List of stages for jobs, and their order of execution
 #    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
 
 
-infrastructure-update-job:
-  stage: infrastructure-update
-  environment: production
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
-  script:
-    - echo "Updating project's infrastructure..."
-    - aws cloudformation update-stack
-      --stack-name ${CF_STACK_NAME}
-      --template-body file://Modules/cloud-formation.yaml
-      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN}
-      --region ${AWS_DEFAULT_REGION}
-    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
+#infrastructure-update-job:
+#  stage: infrastructure-update
+#  environment: production
+#  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+#  script:
+#    - echo "Updating project's infrastructure..."
+#    - aws cloudformation update-stack
+#      --stack-name ${CF_STACK_NAME}
+#      --template-body file://Modules/cloud-formation.yaml
+#      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN}
+#      --region ${AWS_DEFAULT_REGION}
+#    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
