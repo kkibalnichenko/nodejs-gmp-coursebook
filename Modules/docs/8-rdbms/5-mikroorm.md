@@ -403,6 +403,7 @@ employeeAssigmentRepository.nativeDelete({order: 123, product: 321});
 
 ## Type-Safe Relations and Collections
 
+### Reference wrapper
 Entity relations are mapped to entity references - instances of the entity that have at least the primary key available.
 This reference is stored in identity map, so you will get the same object reference when fetching the same document from
 database.
@@ -469,6 +470,83 @@ console.log(employee.office.getEntity()); // Error: Reference<Author> 123 not in
 console.log(employee.office.getProperty('name')); // Error: Reference<Author> 123 not initialized
 console.log(await employee.office.load('name')); // ok, loading the author first
 console.log(employee.office.getProperty('name')); // ok, author already loaded
+```
+
+When you define the property as Reference wrapper, you will need to assign the `Reference` instance to it instead of the entity. 
+You can convert any entity to a Reference wrapper via `ref(entity)`, or use wrapped option of `em.getReference()`:
+
+```ts
+const office = new Office(...);
+
+employee.office = wrap(office).toReference(); // same as ref(office)
+//or
+employee.office = Reference.createFromPK(Office, officeId);
+//or
+employee.office = repo.getReference(2, { wrapped: true });
+
+```
+
+### Working with collections
+
+The Collection class implements iterator, so we can use for of loop to iterate through it.
+
+Another way to access collection items is to use bracket syntax like when we access array items. 
+Keep in mind that this approach will not check if the collection is initialed, while using get method will throw error in this case.
+
+To get all entities stored in a Collection, we can use `getItems()` method. It will throw in case the Collection is not initialized. 
+If we want to disable this validation, we can use `getItems(false)`. This will give us the entity instances managed by the identity map.
+
+Alternatively we can use `toArray()` which will serialize the Collection to an array of DTOs. 
+Modifying those will have no effect on the actual entity instances.
+
+```ts
+const office = em.findOne(Office, '...', { populate: ['employees'] }); // populating of collection
+
+// or we could lazy load employees collection later via `init()` method
+await office.employees.init();
+
+for (const employee of office.employees) {
+  console.log(employee.name); // Jon Snow
+  console.log(employee.office.isInitialized()); // true, relation is bidirectional
+  console.log(employee.office.id);
+  console.log(employee.office.address);
+}
+
+// collection needs to be initialized before we can work with it
+office.employees(empl);
+console.log(office.employees.contains(empl)); // true
+office.employees.remove(empl);
+console.log(office.employees.contains(empl)); // false
+office.employees.add(empl);
+console.log(office.employees.count()); // 1
+office.employees.removeAll();
+console.log(office.employees.contains(empl)); // false
+console.log(office.employees.count()); // 0
+console.log(office.employees.getItems()); // Employee[]
+console.log(office.employees.getIdentifiers()); // array of string | number
+
+// array access works as well
+console.log(office.employees[1]); // Employee
+console.log(office.employees[12345]); // undefined, even if the collection is not initialized
+
+// serializing the collection
+console.log(office.employees.toArray()); // EntityDTO<Book>[]
+
+const office = em.findOne(Office, '...'); // employees collection has not been populated
+console.log(office.employees.getItems()); // throws because the collection has not been initialized
+// initialize collection if not already loaded and return its items as array
+console.log(await office.employees.loadItems()); // Employee[]
+```
+
+When we use one of Collection.add() method, the item is added to given collection, and this action is also propagated to its counterpart.
+
+```ts
+// one to many
+const employee = new Employee(...);
+const office = new Office(...);
+
+office.employees.add(employee);
+console.log(employee.office); // office will be set thanks to the propagation
 ```
 
 
@@ -645,4 +723,266 @@ export class Migration20221212134350 extends Migration {
 </TabItem>
 </Tabs>
 
-- CRUD example
+## Example
+:::note
+Please pay attention, the code in next example is used to demonstrate ORM features and is not a production ready. We are using service
+locator anti-pattern to simplify things, do not follow layered architecture principles etc. 
+:::
+
+At first lets add `MikroORM` and `dotenv` to our empty express app.
+```bash
+yarn add @mikro-orm/core @mikro-orm/postgresq @mikro-orm/migrations dotenv
+```
+
+Then we need to crete a config for ORM. Update package.json file with mikro-orm section and create `.env` file in root.
+Config for `tsc` is shared too.
+ 
+<Tabs>
+<TabItem value="package.json">
+
+```json
+{
+  "name": "mikro-orm-example",
+  ...
+  "scripts": {
+    "start": "tsc && node dist/server",
+    "start:dev": "tsc-watch --onSuccess \"node dist/server\"",
+  },
+  "dependencies": {
+   ...
+  },
+  "devDependencies": {
+   ...
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./app/config/orm.config.ts",
+      "./dist/config/orm.config.js"
+    ]
+  }
+}
+```
+</TabItem>
+
+<TabItem value=".env">
+
+```dotenv
+MIKRO_ORM_DB_NAME=node_gmp
+MIKRO_ORM_USER=node_gmp
+MIKRO_ORM_PASSWORD=password123
+MIKRO_ORM_HOST=localhost
+```
+</TabItem>
+
+<TabItem value="tsconfig.json">
+
+```json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["./app"],
+  "exclude": ["node_modules"]
+}
+
+```
+</TabItem>
+
+<TabItem value="app/config/orm.config.ts">
+
+```ts
+import * as dotenv from 'dotenv'
+dotenv.config()
+import {Options} from '@mikro-orm/core';
+import {PostgreSqlDriver} from "@mikro-orm/postgresql";
+
+const options: Options<PostgreSqlDriver> = {
+    entities: ['./dist/entities'], // path to your JS entities (dist), relative to `baseDir`
+    entitiesTs: ['./app/entities'], // path to our TS entities (src), relative to `baseDir`
+    migrations: {
+        path: './dist/migrations', // path to the folder with migrations
+        pathTs: './app/migrations', // path to the folder with TS migrations (if used, we should put path to compiled files in `path`)
+    },
+    type: 'postgresql',
+};
+
+export default options;
+```
+
+</TabItem>
+
+</Tabs>
+
+Now let's create entities. We are going to use our previous example with `Employee`, `Office`, `Project` enttities.
+
+<Tabs>
+<TabItem value="entities/employee.ts">
+
+```ts
+import {Collection, Entity, ManyToMany, ManyToOne, PrimaryKey, Property, Ref} from "@mikro-orm/core";
+import {Office} from "./Office";
+import {Project} from "./Project";
+import {EmployeeAssigment} from "./employee-assigment";
+
+@Entity()
+export class Employee {
+    @PrimaryKey({ type: 'uuid', defaultRaw: 'uuid_generate_v4()' })
+    uuid!: string;
+
+    @Property()
+    name!: string;
+
+    @Property()
+    joinDate!: Date
+
+    @ManyToOne(() => Office, { nullable: true, ref: true })
+    office?: Ref<Office>;
+
+    @ManyToMany(() => Project, 'employees', {owner: true, pivotEntity: () => EmployeeAssigment})
+    projects = new Collection<Project>(this);
+
+    constructor(name: string, joinDate: Date) {
+        this.name = name;
+        this.joinDate = joinDate;
+    }
+}
+```
+</TabItem>
+
+<TabItem value="entities/office.ts">
+
+```ts
+import {Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property} from "@mikro-orm/core";
+import {Employee} from "./Employee";
+
+@Entity()
+export class Office {
+    @PrimaryKey({type: 'uuid', defaultRaw: 'uuid_generate_v4()'})
+    uuid!: string;
+
+    @Property()
+    address!: string;
+
+    @Property()
+    city!: string;
+
+    @OneToMany(() => Employee, employee => employee.office, {nullable: true})
+    employees?: Collection<Employee> = new Collection<Employee>(this);
+
+    constructor(address: string, city: string) {
+        this.address = address;
+        this.city = city;
+    }
+}
+```
+</TabItem>
+
+<TabItem value="entities/project.ts">
+
+```ts
+import {Collection, Entity, ManyToMany, PrimaryKey, Property} from "@mikro-orm/core";
+import {Employee} from "./Employee";
+import {EmployeeAssigment} from "./employee-assigment";
+
+@Entity()
+export class Project {
+
+    @PrimaryKey({type: 'uuid', defaultRaw: 'uuid_generate_v4()'})
+    uuid!: string;
+
+    @Property()
+    code!: string;
+
+    @Property()
+    startDate!: Date;
+
+    @Property()
+    isInternal!: boolean;
+
+    @ManyToMany(() => Employee, 'projects', {pivotEntity: () => EmployeeAssigment})
+    employees = new Collection<Employee>(this);
+}
+```
+</TabItem>
+
+<TabItem value="entities/employee-assigment.ts">
+
+```ts
+import {Entity, ManyToOne, Property} from "@mikro-orm/core";
+import {Employee} from "./Employee";
+import {Project} from "./Project";
+
+@Entity()
+export class EmployeeAssigment {
+
+    @ManyToOne({ primary: true })
+    employee!: Employee;
+
+    @ManyToOne({ primary: true })
+    project!: Project;
+
+    @Property()
+    joinDate!: Date;
+
+    @Property()
+    billable!: boolean;
+}
+
+
+```
+</TabItem>
+</Tabs>
+
+After that we can generate migrations. You can run `npx mikro-orm migration:create` and it will generate migration in 
+`migrations` directory;
+
+```ts
+import { Migration } from '@mikro-orm/migrations';
+
+export class Migration20221212134350 extends Migration {
+
+  async up(): Promise<void> {
+    this.addSql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+
+    this.addSql('create table "office" ("uuid" uuid not null default uuid_generate_v4(), "address" varchar(255) not null, "city" varchar(255) not null, constraint "office_pkey" primary key ("uuid"));');
+
+    this.addSql('create table "employee" ("uuid" uuid not null default uuid_generate_v4(), "name" varchar(255) not null, "join_date" timestamptz(0) not null, "office_uuid" uuid null, constraint "employee_pkey" primary key ("uuid"));');
+
+    this.addSql('alter table "employee" add constraint "employee_office_uuid_foreign" foreign key ("office_uuid") references "office" ("uuid") on update cascade on delete set null;');
+
+    this.addSql('create table "project" ("uuid" uuid not null default uuid_generate_v4(), "code" varchar(255) not null, "start_date" timestamptz(0) not null, "is_internal" boolean not null, constraint "project_pkey" primary key ("uuid"));');
+
+    this.addSql('create table "employee_assigment" ("employee_uuid" uuid not null, "project_uuid" uuid not null, "join_date" timestamptz(0) not null, "billable" boolean not null, constraint "employee_assigment_pkey" primary key ("employee_uuid", "project_uuid"));');
+
+    this.addSql('alter table "employee_assigment" add constraint "employee_assigment_employee_uuid_foreign" foreign key ("employee_uuid") references "employee" ("uuid") on update cascade;');
+    this.addSql('alter table "employee_assigment" add constraint "employee_assigment_project_uuid_foreign" foreign key ("project_uuid") references "project" ("uuid") on update cascade;');
+  }
+
+  async down(): Promise<void> {
+    this.addSql('alter table "employee" drop constraint "employee_office_uuid_foreign";');
+
+    this.addSql('drop table if exists "office" cascade;');
+
+    this.addSql('drop table if exists "employee" cascade;');
+
+    this.addSql('alter table "employee_assigment" drop constraint "employee_assigment_project_uuid_foreign";');
+
+    this.addSql('drop table if exists "project" cascade;');
+
+    this.addSql('drop table if exists "employee_assigment" cascade;');
+  }
+
+}
+
+```
+
+To start it run `npx mikro-orm migration:up`
