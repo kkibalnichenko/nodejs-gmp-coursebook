@@ -452,10 +452,10 @@ const employee = await employeeRepository.findOne(1);
 console.log(employee.office instanceof Reference); // true
 console.log(wrap(employee.office).isInitialized()); // false
 console.log(employee.office.name); // type error, there is no `name` property
-console.log(employee.office.unwrap().name); // undefined as author is not loaded
-console.log(await employee.office.load('name')); // ok, loading the author first
-console.log((await employee.office.load()).name); // ok, author already loaded
-console.log(employee.office.unwrap().name); // ok, author already loaded
+console.log(employee.office.unwrap().name); // undefined as office is not loaded
+console.log(await employee.office.load('name')); // ok, loading the office first
+console.log((await employee.office.load()).name); // ok, office already loaded
+console.log(employee.office.unwrap().name); // ok, office already loaded
 ```
 
 Using `load()` method will actually make your models responsible for loading data, which can be messy when you trigger 
@@ -466,10 +466,10 @@ that will first check if the wrapped entity is initialized, and if not, it will 
 const employee = await employeeRepository.findOne(1);
 console.log(employee.office instanceof Reference); // true
 console.log(wrap(employee.office).isInitialized()); // false
-console.log(employee.office.getEntity()); // Error: Reference<Author> 123 not initialized
-console.log(employee.office.getProperty('name')); // Error: Reference<Author> 123 not initialized
-console.log(await employee.office.load('name')); // ok, loading the author first
-console.log(employee.office.getProperty('name')); // ok, author already loaded
+console.log(employee.office.getEntity()); // Error: Reference<Office> 123 not initialized
+console.log(employee.office.getProperty('name')); // Error: Reference<Office> 123 not initialized
+console.log(await employee.office.load('name')); // ok, loading the office first
+console.log(employee.office.getProperty('name')); // ok, office already loaded
 ```
 
 When you define the property as Reference wrapper, you will need to assign the `Reference` instance to it instead of the entity. 
