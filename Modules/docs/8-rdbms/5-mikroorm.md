@@ -828,32 +828,35 @@ Now let's create entities. We are going to use our previous example with `Employ
 <TabItem value="entities/employee.ts">
 
 ```ts
-import {Collection, Entity, ManyToMany, ManyToOne, PrimaryKey, Property, Ref} from "@mikro-orm/core";
+import {Collection, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryKey, Property, Ref} from "@mikro-orm/core";
 import {Office} from "./Office";
 import {Project} from "./Project";
 import {EmployeeAssigment} from "./employee-assigment";
 
 @Entity()
 export class Employee {
-    @PrimaryKey({ type: 'uuid', defaultRaw: 'uuid_generate_v4()' })
-    uuid!: string;
+  @PrimaryKey({ type: 'uuid', defaultRaw: 'uuid_generate_v4()' })
+  uuid!: string;
 
-    @Property()
-    name!: string;
+  @Property()
+  name!: string;
 
-    @Property()
-    joinDate!: Date
+  @Property()
+  joinDate!: Date
 
-    @ManyToOne(() => Office, { nullable: true, ref: true })
-    office?: Ref<Office>;
+  @ManyToOne(() => Office, { nullable: true, ref: true })
+  office?: Ref<Office>;
 
-    @ManyToMany(() => Project, 'employees', {owner: true, pivotEntity: () => EmployeeAssigment})
-    projects = new Collection<Project>(this);
+  @ManyToMany(() => Project, 'employees', {owner: true, pivotEntity: () => EmployeeAssigment})
+  projects = new Collection<Project>(this);
 
-    constructor(name: string, joinDate: Date) {
-        this.name = name;
-        this.joinDate = joinDate;
-    }
+  @OneToMany(() => EmployeeAssigment, assigment => assigment.employee, {orphanRemoval: true})
+  assignments: Collection<EmployeeAssigment> = new Collection<EmployeeAssigment>(this);
+
+  constructor(name: string, joinDate: Date) {
+    this.name = name;
+    this.joinDate = joinDate;
+  }
 }
 ```
 </TabItem>
@@ -896,20 +899,20 @@ import {EmployeeAssigment} from "./employee-assigment";
 @Entity()
 export class Project {
 
-    @PrimaryKey({type: 'uuid', defaultRaw: 'uuid_generate_v4()'})
-    uuid!: string;
+  @PrimaryKey({type: 'uuid', defaultRaw: 'uuid_generate_v4()'})
+  uuid!: string;
 
-    @Property()
-    code!: string;
+  @Property()
+  code!: string;
 
-    @Property()
-    startDate!: Date;
+  @Property()
+  startDate!: Date;
 
-    @Property()
-    isInternal!: boolean;
+  @Property()
+  isInternal!: boolean;
 
-    @ManyToMany(() => Employee, 'projects', {pivotEntity: () => EmployeeAssigment})
-    employees = new Collection<Employee>(this);
+  @ManyToMany(() => Employee, 'projects', {pivotEntity: () => EmployeeAssigment})
+  employees = new Collection<Employee>(this);
 }
 ```
 </TabItem>
@@ -917,26 +920,32 @@ export class Project {
 <TabItem value="entities/employee-assigment.ts">
 
 ```ts
-import {Entity, ManyToOne, Property} from "@mikro-orm/core";
+import {Entity, ManyToOne, Property, Ref, Reference} from "@mikro-orm/core";
 import {Employee} from "./Employee";
 import {Project} from "./Project";
 
 @Entity()
 export class EmployeeAssigment {
 
-    @ManyToOne({ primary: true })
-    employee!: Employee;
+  @ManyToOne(() => Employee, {primary: true, ref: true})
+  employee!: Ref<Employee>;
 
-    @ManyToOne({ primary: true })
-    project!: Project;
+  @ManyToOne(() => Project, {primary: true, ref: true})
+  project!: Ref<Project>;
 
-    @Property()
-    joinDate!: Date;
+  @Property()
+  joinDate!: Date;
 
-    @Property()
-    billable!: boolean;
+  @Property()
+  billable!: boolean;
+
+  constructor(dto: { joinDate: Date, billable: boolean, projectId: string, employeeId: string }) {
+    this.joinDate = dto.joinDate;
+    this.billable = dto.billable;
+    this.employee = Reference.createFromPK(Employee, dto.employeeId);
+    this.project = Reference.createFromPK(Project, dto.projectId);
+  }
 }
-
 
 ```
 </TabItem>
@@ -948,20 +957,18 @@ After that we can generate migrations. You can run `npx mikro-orm migration:crea
 ```ts
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20221212134350 extends Migration {
+export class Migration20221219115433 extends Migration {
 
   async up(): Promise<void> {
-    this.addSql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-
     this.addSql('create table "office" ("uuid" uuid not null default uuid_generate_v4(), "address" varchar(255) not null, "city" varchar(255) not null, constraint "office_pkey" primary key ("uuid"));');
 
     this.addSql('create table "employee" ("uuid" uuid not null default uuid_generate_v4(), "name" varchar(255) not null, "join_date" timestamptz(0) not null, "office_uuid" uuid null, constraint "employee_pkey" primary key ("uuid"));');
 
-    this.addSql('alter table "employee" add constraint "employee_office_uuid_foreign" foreign key ("office_uuid") references "office" ("uuid") on update cascade on delete set null;');
-
     this.addSql('create table "project" ("uuid" uuid not null default uuid_generate_v4(), "code" varchar(255) not null, "start_date" timestamptz(0) not null, "is_internal" boolean not null, constraint "project_pkey" primary key ("uuid"));');
 
     this.addSql('create table "employee_assigment" ("employee_uuid" uuid not null, "project_uuid" uuid not null, "join_date" timestamptz(0) not null, "billable" boolean not null, constraint "employee_assigment_pkey" primary key ("employee_uuid", "project_uuid"));');
+
+    this.addSql('alter table "employee" add constraint "employee_office_uuid_foreign" foreign key ("office_uuid") references "office" ("uuid") on update cascade on delete set null;');
 
     this.addSql('alter table "employee_assigment" add constraint "employee_assigment_employee_uuid_foreign" foreign key ("employee_uuid") references "employee" ("uuid") on update cascade;');
     this.addSql('alter table "employee_assigment" add constraint "employee_assigment_project_uuid_foreign" foreign key ("project_uuid") references "project" ("uuid") on update cascade;');
@@ -970,11 +977,13 @@ export class Migration20221212134350 extends Migration {
   async down(): Promise<void> {
     this.addSql('alter table "employee" drop constraint "employee_office_uuid_foreign";');
 
+    this.addSql('alter table "employee_assigment" drop constraint "employee_assigment_employee_uuid_foreign";');
+
+    this.addSql('alter table "employee_assigment" drop constraint "employee_assigment_project_uuid_foreign";');
+
     this.addSql('drop table if exists "office" cascade;');
 
     this.addSql('drop table if exists "employee" cascade;');
-
-    this.addSql('alter table "employee_assigment" drop constraint "employee_assigment_project_uuid_foreign";');
 
     this.addSql('drop table if exists "project" cascade;');
 
@@ -983,6 +992,142 @@ export class Migration20221212134350 extends Migration {
 
 }
 
+
 ```
 
-To start it run `npx mikro-orm migration:up`
+To start it run `npx mikro-orm migration:up`.
+
+<Tabs>
+<TabItem value="app/server.ts">
+
+```ts
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+import config from './config/orm.config'
+import 'reflect-metadata';
+import http from 'http';
+import express from 'express';
+import { EntityManager, EntityRepository, MikroORM, RequestContext } from '@mikro-orm/core';
+
+import { EmployeeController, OfficeController } from './controllers';
+import {PostgreSqlDriver} from "@mikro-orm/postgresql";
+import {Employee} from "./entities/Employee";
+import {Office} from "./entities/Office";
+
+export const DI = {} as {
+  server: http.Server;
+  orm: MikroORM,
+  em: EntityManager,
+  employeeRepository: EntityRepository<Employee>,
+  officeRepository: EntityRepository<Office>,
+};
+
+export const app = express();
+const port = process.env.PORT || 3001;
+
+export const init = (async () => {
+  DI.orm = await MikroORM.init<PostgreSqlDriver>(config);
+
+  DI.em = DI.orm.em;
+  DI.employeeRepository = DI.orm.em.getRepository(Employee);
+  DI.officeRepository = DI.orm.em.getRepository(Office);
+
+  app.use(express.json());
+  app.use((req, res, next) => RequestContext.create(DI.orm.em, next));
+  app.get('/', (req, res) => res.json({ message: 'Welcome to MikroORM express TS example, try CRUD on /author and /book endpoints!' }));
+  app.use('/employee', EmployeeController);
+  app.use('/office', OfficeController);
+  app.use((req, res) => res.status(404).json({ message: 'No route found' }));
+
+  DI.server = app.listen(port, () => {
+    console.log(`MikroORM express TS example started at http://localhost:${port}`);
+  });
+})();
+
+```
+</TabItem>
+
+<TabItem value="app/controllers/employee.controller.ts">
+
+```ts
+import {Request, Response} from 'express';
+import Router from 'express-promise-router';
+import {QueryOrder, ref, Reference, wrap} from '@mikro-orm/core';
+
+import {DI} from '../server';
+import {Office} from "../entities/Office";
+import {Employee} from "../entities/Employee";
+import {EmployeeAssigment} from "../entities/employee-assigment";
+
+const router = Router();
+
+router.get('/', async (req: Request, res: Response) => {
+    const employees = await DI.employeeRepository.findAll({
+        populate: ['office', "projects"],
+        orderBy: {name: QueryOrder.DESC},
+        limit: 20,
+    });
+
+    res.json(employees);
+});
+
+router.get('/:id', async (req: Request, res: Response) => {
+    try {
+        const employee = await DI.employeeRepository.findOneOrFail(req.params.id, {
+            populate: ['office', 'assignments.project'],
+        });
+
+        res.json(employee);
+    } catch (e: any) {
+        return res.status(400).json({message: e.message});
+    }
+});
+
+router.post('/', async (req: Request, res: Response) => {
+    if (!req.body.name || !req.body.joinDate) {
+        res.status(400);
+        return res.json({message: 'One of `name, joinDate` is missing'});
+    }
+
+    try {
+        const employee = new Employee(req.body.name, req.body.joinDate)
+        if (req.body.office?.uuid) {
+            employee.office = Reference.createFromPK(Office, req.body.office?.uuid);
+        }
+        // const employee = DI.employeeRepository.create({name: req.body.name, joinDate: req.body.joinDate, office:req.body.office?.uuid });
+
+        await DI.employeeRepository.persistAndFlush(employee);
+
+        res.json(employee);
+    } catch (e: any) {
+        return res.status(400).json({message: e.message});
+    }
+});
+
+router.post('/:id/update-assignments', async (req: Request, res: Response) => {
+    try {
+        const employee = await DI.employeeRepository.findOneOrFail(req.params.id, {populate: ['assignments']});
+
+        const assignmentsDTO = req.body.assignments as { joinDate: Date, billable: boolean, projectId: string}[];
+
+        const assignments = [];
+        for (const assigmentDTO of assignmentsDTO) {
+            assignments.push(new EmployeeAssigment({...assigmentDTO, employeeId: employee.uuid}));
+        }
+        employee.assignments.set(assignments);
+
+        await DI.employeeRepository.flush();
+
+        res.json(employee);
+    } catch (e: any) {
+        return res.status(400).json({message: e.message});
+    }
+});
+
+export const EmployeeController = router;
+
+```
+</TabItem>
+
+</Tabs>
