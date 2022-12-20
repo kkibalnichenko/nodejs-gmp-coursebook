@@ -99,7 +99,7 @@ components:
       type: object
       properties:
         id:
-          type: number
+          type: string
         items:
           type: array
           items:
@@ -115,7 +115,7 @@ components:
       type: object
       properties:
         id:
-          type: number
+          type: string
         title:
           type: string
         description:
@@ -140,11 +140,11 @@ components:
       type: object
       properties:
         id:
-          type: number
+          type: string
         userId:
-          type: number
+          type: string
         cartId:
-          type: number
+          type: string
         items:
           type: array
           items:
