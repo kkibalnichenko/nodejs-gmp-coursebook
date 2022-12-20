@@ -39,3 +39,17 @@ img[src*="nodejs-intro"] {
   filter: hue-rotate(45deg);
 }
 
+
+img[alt*=terminal],
+img[alt*=installation] {
+  width: 500px;
+  height: auto;
+  margin: 20px auto;
+  display: block;
+  filter: hue-rotate(45deg);
+}
+
+img[alt*=terminal] {
+  width: 300px;
+}
+
