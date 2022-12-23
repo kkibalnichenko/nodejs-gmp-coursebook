@@ -42,6 +42,8 @@ We have discovered what is package.json is, and now lets check how the project m
 }
 ```
 
+There are more sections that can be used inside package.json and you can find them in official [documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)
+
 ### Base metadata
 
 As you can see the package.json file is structured in the JSON format, which allows it to be easily read as metadata and parsed by machines.
@@ -57,11 +59,16 @@ npm run start
 
 ### Dependencies
 
-One of the important aspect of a package.json is that it contains a collection of any given project's dependencies. These dependencies are the modules that the project relies on to function properly.
+One of the important aspect of a package.json is that it contains a collection of any given project's dependencies. These dependencies are the modules that the project relies on to function properly. 
 
 Having these dependencies in your package.json allows the project to install the versions of the modules it depends on. To install all the dependencies from the package.json file you need to run the following command:
 
-There are more sections that can be used inside package.json and you can find them in official [documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)
+```shell
+npm install
+```
+
+If you are planning on downloading and using module in your project for testing or on building phase, it's best to map these additional dependencies in a `devDependencies` object. Those dependencies will be installed during `npm install` command unless you pass `--production` flag or `NODE_ENV=production`.
+
 
 ## Managing dependencies
 NPM provide command `npm install <module>` to install modules. In case if you need install this dependency and save it to package json you can add `--save` flag or `--save-dev` to save it as development dependency.
