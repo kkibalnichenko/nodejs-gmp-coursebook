@@ -36,13 +36,13 @@ Reactor Pattern is a high-level overview of how Node.js works under the hood. So
 There are 3 primary components: `Event Demultiplexer`, `Event Loop` and `Event Queue`.
 
 **The algorithm that stands behind Reactor Pattern:**
-1. Event Demultiplexer receives request for I/O operation and delegates this request to appropriate hardware.
-2. Once I/O request is processed (e.g data from a file is ready to be read), Event Demultiplexer adds a callback registered for this particular event to Event Queue.
-3. Eventloop takes those callbacks and executes them sequentially until the Event Queue is empty.
+1. Event Demultiplexer receives request for I/O operation and delegates this request to appropriate hardware (1-3 on the picture below).
+2. Once I/O request is processed (e.g data from a file is ready to be read), Event Demultiplexer adds a callback registered for this particular event to Event Queue (4-5).
+3. Eventloop takes those callbacks and executes them sequentially until the Event Queue is empty (6).
 4. If there are no events in Event Queue, Event Loop gives control back to Event Demultiplexer.
 5. If there are no requests for I/O operations in Event Demultiplexer registered, the application finishes its execution.
 
-PHOTO HERE
+![EventLoop Reactor Pattern](./img/eventloop-reactor-pattern.png)
 
 ## Event Demultiplexer
 
@@ -64,7 +64,7 @@ No worries! This problem was solved long before you joined Node.js dev team. Tha
 - Event Loop
 - Thread pool
 
-PHOTO HERE
+![Libuv](./img/eventloop-libuv.png)
 
 As you can see on the picture above, libuv does most of the job for us in terms of non-blocking I/O. We as Node.js developers simply communicate with libuv through Node.js API. 
 
@@ -113,9 +113,9 @@ Event Loop plays an orchestration role for queues. Its key responsibility is to 
 
 As you can see on the picture below, Event Loop starts from **Timers** phase and checks **Expired timers and intervals queue**. After processing the **Close Handlers Queue**, if there are no items to be processed and there are no pending operations, the loop will exit. 
 
-PHOTO HERE
+![Libuv](./img/eventloop-phases.png)
 
-The interesting thing is that micro tasks queues have higher priority than macro tasks. They are checked after each phase of the Event Loop. If there are any items available in the micro tasks queues, the Event Loop will immediately start processing them until they are emptied. Once they are empty, the Event Loop will continue to the next phase.
+**The interesting thing is that micro tasks queues have higher priority than macro tasks. They are checked after each phase of the Event Loop.** If there are any items available in the micro tasks queues, the Event Loop will immediately start processing them until they are emptied. Once they are empty, the Event Loop will continue to the next phase.
 
 For example, let’s imagine that you have 2 tasks in I/O Events queue which you are currently processing. Then 3 more tasks are added to `processNextTick()` queue. Once the Event Loop finishes processing 2 tasks from I/O Events queue, it will start processing `processNextTick()` queue before moving to Immediates queue. 
 
