@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Node.js EventLoop
+# Node.js Event Loop
 
 Before we start diving deep into Node.js Event Loop, let’s get aligned on what I/O operations are, what blocking and non-blocking I/O means and why Node.js strives to perform non-blocking async operations as much as possible.
 
@@ -38,11 +38,11 @@ There are 3 primary components: `Event Demultiplexer`, `Event Loop` and `Event Q
 **The algorithm that stands behind Reactor Pattern:**
 1. Event Demultiplexer receives request for I/O operation and delegates this request to appropriate hardware (1-3 on the picture below).
 2. Once I/O request is processed (e.g data from a file is ready to be read), Event Demultiplexer adds a callback registered for this particular event to Event Queue (4-5).
-3. Eventloop takes those callbacks and executes them sequentially until the Event Queue is empty (6).
+3. Event Loop takes those callbacks and executes them sequentially until the Event Queue is empty (6).
 4. If there are no events in Event Queue, Event Loop gives control back to Event Demultiplexer.
 5. If there are no requests for I/O operations in Event Demultiplexer registered, the application finishes its execution.
 
-![EventLoop Reactor Pattern](./img/eventloop-reactor-pattern.png)
+![Event Loop Reactor Pattern](./img/eventloop-reactor-pattern.png)
 
 ## Event Demultiplexer
 
