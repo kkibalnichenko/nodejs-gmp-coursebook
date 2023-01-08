@@ -36,10 +36,13 @@ html[data-theme='light'] img[src*="nodejs-intro"] {
   filter: hue-rotate(25deg);
 }
 
+img[alt*=terminal],
+img[alt*=installation],
 img[alt*=Event],
 img[alt*=Libuv],
 img[alt*=version],
-img[src*="nodejs-intro"] {
+img[alt*=version],
+img[alt*=Intro] {
   max-width:70%;
   height:auto;
   margin:0 auto;
@@ -56,15 +59,6 @@ img[alt*=package] {
   max-width:70%;
   margin:0 auto;
   display: block;
-}
-
-img[alt*=terminal],
-img[alt*=installation] {
-  width: 500px;
-  height: auto;
-  margin: 20px auto;
-  display: block;
-  filter: hue-rotate(45deg);
 }
 
 img[alt*=terminal] {
