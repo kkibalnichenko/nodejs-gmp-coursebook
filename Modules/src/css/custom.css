@@ -29,16 +29,34 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-html[data-theme='dark'] .navbar .navbar__logo { content: url(/static/img/logo.svg) }
+html[data-theme='dark'] .navbar .navbar__logo {
+  content: url(/static/img/logo.svg)
+}
+html[data-theme='light'] img[src*="nodejs-intro"] {
+  filter: hue-rotate(25deg);
+}
 
+img[alt*=Event],
+img[alt*=Libuv],
+img[alt*=version],
 img[src*="nodejs-intro"] {
-  max-width:50%;
+  max-width:70%;
   height:auto;
   margin:0 auto;
   display: block;
   filter: hue-rotate(45deg);
 }
 
+html[data-theme='light'] img[alt*=repl] {
+  filter: invert(100%) contrast(100%);
+}
+
+img[alt*=repl],
+img[alt*=package] {
+  max-width:70%;
+  margin:0 auto;
+  display: block;
+}
 
 img[alt*=terminal],
 img[alt*=installation] {

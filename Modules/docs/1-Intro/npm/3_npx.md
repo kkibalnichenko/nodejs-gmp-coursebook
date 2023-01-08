@@ -1,5 +1,5 @@
 ---
-title: Node package eXecute
+title: What is NPX
 ---
 
 # What is NPX
