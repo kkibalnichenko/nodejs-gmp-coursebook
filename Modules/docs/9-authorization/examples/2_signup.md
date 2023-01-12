@@ -3,28 +3,37 @@ sidebar_position: 1
 ---
 
 # Signup
-To implement registration flow we need to define user model first. Let's update our `model/user.js` file:
+To implement registration flow we need to define user model first. Let's update our `model/user.ts` file:
 
-```js
-const mongoose = require("mongoose");
+```ts
+import { Schema, model } from "mongoose";
 
-const userSchema = new mongoose.Schema({
-  first_name: { type: String, default: null },
-  last_name: { type: String, default: null },
-  email: { type: String, unique: true },
-  password: { type: String },
-  role: {type: String}
+interface IUser {
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string,
+    role: string
+}
+
+export const UserSchema = new Schema<IUser>({
+    first_name: { type: String, default: null },
+    last_name: { type: String, default: null },
+    email: { type: String, unique: true },
+    password: { type: String },
+    role: {type: String}
 });
 
-module.exports = mongoose.model("user", userSchema);
+const User = model("user", UserSchema);
+export default User;
 ```
 
-Now we add route for our registration flow in `server.js`:
-```js
-const User = require("./model/user");
-const bcrypt = require("bcryptjs");
+Now we add route for our registration flow in `server.ts`:
+```ts
+import User from "./model/user";
+import bcrypt from "bcryptjs";
 
-const bootstrap = async () => {
+export async function bootstrap(): Promise<Express> {
     ...
     app.post("/register", async (req, res) => {
         try {
@@ -65,7 +74,7 @@ const bootstrap = async () => {
 
 Now let's discuss our code snippet. In code above we validate user input first. After that we encrypt user password to make it secure from hackers:
 
-```js
+```ts
 const encryptedPassword = await bcrypt.hash(password, 10);
 ```
 

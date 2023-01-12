@@ -5,9 +5,10 @@ sidebar_position: 2
 # SignIn flow
 After we implemented user registration flow it would be nice to implement user login. Let's updated our server.js file with the following code:
 
-```js
-const jwt = require("jsonwebtoken");
-const bootstrap = async () => {
+```ts
+import * as jwt from "jsonwebtoken";
+
+export async function bootstrap(): Promise<Express> {
     ...
     app.post("/login", async (req, res) => {
         try {
@@ -25,7 +26,7 @@ const bootstrap = async () => {
                 // Create token
                 const token = jwt.sign(
                     { user_id: user._id, email, role: user.role },
-                    process.env.TOKEN_KEY,
+                    process.env.TOKEN_KEY!,
                     {
                         expiresIn: "2h",
                     }

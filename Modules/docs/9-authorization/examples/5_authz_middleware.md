@@ -5,90 +5,103 @@ sidebar_position: 5
 # Authorization middleware
 We have protected our api from unauthorized access. But how about situations when user with reader role trying to get access to author api or one author trying to get access to other author data. 
 
-Let's create some rest api routers and then dive into this topic. But before adding some routers we will define new schema in `model/book.js`:
+Let's create some rest api routers and then dive into this topic. But before adding some routers we will define new schema in `model/book.ts`:
 
-```js
-const mongoose = require("mongoose");
+```ts
+import { Schema, model } from "mongoose";
 
-const bookSchema = new mongoose.Schema({
+interface IBook {
+    title: string,
+    text: string,
+    author_id: string,
+}
+
+const BookSchema = new Schema<IBook>({
     title: { type: String, default: null },
     text: { type: String, default: null },
     author_id: { type: String, default: null }
 });
 
-module.exports = mongoose.model("book", bookSchema);
+const Book = model("book", BookSchema);
+export default Book;
 ```
 
-Now we can work with books. We will extend `server.js` with new routes. This following code should be added after `verifyToken` middleware:
-```js
-app.get('/api/books', async (req, res) => {
-    const books = await Book.find({});
+Now we can work with books. We will extend `serve.ts` with new routes. This following code should be added after `verifyToken` middleware:
+```ts
+import Book from "./model/book";
 
-    return res.status(200).json(books);
-});
+export async function bootstrap(): Promise<Express> {
+    ...
+    app.get('/api/books', async (req, res) => {
+        const books = await Book.find({});
 
-app.post('/api/books', async (req, res) => {
-    try {
-        // Get user input
-        const { title, text } = req.body;
-        const author = req.user;
+        return res.status(200).json(books);
+    });
 
-        // Validate user input
-        if (!(title && text)) {
-            return res.status(400).send("All input is required");
+    app.post('/api/books', async (req, res) => {
+        try {
+            // Get user input
+            const { title, text } = req.body;
+            const author = req.user;
+
+            // Validate user input
+            if (!(title && text)) {
+                return res.status(400).send("All input is required");
+            }
+
+            // Validate if user already exist in our database
+            const oldBook = await Book.findOne({ title });
+
+            if (oldBook) {
+                return res.status(409).send("Book Already Exist.");
+            }
+
+            const book = await Book.create({
+                title,
+                text,
+                author_id: author.user_id
+            });
+
+            res.status(201).json({
+                book_id: book._id
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
         }
+    });
 
-        // Validate if user already exist in our database
-        const oldBook = await Book.findOne({ title });
+    app.delete('/api/books/:bookId', async (req, res) => {
+        try {
+            // Get user input
+            const { bookId } = req.params;
 
-        if (oldBook) {
-            return res.status(409).send("Book Already Exist.");
+            // Validate if user already exist in our database
+            const oldBook = await Book.findById(bookId);
+
+            if (!oldBook) {
+                return res.status(404).send("Book not found");
+            }
+
+            await Book.deleteOne({
+                _id: bookId
+            });
+
+            res.status(204).send("Book deleted successfully");
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
         }
-
-        const book = await Book.create({
-            title,
-            text,
-            author_id: author.user_id
-        });
-
-        res.status(201).json({
-            book_id: book._id
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-    }
-});
-
-app.delete('/api/books/:bookId', async (req, res) => {
-    try {
-        // Get user input
-        const { bookId } = req.params;
-
-        // Validate if user already exist in our database
-        const oldBook = await Book.findById(bookId);
-
-        if (!oldBook) {
-            return res.status(404).send("Book not found");
-        }
-
-        await Book.deleteOne({
-            _id: bookId
-        });
-
-        res.status(204).send("Book deleted successfully");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Internal Server Error");
-    }
-});
+    });
+    ...
+}
 ```
 
 In code above we have added to list books, create and delete book. As you can see, those routers available for any authorized user and for list books router it's ok, but we should  not allow readers create new books as well as delete book by user who is not the author of this book. Let's fix it.
-First at all we will create middle to check if the current user author.  Create `middleware/isAuthor.js`:
+First at all we will create middle to check if the current user author.  Create `middleware/isAuthor.ts`:
 
-```js
-const isAuthor = (req, res, next) => {
+```ts
+export function isAuthor(req, res, next){
     const currentUser = req.user;
 
     if (currentUser.role !== 'author') {
@@ -96,16 +109,14 @@ const isAuthor = (req, res, next) => {
     }
     next();
 }
-
-module.exports = isAuthor;
 ```
 
 After our middleware create, we need to guard our routes:
 
-```js
-const isAuthor = require("./middleware/isAuthor");
+```ts
+import { isAuthor } from "./middleware/isAuthor";
 
-const bootstrap = async () => {
+export async function bootstrap(): Promise<Express> {
     app.post('/api/books', isAuthor, async (req, res) => {
         ...
     });
@@ -117,12 +128,12 @@ const bootstrap = async () => {
 ```
 
 As you can see we fixed first problem and now only authors can create or delete books. The code above is example of RBAC (role base access control) authorization strategy.
-Now let's fix another issue when one author can delete book of another. We need to create another middleware `middleware/isBookAuthor`:
+Now let's fix another issue when one author can delete book of another. We need to create another middleware `middleware/isBookAuthor.ts`:
 
-```js
-const Book = require("../model/book");
+```ts
+import Book from"../model/book";
 
-const isBookAuthor = async (req, res, next) => {
+export async function isBookAuthor(req, res, next) {
     try {
         // Get user input
         const { bookId } = req.params;
@@ -144,14 +155,12 @@ const isBookAuthor = async (req, res, next) => {
         console.error(err);
         res.status(500).send("Internal Server Error");
     }
-};
-
-module.exports = isBookAuthor;
+}
 ```
 
 After we created middleware we now can update our delete route to guard it:
-```js
-const isBookAuthor = require("./middleware/isBookAuthor");
+```ts
+import { isBookAuthor } from "./middleware/isBookAuthor";
 
 const bootstrap = async () => {
     ...

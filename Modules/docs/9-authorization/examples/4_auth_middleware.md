@@ -5,10 +5,10 @@ sidebar_position: 4
 # Auth middleware
 We have implemented authentication flow. Now we need to identify if user logged in before allow to use server rest api. To identify if user logged in and if user session wasn't expired we will implement `middleware`
 
-```js
-const jwt = require("jsonwebtoken");
+```ts
+import * as jwt from "jsonwebtoken";
 
-const verifyToken = (req, res, next) => {
+export async function verifyToken (req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -22,23 +22,21 @@ const verifyToken = (req, res, next) => {
     }
 
     try {
-        const user = jwt.verify(token, process.env.TOKEN_KEY);
+        const user = jwt.verify(token, process.env.TOKEN_KEY!);
 
         req.user = user;
     } catch (err) {
         return res.status(401).send("Invalid Token");
     }
     return next();
-};
-
-module.exports = verifyToken;
+}
 ```
 
 Now we can extend our server to protect rest api from unauthorized access:
 ```js
 const verifyToken = require("./middleware/auth");
 
-const bootstrap = async () => {
+export async function bootstrap(): Promise<Express> {
     ...
     // registration here
     // login here here
