@@ -207,7 +207,7 @@ There are 4 different types of the JOINs in SQL:
 - `RIGHT JOIN`: Returns all records from the right table, and the matched records from the left table
 - `FULL JOIN`: Returns all records when there is a match in either left or right table
 
-![joins](/img/rdb/joins_schema.PNG)
+![joins](/img/rdb/joins_schema.png)
 
 Let's figure out differences using some example. We have 2 tables with employees data and hardware data, which are 1:m related.
 
