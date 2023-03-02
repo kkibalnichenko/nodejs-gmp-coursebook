@@ -8,6 +8,8 @@ Open Authorization or [OAuth 2.0](https://auth0.com/intro-to-iam/what-is-oauth-2
 
 This protocol prevents the user from the entering his password out of the service provider: the whole process is curtailed to clicking the «I agree to provide access to ...» button. The main approach is to have one secure account, the user can use it for identity verification on other services, without disclosing his password. OAuth also can be used for authorization as well (it allows to provide the rights for the actions that the service client will use for access verification).
 
+There are multiple trusted services such as Google, Amazon, etc. that provide OAuth. From Architecture point of view it allow us to design system using trusted service for authorization that relieves us of security responsibilities.
+
 ## Access token
 An Access Token is a piece of data that represents the authorization to access resources on behalf of the end-user. OAuth 2.0 doesn’t define a specific format for Access Tokens. However, in some contexts, the JSON Web Token (JWT) format is often used.
 
