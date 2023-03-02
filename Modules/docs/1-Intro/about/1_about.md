@@ -22,7 +22,7 @@ Remember that NodeJS is not a framework, and it's not a programming language - i
 The core takeaway it's that by using Node.js, we can run JavaScript outside of the browser.
 
 ## Node.js specifics
-Node.js runs the [V8 JavaScript engine](/docs/Intro/about/engine) (written in C++), the core of Google Chrome, outside of the browser.
+Node.js runs the [V8 JavaScript engine](3_engine.md) (written in C++), the core of Google Chrome, outside of the browser.
 Another part of the definition on the official Node.js website says, Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
 
 ### Single-threaded
