@@ -10,12 +10,6 @@ import TabItem from '@theme/TabItem';
 ### 1. Introduction
 Add `Introduction` section to your module and describe briefly what this module will be about. Add links to every module page.
 
-_Example_:
-
-There are different ways to tackle those issues, to make untestable code testable again. Following points will be discussed:
-- [Testing Pyramid](/docs/testable_code_untestable_code/unit_testing)
-- [How to write unit tests](/docs/testable_code_untestable_code/unit_testing)
-
 ### 2. Headings
 Start every page with `# 1. Heading`. Use sub-heading: `## 1.1 Sub-heading`, `### Sub-sub-heading`. Also use **bold** / __bold__ and *cursive* / _cursive_ to highlight something.
 
