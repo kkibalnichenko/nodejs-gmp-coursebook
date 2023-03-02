@@ -34,7 +34,7 @@ export async function verifyToken (req, res, next) {
 
 Now we can extend our server to protect rest api from unauthorized access:
 ```js
-const verifyToken = require("./middleware/auth");
+import { verifyToken } from "./middleware/auth";
 
 export async function bootstrap(): Promise<Express> {
     ...
