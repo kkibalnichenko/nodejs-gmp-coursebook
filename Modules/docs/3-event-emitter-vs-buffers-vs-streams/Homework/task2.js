@@ -1,43 +1,34 @@
-import fs from 'fs';
-import { promisify } from "util";
-import { pipeline } from 'stream/promises';
-import CSVToJSON from "csvtojson";
+// "homework": "node --experimental-modules --es-module-specifier-resolution=node task2.js"
+import * as fs from "fs";
+import { pipeline } from "stream";
+import csv from "csvtojson";
 
-const pipelineAsync = promisify(pipeline);
-const CSV_FILENAME = '../bin/csv.csv';
-const TXT_FILENAME = '../bin/write.txt';
+const process = async () => {
+    try {
+        const readStream = fs.createReadStream("./bin/csv.csv");
+        const writeStream = fs.createWriteStream("./bin/txt.txt");
 
-const readable = fs.createReadStream(CSV_FILENAME)
-const writable = fs.createWriteStream(TXT_FILENAME);
-
-const transform = CSVToJSON({ delimiter: ";" }).fromStream(readable)
-    .then(csv => {
-        return csv
-            .map(obj => {
-                const myObjLower = lowercaseKeys(obj)
-                return JSON.stringify(myObjLower)
-            })
-            .join('\n');
-    });
-
-const lowercaseKeys = obj =>
-    Object.keys(obj).reduce((acc, key) => {
-        acc[key.toLowerCase()] = obj[key];
-        return acc;
-    }, {});
-
-
-(async function run() {
-    try{
-        await pipelineAsync(
-            readable,
-            transform,
-            writable
+        pipeline(
+            readStream,
+            csv({
+                trim: true,
+                delimiter: ";",
+                headers: ["book", "author", "amount", "price"],
+            }).subscribe((row) => {
+                // Remove/transform needed rows.
+                row.price = parseFloat(row.price.replace(",", "."));
+                delete row.amount;
+            }),
+            writeStream,
+            (error) => {
+                if (error) {
+                    console.error(`Error occurred in pipeline - ${error}`);
+                    resolve({ errorMessage: error.message });
+                }
+            }
         );
-        console.log("Pipeline accomplished.");
+    } catch (error) {
+        console.error(error);
     }
-
-    catch(err) {
-        console.error('Pipeline failed with error: ', err);
-    }
-})();
+};
+process();

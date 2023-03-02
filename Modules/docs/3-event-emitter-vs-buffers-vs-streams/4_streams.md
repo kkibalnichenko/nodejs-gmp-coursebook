@@ -402,7 +402,7 @@ const server = createServer(
 
 server.listen(3000);
 ```
-
+You can read more information about [Pipeline Pattern](https://www.informit.com/articles/article.aspx?p=366887&seqNum=8).
 
 
 ## Streams-powered Node APIs
