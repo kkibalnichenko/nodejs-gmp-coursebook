@@ -60,7 +60,7 @@ docker run -d -p 27017:27017 --name books-api-mongo mongo:latest
 ```
 Now we can configure our db connector to communicate with mongo server that we've already started. For this we will modify `config/database.ts` file:
 
-```ts
+```typescript
 import mongoose from 'mongoose';
 
 export async function connect(): Promise<void> {
@@ -83,7 +83,7 @@ export async function connect(): Promise<void> {
 ```
 
 Now let's configure our `server.ts` file:
-```ts
+```typescript
 import dotenv from "dotenv";
 import * as database from "./config/database";
 import express, { Express } from "express";
@@ -103,11 +103,12 @@ export async function bootstrap(): Promise<Express> {
 ```
 
 In our `index.ts` let's add logic to start server:
-```ts
+```typescript
 import http from "http";
 import { bootstrap } from "./server";
+import { Express } from "express";
 
-bootstrap().then(app => {
+bootstrap().then((app: Express) => {
     const server = http.createServer(app);
 
     const { API_PORT } = process.env;

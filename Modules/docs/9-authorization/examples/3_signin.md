@@ -5,12 +5,12 @@ sidebar_position: 2
 # SignIn flow
 After we implemented user registration flow it would be nice to implement user login. Let's updated our server.js file with the following code:
 
-```ts
+```typescript
 import * as jwt from "jsonwebtoken";
 
 export async function bootstrap(): Promise<Express> {
     ...
-    app.post("/login", async (req, res) => {
+    app.post("/login", async (req: Request, res: Response) => {
         try {
             // Get user input
             const { email, password } = req.body;

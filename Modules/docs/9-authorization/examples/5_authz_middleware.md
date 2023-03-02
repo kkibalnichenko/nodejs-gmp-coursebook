@@ -7,7 +7,7 @@ We have protected our api from unauthorized access. But how about situations whe
 
 Let's create some rest api routers and then dive into this topic. But before adding some routers we will define new schema in `model/book.ts`:
 
-```ts
+```typescript
 import { Schema, model } from "mongoose";
 
 interface IBook {
@@ -27,18 +27,18 @@ export default Book;
 ```
 
 Now we can work with books. We will extend `serve.ts` with new routes. This following code should be added after `verifyToken` middleware:
-```ts
+```typescript
 import Book from "./model/book";
 
 export async function bootstrap(): Promise<Express> {
     ...
-    app.get('/api/books', async (req, res) => {
+    app.get('/api/books', async (req: Request, res: Response) => {
         const books = await Book.find({});
 
         return res.status(200).json(books);
     });
 
-    app.post('/api/books', async (req, res) => {
+    app.post('/api/books', async (req: Request, res: Response) => {
         try {
             // Get user input
             const { title, text } = req.body;
@@ -71,7 +71,7 @@ export async function bootstrap(): Promise<Express> {
         }
     });
 
-    app.delete('/api/books/:bookId', async (req, res) => {
+    app.delete('/api/books/:bookId', async (req: Request, res: Response) => {
         try {
             // Get user input
             const { bookId } = req.params;
@@ -100,8 +100,10 @@ export async function bootstrap(): Promise<Express> {
 In code above we have added to list books, create and delete book. As you can see, those routers available for any authorized user and for list books router it's ok, but we should  not allow readers create new books as well as delete book by user who is not the author of this book. Let's fix it.
 First at all we will create middle to check if the current user author.  Create `middleware/isAuthor.ts`:
 
-```ts
-export function isAuthor(req, res, next){
+```typescript
+import { Request, Response, NextFunction } from "express";
+
+export function isAuthor(req: Request, res: Response, next:NextFunction) {
     const currentUser = req.user;
 
     if (currentUser.role !== 'author') {
@@ -113,15 +115,15 @@ export function isAuthor(req, res, next){
 
 After our middleware create, we need to guard our routes:
 
-```ts
+```typescript
 import { isAuthor } from "./middleware/isAuthor";
 
 export async function bootstrap(): Promise<Express> {
-    app.post('/api/books', isAuthor, async (req, res) => {
+    app.post('/api/books', isAuthor, async (req: Request, res: Response) => {
         ...
     });
 
-    app.delete('/api/books/:bookId', isAuthor, async (req, res) => {
+    app.delete('/api/books/:bookId', isAuthor, async (req: Request, res: Response) => {
         ...
     });
 }
@@ -130,10 +132,12 @@ export async function bootstrap(): Promise<Express> {
 As you can see we fixed first problem and now only authors can create or delete books. The code above is example of RBAC (role base access control) authorization strategy.
 Now let's fix another issue when one author can delete book of another. We need to create another middleware `middleware/isBookAuthor.ts`:
 
-```ts
-import Book from"../model/book";
+```typescript
+import { Request, Response, NextFunction } from "express";
 
-export async function isBookAuthor(req, res, next) {
+import Book from "../model/book";
+
+export async function isBookAuthor(req: Request, res: Response, next: NextFunction) {
     try {
         // Get user input
         const { bookId } = req.params;
@@ -159,12 +163,12 @@ export async function isBookAuthor(req, res, next) {
 ```
 
 After we created middleware we now can update our delete route to guard it:
-```ts
+```typescript
 import { isBookAuthor } from "./middleware/isBookAuthor";
 
 const bootstrap = async () => {
     ...
-    app.delete('/api/books/:bookId', isAuthor, isBookAuthor, async (req, res) => {
+    app.delete('/api/books/:bookId', isAuthor, isBookAuthor, async (req: Request, res: Response) => {
         try {
             const { bookId } = req.params;
 

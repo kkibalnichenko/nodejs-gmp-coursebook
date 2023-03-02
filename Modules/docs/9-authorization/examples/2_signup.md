@@ -5,7 +5,7 @@ sidebar_position: 1
 # Signup
 To implement registration flow we need to define user model first. Let's update our `model/user.ts` file:
 
-```ts
+```typescript
 import { Schema, model } from "mongoose";
 
 interface IUser {
@@ -29,13 +29,15 @@ export default User;
 ```
 
 Now we add route for our registration flow in `server.ts`:
-```ts
+```typescript
+import express, { Express, Request, Response } from "express";
+
 import User from "./model/user";
 import bcrypt from "bcryptjs";
 
 export async function bootstrap(): Promise<Express> {
     ...
-    app.post("/register", async (req, res) => {
+    app.post("/register", async (req: Request, res: Response) => {
         try {
             // Get user input
             const { first_name, last_name, isAuthor, email, password } = req.body;
@@ -74,7 +76,7 @@ export async function bootstrap(): Promise<Express> {
 
 Now let's discuss our code snippet. In code above we validate user input first. After that we encrypt user password to make it secure from hackers:
 
-```ts
+```typescript
 const encryptedPassword = await bcrypt.hash(password, 10);
 ```
 
