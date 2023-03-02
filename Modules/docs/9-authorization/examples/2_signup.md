@@ -78,4 +78,6 @@ Now let's discuss our code snippet. In code above we validate user input first. 
 const encryptedPassword = await bcrypt.hash(password, 10);
 ```
 
+In this example we've use encryption method also known as one-way encryption. With this type of encryption, there is no known way to decrypt an encrypted string. This approach is extremely secure, as it is almost impossible to determine the hash value unless the hacker knows which hash algorithm was used.
+
 Then we create new user with role based on user input and return result.
