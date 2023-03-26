@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "target": "ESNEXT",
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "resolveJsonModule": true,
+        "lib": ["ESNext"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "typeRoots": [
+            "@types",
+            "./node_modules/@types"
+        ]
+    },
+    "exclude": ["node_modules", "dist"],
+}
