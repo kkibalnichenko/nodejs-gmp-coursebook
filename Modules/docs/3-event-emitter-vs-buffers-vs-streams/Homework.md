@@ -2,6 +2,8 @@
 sidebar_position: 5
 ---
 
+# Practical task
+
 ### Task 1
 
 * Write your own `EventEmitter` class. It must consist - `on / addEventListener` method, `off / removeEventListener` method, `once` method, `emit` method, `rawListeners` method, `listenerCount` method. This basic features are sufficient to implement a full system using the eventing model.

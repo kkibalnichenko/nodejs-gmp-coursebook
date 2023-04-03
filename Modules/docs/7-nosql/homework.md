@@ -1,12 +1,12 @@
 ---
 sidebar_position: 12
 title: NoSQL. Homework
-sidebar_label: Homework
+sidebar_label: Practical task
 custom_edit_url: null
 pagination_label: Databases. NoSQL - Homework
 ---
 
-# Task
+# Practical task
 
 In this task you will be needed to modify your previous application, move data storage from RDB to NoSQL Database.
 

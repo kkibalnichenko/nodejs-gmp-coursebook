@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Task
+# Practical task
 
 In this task you will be needed to create an Express application and follow Three Layered architecture.
 

@@ -2,45 +2,26 @@
 sidebar_position: 0
 ---
 
-# NodeJS Intro
+# Node.js
 
+Welcome to Node.js Global Mentoring Program 🚀
 
-## Getting Started
+[Node.js](https://nodejs.org/en) is an open-source, cross-platform, back-end JavaScript runtime environment that allows to build fast and scalable server-side applications.
 
-Get started by **creating a new site**.
+**The program aims** to build the knowledge of Node.js ecosystem and helps to become proficient in using Node.js and its related components.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+**Agenda:**
+1. Introduction to Node.js
+2. Node.js standard library
+3. EventEmitter & Buffer & Streams
+4. Network
+5. Testing
+6. Express & Layered Architecture
+7. Databases. NoSQL
+8. Databases. RDBMS
+9. Authorization & Authentication
+10. Deploy and Tools
+ 
+**By the end of the program you** will have a deep understanding of Node.js and hands-on experience working with it. It can be a strong foundation to continue learning and exploring the great world of Node.js further.
 
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Happy learning! 🎉

@@ -122,16 +122,9 @@ const config = {
         logo: {
           alt: 'Node.js Logo',
           src: 'img/logo.svg',
-          href: 'docs/Intro/introduction',
+          href: 'docs/Intro',
         },
-        items: [
-          {
-            type: 'doc',
-            docId: 'Intro/introduction',
-            position: 'left',
-            label: 'Tutorial',
-          },
-        ],
+        items: [],
       },
       footer: {
         style: 'dark',
