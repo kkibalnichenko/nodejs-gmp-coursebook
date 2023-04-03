@@ -18,3 +18,9 @@ Acceptance criteria:
 - Order entity has **copy of products**.
 - TypeScript is used
 - Layered architecture is used
+
+### Evaluation criteria
+
+- 3 - Data is moved to NoSQL database. No migrations and Docker.
+- 4 - Data is moved to NoSQL database, migrations are added. Docker is not used.
+- 5 - Implementation meets Acceptance criteria mentioned above.
