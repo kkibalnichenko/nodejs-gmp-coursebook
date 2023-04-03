@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 
-# Node.js
+# Node.js Mentoring Program
 
 Welcome to Node.js Global Mentoring Program 🚀
 

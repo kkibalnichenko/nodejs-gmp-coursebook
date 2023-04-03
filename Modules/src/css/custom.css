@@ -30,7 +30,7 @@
 }
 
 html[data-theme='dark'] .navbar .navbar__logo {
-  content: url(/static/img/logo.svg)
+  content: url(/static/img/nodejs.svg)
 }
 html[data-theme='light'] img[src*="nodejs-intro"] {
   filter: hue-rotate(25deg);
