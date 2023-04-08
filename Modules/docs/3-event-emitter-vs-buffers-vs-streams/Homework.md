@@ -2,9 +2,11 @@
 sidebar_position: 5
 ---
 
+# Practical task
+
 ### Task 1
 
-* Write your own `EventEmitter` class. It must consist - `on / addEventListener` method, `off / removeEventListener` method, `once` method, `emit` method, `rawListeners` method, `listenerCount` method. This basic features are sufficient to implement a full system using the eventing model.
+Write your own `EventEmitter` class. It must contain `on / addEventListener` method, `off / removeEventListener` method, `once` method, `emit` method, `rawListeners` method, `listenerCount` method. This basic features are sufficient to implement a full system using the eventing model.
 
 
  ```js
@@ -84,7 +86,9 @@ console.log(myEmitter.listenerCount('eventOne'));
 
 The program can be started via npm script using nodemon(i.e. npm run task1).
 
-* Write a class WithTime which should extend your own class EventEmitter. WithTime must execute some Async function, arguments, and compute the time taken by this function. You must emit event start and end of execute with some console.log. And emit event with console.log of data. This data you will get from Async function which must fetch transform the data into json from url - https://jsonplaceholder.typicode.com/posts/1 .
+### Task 2
+
+Write a class WithTime which should extend your own class EventEmitter. WithTime must execute some Async function, arguments, and compute the time taken by this function. You must emit event start and end of execute with some console.log. And emit event with console.log of data. This data you will get from Async function which must fetch transform the data into json from url - https://jsonplaceholder.typicode.com/posts/1 .
 
 
  ```js
@@ -100,10 +104,15 @@ withTime.on('end', () => console.log('Done with execute'));
 console.log(withTime.rawListeners("end"));
 ```
 
-### Task 2
+### Task 3
 
 Write a program which should do the following: Read the content of csvfile from./csvdirectory. [Example](https://epa.ms/nodejs19-hw1-ex1) . Use the [csvtojson package](https://github.com/Keyang/node-csvtojson) to convert csvfile to jsonobject.
 Write the csvfile content to a new txtfile. Use the following [format](https://epa.ms/nodejs19-hw1-ex2). Do not load all the content of the csvfile into RAM via stream (read/write file content line by line). In case of read/write errors, log them in the console. The program should be started via npm script using nodemon(i.e. npm run task2).
 
+### Evaluation criteria
 
-
+- 1 - Task 1 is done.
+- 2 - Task 1 and 2 are partially done.
+- 3 - Task 1 and 2 are done.
+- 4 - Task 1 and 2 are done. Task 3 is partially done.
+- 5 - All tasks are completed.

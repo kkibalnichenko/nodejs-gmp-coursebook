@@ -1,12 +1,12 @@
 ---
 sidebar_position: 12
 title: NoSQL. Homework
-sidebar_label: Homework
+sidebar_label: Practical task
 custom_edit_url: null
 pagination_label: Databases. NoSQL - Homework
 ---
 
-# Task
+# Practical task
 
 In this task you will be needed to modify your previous application, move data storage from RDB to NoSQL Database.
 
@@ -18,3 +18,9 @@ Acceptance criteria:
 - Order entity has **copy of products**.
 - TypeScript is used
 - Layered architecture is used
+
+### Evaluation criteria
+
+- 3 - Data is moved to NoSQL database. No migrations and Docker.
+- 4 - Data is moved to NoSQL database, migrations are added. Docker is not used.
+- 5 - Implementation meets Acceptance criteria mentioned above.

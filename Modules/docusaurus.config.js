@@ -14,7 +14,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/nodejs.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -121,17 +121,10 @@ const config = {
         title: 'Node.js',
         logo: {
           alt: 'Node.js Logo',
-          src: 'img/logo.svg',
-          href: 'docs/Intro/introduction',
+          src: 'img/nodejs.svg',
+          href: 'docs/Intro',
         },
-        items: [
-          {
-            type: 'doc',
-            docId: 'Intro/introduction',
-            position: 'left',
-            label: 'Tutorial',
-          },
-        ],
+        items: [],
       },
       footer: {
         style: 'dark',
