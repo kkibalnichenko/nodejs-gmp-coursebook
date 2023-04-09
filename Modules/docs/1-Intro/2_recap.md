@@ -1,6 +1,6 @@
 ---
 title: Module recap
-sidebar_position: 99
+sidebar_position: 7
 ---
 
 # Module recap
