@@ -1,10 +1,14 @@
-# Node.js - Introduction 
+---
+title: Practical task
+sidebar_position: 8
+
+---
+
+# Practical task
 
 In this introduction part of the home task, you need to become familiar with Node.js, install NPM, and be able to manage multiple versions of Node.js. An introduction task for Node.js would involve participants' practics with NPM (Node Package Manager) and NVM (Node Version Manager), installing Node.js on their computers.
 This typically involves downloading the Node.js installer from the official website and running it to complete the installation. Once Node.js is installed, the participants can verify the installation by running the command "node -v" in their terminal, which should return the version of Node.js that they have installed.
 After that, the participants could use Node.js and NPM to create and run their own applications, manage dependencies, and switch between different versions of Node.js using NVM.
-
-## Practice
 
 ### Prerequisites
 
