@@ -356,8 +356,8 @@ By default, event listeners are invoked in the order they are added. The `prepen
 import { EventEmitter } from "events";
 const eventEmitter = new EventEmitter();
 
-eventEmitter.on("myEvent", () => console.log("- ON"));
-eventEmitter.prependListener("myEvent", () => console.log("- PREPENDLISTENER"));
+eventEmitter.on("myEvent", (arg) => console.log(arg, "- ON"));
+eventEmitter.prependListener("myEvent", (arg) => console.log(arg, "- PREPENDLISTENER"));
 
 eventEmitter.emit("myEvent", "Emitted Statement");
 console.log(eventEmitter.eventNames());
@@ -366,8 +366,9 @@ console.log(eventEmitter.eventNames());
 Running the following code will give the output:
 
 ```
-Emitted Statement - ON
 Emitted Statement - PREPENDLISTENER
+Emitted Statement - ON
+[ 'myEvent' ]
 ```
 
 ### eventNames()
