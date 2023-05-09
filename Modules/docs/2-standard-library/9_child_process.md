@@ -57,8 +57,8 @@ The method `exec()` accepts the following arguments:
 - `options` (optional)
 - `callback` (optional), which is called with the output when the process terminates.
   - `error` - error in JavaScript
-  - `stdout` - the standard error stream, which is used for error messages and diagnostics issued by the program
-  - `stderr` - the standard output stream, which is a source of output from the program
+  - `stdout` - the standard output stream, which is a source of output from the program
+  - `stderr` - the standard error stream, which is used for error messages and diagnostics issued by the program
 
 ## execFile()
 
