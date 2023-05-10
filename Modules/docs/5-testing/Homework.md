@@ -14,13 +14,17 @@ After some time of investigation, you found [Nager.Date API](https://date.nager.
 
 Once you’ve finished writing code, you have to cover your module with tests. 
 
+### Source code
+
+You can find the implementation [here](https://gitbud.epam.com/diana_baburina/ngmp-public/-/tree/main/testing).
+
 ### Task 1
 
-Write unit tests for `public-holidays.service.ts` and `helpers.ts` files. Keep in mind that any external calls are mocked in unit tests.
+Write unit tests for [public-holidays.service.ts](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/testing/src/services/public-holidays.service.ts) and [helpers.ts](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/testing/src/helpers.ts) files. Keep in mind that any external calls are mocked in unit tests.
 
 ### Task 2
 
-Write integration tests for `public-holidays.service.ts`. Do not forget that in this case you make real calls to the API.
+Write integration tests for [public-holidays.service.ts](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/testing/src/services/public-holidays.service.ts). Do not forget that in this case you make real calls to the API.
 
 ### Task 3
 
