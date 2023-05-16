@@ -3,7 +3,8 @@ sidebar_position: 1
 ---
 # Module overview
 
-![Intro Node](img/node.png#nodejs-intro)
+![Intro Node](img/node-dark.png#nodejs-intro#dark-mode-only)
+![Intro Node](img/node.png#nodejs-intro#light-mode-only)
 
 ## Description
 

@@ -74,6 +74,7 @@ Many of those have been established over time as popular options. Here is a non-
 - [NestJS](https://nestjs.com/): A TypeScript based progressive Node.js framework for building enterprise-grade efficient, reliable and scalable server-side applications.
 - [hapi](https://hapi.dev/): A rich framework for building applications and services that enables developers to focus on writing reusable application logic instead of spending time building infrastructure.
 - [koa](https://koajs.com/): It is built by the same team behind Express, aims to be even simpler and smaller, building on top of years of knowledge. The new project born out of the need to create incompatible changes without disrupting the existing community.
+- [Fastify](https://www.fastify.io/): It a fast and low overhead web framework. It have a wide range of powerful plugins and a strong community behind providing really good developer experience.
 - [AdonisJS](https://adonisjs.com/): A TypeScript-based fully featured framework highly focused on developer ergonomics, stability, and confidence. Adonis is one of the fastest Node.js web frameworks.
 - [Egg.js](https://www.eggjs.org/): A framework to build better enterprise frameworks and apps with Node.js & Koa.
 - [Loopback.io](https://loopback.io/): Makes it easy to build modern applications that require complex integrations.
