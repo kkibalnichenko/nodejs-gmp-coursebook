@@ -51,7 +51,7 @@ node app.js
 # Server running 🚀 at http://localhost:4000/
 ```
 
-If you have followed the same steps on your computer, you will see the same result as the example: [http://localhost:8080](http://localhost:8080)
+If you have followed the same steps on your computer, you will see the same result as the example: [http://localhost:4000](http://localhost:4000)
 
 ![First Server Result](img/http_server_browser.png)
 
@@ -106,7 +106,7 @@ server.listen(port, () => {
 });
 ```
 
-Save the code above in a file called "app.js", run it and go to [http://localhost:8080/?year=2017&month=July](http://localhost:8080/?year=2017&month=July)
+Save the code above in a file called "app.js", run it and go to [http://localhost:4000/?year=2017&month=July](http://localhost:4000/?year=2017&month=July)
 
 
 ![Server result with query](img/http_server_browser3.png)
