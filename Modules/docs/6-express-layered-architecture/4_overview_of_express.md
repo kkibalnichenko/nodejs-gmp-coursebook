@@ -52,7 +52,7 @@ const app = express();
 const usersRouter = express.Router();
 const commentsRouter = express.Router();
 
-usersRouter.get('/users/:userId', () => {});
+usersRouter.get('/:userId', () => {});
 usersRouter.put('/:userId/groups', () => {});
 commentsRouter.post('/', () => {});
 commentsRouter.get('/', () => {});

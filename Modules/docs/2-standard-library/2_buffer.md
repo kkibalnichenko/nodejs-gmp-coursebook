@@ -203,7 +203,7 @@ console.log(copyBuffer.toString()); // 'hello!'
 ### Slicing and concatenating buffers
 `Buffer.slice()`I is generally the same as that of Array.prototype.slice, but with one very important difference: the slice is not a new buffer and merely references a subset of the memory space. Modifying the slice will also modify the original buffer! For example:
 
-`Buffer.contact()` works the same as in arrays.
+`Buffer.concat()` works the same as in arrays.
 
 ```js title="app.js"
 // Slicing a buffer

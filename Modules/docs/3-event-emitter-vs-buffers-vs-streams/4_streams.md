@@ -67,7 +67,7 @@ The `stream` module is useful for creating new types of stream instances. It is 
 
 ## Readable stream
 
-We first require the Readable stream, and we initialize it.We first require the Readable stream, and we initialize it.
+We first require the Readable stream, and we initialize it.
 
 ```js
 const Stream = require('stream')
