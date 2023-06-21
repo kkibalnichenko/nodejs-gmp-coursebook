@@ -58,6 +58,8 @@ stages:          # List of stages for jobs, and their order of execution
 #      --query "Id" > change-set-id.txt
 #    - aws cloudformation wait change-set-create-complete
 #      --change-set-name $(cat change-set-id.txt)
+#  only:
+#    - master
 #  artifacts:
 #    paths:
 #      - change-set-id.txt
@@ -72,6 +74,8 @@ stages:          # List of stages for jobs, and their order of execution
 #      --change-set-name $(cat change-set-id.txt)
 #      --region ${AWS_DEFAULT_REGION}
 #    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
+#  only:
+#    - master
 
 #infrastructure-update-job:
 #  stage: infrastructure-update
@@ -85,6 +89,8 @@ stages:          # List of stages for jobs, and their order of execution
 #      --parameters ParameterKey=BucketName,ParameterValue=${S3_BUCKET} ParameterKey=WebAcl,ParameterValue=${WEB_ACL_ARN}
 #      --region ${AWS_DEFAULT_REGION}
 #    - aws cloudformation wait stack-update-complete --stack-name ${CF_STACK_NAME}
+#  only:
+#    - master
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -94,6 +100,8 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm ci
     - npm run build
     - echo "Compile complete."
+  only:
+    - master
   artifacts:
     paths:
       - Modules/build/*
@@ -120,6 +128,8 @@ deploy-job:      # This job runs in the deploy stage.
     - aws s3 cp build s3://${S3_BUCKET} --recursive
 
     # Create CloudFront invalidation (which actually clears cache):
-    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
-
+    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths ${INVALIDATION_PATH:-"/*"} --output text --query "Invalidation.Id" > invalidation-id.txt
+    - aws cloudfront wait invalidation-completed --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --id $(cat invalidation-id.txt)
     - echo "Application successfully deployed."
+  only:
+    - master
