@@ -43,12 +43,21 @@ const users = [
 2. API is designed based on REST API principles. Constraints are not violated.
 3. The functionality mentioned above is implemented. Proper status codes are used for responses (not only 200, but also e.g 201, 404). Input validation and authentication can be skipped.
 
+**Note:** Try to think of modular structure for the task. Please do not have all the implementation in one file.
+
 **Additional (optional tasks):**
 1. Caching headers are added (hint: hobbies do not change so often).
 2. Hypermedia links (HATEOAS) are included (for each user to retrieve a list of hobbies).
 
 ### Evaluation criteria
 
-- 3 - All endpoints are implemented. Some Acceptance criteria are skipped.
-- 4 - Implementation meets Acceptance criteria mentioned above.
-- 5 - Implementation meets Acceptance criteria mentioned above. One or both additional tasks are implemented.
+#### 5-point scoring system
+- `3` - All endpoints are implemented. Some Acceptance criteria are skipped.
+- `4` - Implementation meets Acceptance criteria mentioned above.
+- `5` - Implementation meets Acceptance criteria mentioned above. One or both additional tasks are implemented.
+
+#### 100-point scoring system
+- `60 - 69` - Acceptance criteria 1-2 are **partially** implemented.
+- `70 - 79` - Acceptance criteria 1-2 are **partially** implemented without any issues.
+- `80 - 89` - Implementation meets Acceptance criteria mentioned above.
+- `90 - 100` - Implementation meets Acceptance criteria mentioned above. One or both additional tasks are implemented.

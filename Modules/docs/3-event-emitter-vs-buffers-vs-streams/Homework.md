@@ -111,8 +111,13 @@ Write the csvfile content to a new txtfile. Use the following [format](https://e
 
 ### Evaluation criteria
 
-- 1 - Task 1 is done.
-- 2 - Task 1 and 2 are partially done.
-- 3 - Task 1 and 2 are done.
-- 4 - Task 1 and 2 are done. Task 3 is partially done.
-- 5 - All tasks are completed.
+#### 5-point scoring system
+- `3` - Task 1 and 2 are done.
+- `4` - Task 1 and 2 are done. Task 3 is partially done.
+- `5` - All tasks are completed.
+
+#### 100-point scoring system
+- `60 - 69` - Task 1 is done.
+- `70 - 79` - Tasks 1 and 2 are done.
+- `80 - 89` - Tasks 1 and 2 are done. Task 3 is partially done.
+- `90 - 100` - All tasks are completed.

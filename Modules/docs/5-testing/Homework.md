@@ -36,10 +36,15 @@ Select any 2 endpoints from [Nager.Date API](https://date.nager.at/swagger/index
 
 ### Evaluation criteria
 
-- 1 - Only task 1 is done.
-- 2 - Task 1 and 2 are done.
-- 3 - Task 1, 2 and 3 are done.
-- 4 - All tasks are completed. Code coverage is less than 90%.
-- 5 - All tasks are completed. Code coverage is more than 90%.
+#### 5-point scoring system
+- `3` - Tasks 1, 2 and 3 are done.
+- `4` - All tasks are completed. Code coverage is less than 90%.
+- `5` - All tasks are completed. Code coverage is more than 90%.
+
+#### 100-point scoring system
+- `60 - 69` - Tasks 1 and/or 2 are done.
+- `70 - 79` - Tasks 1, 2 and 3 are done.
+- `80 - 89` - All tasks are completed. Code coverage is less than 90%.
+- `90 - 100` - All tasks are completed. Code coverage is more than 90%.
 
 
