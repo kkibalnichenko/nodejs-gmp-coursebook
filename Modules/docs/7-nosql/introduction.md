@@ -8,13 +8,10 @@ pagination_label: Databases. NoSQL - Introduction
 
 # Introduction
 
-Previous module was dedicated to SQL databases. Time to learn about NoSQL.
+The previous module was dedicated to SQL databases. Now it's time to learn about NoSQL.
 
-In this module you will:
-
-:::info
+**In this module you will:**
 - Get core concepts of NoSQL databases
 - Get common information about NoSQL database types
 - See NoSQL databases use cases
 - Get overview of Object Document Mapping
-:::
