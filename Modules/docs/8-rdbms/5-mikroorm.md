@@ -731,10 +731,10 @@ locator anti-pattern to simplify things, do not follow layered architecture prin
 
 At first lets add `MikroORM` and `dotenv` to our empty express app.
 ```bash
-yarn add @mikro-orm/core @mikro-orm/postgresq @mikro-orm/migrations dotenv
+yarn add @mikro-orm/core @mikro-orm/postgresql @mikro-orm/migrations @mikro-orm/cli dotenv
 ```
 
-Then we need to crete a config for ORM. Update package.json file with mikro-orm section and create `.env` file in root.
+Then we need to create a config for ORM. Update package.json file with mikro-orm section and create `.env` file in root.
 Config for `tsc` is shared too.
  
 <Tabs>
@@ -960,6 +960,8 @@ import { Migration } from '@mikro-orm/migrations';
 export class Migration20221219115433 extends Migration {
 
   async up(): Promise<void> {
+    this.addSql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+
     this.addSql('create table "office" ("uuid" uuid not null default uuid_generate_v4(), "address" varchar(255) not null, "city" varchar(255) not null, constraint "office_pkey" primary key ("uuid"));');
 
     this.addSql('create table "employee" ("uuid" uuid not null default uuid_generate_v4(), "name" varchar(255) not null, "join_date" timestamptz(0) not null, "office_uuid" uuid null, constraint "employee_pkey" primary key ("uuid"));');
