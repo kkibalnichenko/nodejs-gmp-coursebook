@@ -25,7 +25,7 @@ In this task you will need to modify the application you created in Express and 
 
 **Note:** TypeScript should be used.
 
-1. Data is stored in MongoDB database. [Docker image](https://hub.docker.com/_/mongo) is used for local development. 
+1. Data is stored in MongoDB database. [Docker image](https://hub.docker.com/_/mongo) is used for local development (check [Running MongoDB as a Docker Container](https://www.baeldung.com/linux/mongodb-as-docker-container#2-building-container-using-a-compose-file) for an example of docker-compose file). 
 2. [Mongoose](https://mongoosejs.com/) is used as ODM for querying.
 3. Data Access Layer is rewritten to query MongoDB.
 4. Models are created based on entity [schemas](https://gitbud.epam.com/diana_baburina/ngmp-public/-/tree/main/express-layered-architecture/schemas) used in Express and Layered Architecture module.

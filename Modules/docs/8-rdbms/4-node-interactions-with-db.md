@@ -1,11 +1,11 @@
 # Node.js and database interactions
 
 ## Local installation
-Before we start we need some local instance of PostgreSQL. The easiest way is to run a docker container with PostgreSQL image.
-If you don't have docker on your machine go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and
-install it for your OS.
+Before we start we need some local instance of PostgreSQL. The easiest way is to run a Docker container with PostgreSQL image.
 
-Next, create a file in your project named `docker-compose.yml` and place such content in it
+**Note:** At this point we will not dive deep into the way how Docker works. As it is mentioned above - that's the quickest and the easiest way to run a database. Just follow the instructions below. You will learn more about Docker in [Deployment and automation tools module](../10-deploy-and-tools/7_docker_and_tools.md).
+
+If you don't have Docker installed on your machine, go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and install it for your OS. Next, create a file in your project named `docker-compose.yml` and place the following content into it:
 
 ```yml
 version: '3'
@@ -22,12 +22,10 @@ services:
       - '5432:5432'
 ```
 
-After that open terminal in this folder and run `docker-compose up -d` command.
-You can connect to this instance using any DB client, i.e. DBeaver or pgAdmin.
+After that open terminal in this folder and run `docker-compose up -d` command. You can connect to this instance using any DB client, i.e. [DBeaver](https://dbeaver.io/) or [pgAdmin](https://www.pgadmin.org/).
 Host is `localhost`, DB name and user are `node_gmp`, password is `password123`.
 
 ![connection_example](/img/rdb/docker-connection.PNG)
-
 
 ## Node postgres module
 node-postgres is a collection of node.js modules for interfacing with PostgreSQL database. It has support for callbacks,
