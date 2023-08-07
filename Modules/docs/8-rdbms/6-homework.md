@@ -17,7 +17,7 @@ In this task you will need to modify the application you created in Express and 
 
 **Note:** TypeScript should be used.
 
-1. Data is stored in PostgreSQL database. [Docker image](https://hub.docker.com/_/postgres) is used for local development.
+1. Data is stored in PostgreSQL database. [Docker image](https://hub.docker.com/_/postgres) is used for local development (check [Node.js and database interactions section](./4-node-interactions-with-db.md) for an example of docker-compose file). 
 2. ORM is used to query data (e.g [TypeORM](https://www.npmjs.com/package/typeorm), [Sequelize](https://www.npmjs.com/package/sequelize), [Mikro-ORM](https://www.npmjs.com/package/mikro-orm)).
 3. Migrations are used to create and delete tables ([TypeORM](https://orkhan.gitbook.io/typeorm/docs/migrations), [Sequelize](https://sequelize.org/docs/v6/other-topics/migrations/), [Mikro-ORM](https://mikro-orm.io/docs/migrations)).
 
