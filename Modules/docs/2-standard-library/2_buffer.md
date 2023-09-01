@@ -30,10 +30,10 @@ Node.js exposes the Buffer class in the global scope, **you don't need to import
 A buffer in Node.js looks like this:
 
 ```jsx
-<Buffer 43 68 69 68 75 61 68 75 61>
+<Buffer 68 65 6C 6C 6F>
 ```
 
-In this example, you can see 9 pairs of letters and numbers. Each pair represents a byte stored in the buffer. The total size of this particular buffer is 10.
+In this example, you can see 5 pairs of letters and numbers. Each pair represents a byte stored in the buffer. The total size of this particular buffer is 5.
 
 You might be asking yourself: "if these are bits and bytes, where are the 0s and 1s?"
 
@@ -46,11 +46,11 @@ Buffer and array have some similarities, but the difference is array can be any 
 Let's see some of the things we can do with buffers.
 
 | Method                                                                                                    | Description                                           |
-| --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| --------------------------------------------------------------------------------------------------------- |-------------------------------------------------------|
 | [Buffer.alloc(size)](/docs/standard-library/buffer#creating-a-buffer)                                     | It creates a buffer and allocates size to it.         |
 | [Buffer.from(initialization)](/docs/standard-library/buffer#creating-a-buffer)                            | It initializes the buffer with given data.            |
-| [toString()](/docs/standard-library/buffer#reading-a-buffer)                                              | It read data from the buffer and returned it.         |
-| [Buffer.write(data)](/docs/standard-library/buffer#writing-to-buffer)                                     | It writes the data on the buffer.                     |
+| [toString()](/docs/standard-library/buffer#reading-a-buffer)                                              | It reads data from the buffer and returned it.        |
+| [Buffer.write(data)](/docs/standard-library/buffer#writing-to-buffer)                                     | It writes the data to the buffer.                     |
 | [Buffer.slice(start, end=buffer.length)](/docs/standard-library/buffer#slicing-and-concatenating-buffers) | It returns the subsection of data stored in a buffer. |
 | [Buffer.concat([buffer,buffer])](/docs/standard-library/buffer#slicing-and-concatenating-buffers)         | It concatenates two buffers.                          |
 | Buffer.isBuffer(object)                                                                                   | It checks whether the object is a buffer or not.      |
@@ -107,7 +107,7 @@ const buffer = Buffer.alloc(9);
 buffer.write("chihuahua"); // returns 9 (number of bytes written)
 ```
 
-If you write more bytes than the buffer supports, your data will truncated to fit the buffer:
+If you write more bytes than the buffer supports, your data will be truncated to fit the buffer:
 
 ```js title="app.js"
 buffer.write("hey chihuahua"); // returns 9 (number of bytes written)
@@ -217,9 +217,9 @@ const buffer4 = Buffer.concat([buffer2, buffer3]);
 console.log(buffer4.toString()); // Pugs are funny
 ```
 
-### Coping a buffer
+### Copying a buffer
 
-`Buffer.copy()` allows one to copy the contents of one buffer onto another. The first argument is the target buffer on which to copy the contents of buffer, and the rest of the arguments allow for copying only a subsection of the source buffer to somewhere in the middle of the target buffer. For example:
+`Buffer.copy()` allows one to copy the contents from one buffer to another. The first argument is the target buffer on which to copy the contents of buffer, and the rest of the arguments allow for copying only a subsection of the source buffer to somewhere in the middle of the target buffer. For example:
 
 ```js title="app.js"
 const buffer1 = Buffer.alloc(50)
