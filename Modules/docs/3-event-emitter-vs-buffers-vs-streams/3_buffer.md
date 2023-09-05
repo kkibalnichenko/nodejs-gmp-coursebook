@@ -68,7 +68,7 @@ With `buf.entries()`, you can return a loop of indexes and bytes from the conten
 ```js
 let buff = Buffer.from('xyz');
 
-for (a of buff.entries()) {
+for (let a of buff.entries()) {
 /*This will print arrays of indexes and byte of buffer content \\[ 0, 120 \][ 1, 121 \][ 2, 122 ]*/
   console.log(a);
 } 
@@ -121,7 +121,7 @@ If you want to determine whether a buffer object contains any values, you can us
 
 ```js
 const buff = Buffer.from('this is a buffer');
-console.log(buf.includes('this'));
+console.log(buff.includes('this'));
 // This will print true
 
 console.log(buff.includes(Buffer.from('a buffer example')));
