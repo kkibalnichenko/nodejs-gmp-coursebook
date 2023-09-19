@@ -34,7 +34,7 @@ Below are the member functions in the `EventEmitter` class.
 ```js
 class EventEmitter extends internal {
     /** @deprecated since v4.0.0 **/
-    static lictenerCount(emitter: EventEmitter, event: string | symbol): number;
+    static listenerCount(emitter: EventEmitter, event: string | symbol): number;
     static defaultMaxListeners: number;
     
     addListener(event: string | symbol, listener: (...arg: any[]) => void): this;

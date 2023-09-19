@@ -43,9 +43,6 @@ The `Buffer.compare()` method enables you to compare two buffer objects to check
 You can compare buffer objects with the `Buffer.compare()` method as seen below:
 
 ```js
-//This will return 0
-console.log(a);
-
 let buff1 = Buffer.from('x');
 let buff2 = Buffer.from('y');
 let a = Buffer.compare(buff1, buff2);
@@ -58,6 +55,13 @@ let buff2 = Buffer.from('x');
 let a = Buffer.compare(buff1, buff2);
 
 //This will return 1
+console.log(a);
+
+let buff1 = Buffer.from('x');
+let buff2 = Buffer.from('x');
+let a = Buffer.compare(buff1, buff2);
+
+//This will return 0
 console.log(a);
 ```
 
