@@ -8,7 +8,7 @@ Before we start, let's answer a fundamental question, "What is Node.js?".
 
 If you are in this course, you probably use JavaScript in a web browser, create interactive user interfaces, manipulate and render content, implement interaction with servers, and create SPA. 
 JavaScript runs in a browser that allows you to interact with the page after it is loaded. However, JavaScript is not limited by a browser. 
-Also, you can put JavaScript in different environments and run JavaScrip on the server. 
+Also, you can put JavaScript in different environments and run JavaScript on the server. 
 
 ## What is Node.js
 

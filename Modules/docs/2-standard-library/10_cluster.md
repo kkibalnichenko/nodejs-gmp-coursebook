@@ -30,7 +30,7 @@ The `cluster` module helps us to take advantage of the full processing power of 
 
 ![With Node.js Cluster Support: Requests spread out across all processor cores](img/cluster_core4.png)
 
-Using `cluster`, our first core becomes the `master` and all of the additional cores become `workers`. When a request comes into our application, the master process performs a round-robin style check asking *"which worker can handle this request right now?"*. The first worker that meets the requirements gets the request. Rinse and repeat.
+Using `cluster`, our first core becomes the `primary` and all of the additional cores become `workers`. When a request comes into our application, the primary process performs a round-robin style check asking *"which worker can handle this request right now?"*. The first worker that meets the requirements gets the request. Rinse and repeat.
 
 ## Setting up an example server
 
@@ -53,16 +53,16 @@ const requestHandler = (request, response) => {
     throw new Error('Oh no!'); // Uncaught exception
   } else {
     response.end(`<h1 style="text-align:center;margin-top:40px;">It runs &#128640;</h1>`);
-    process.send({ cmd: 'notifyRequest' }); // Notify master about the request
+    process.send({ cmd: 'notifyRequest' }); // Notify primary about the request
   }
 };
 
 const server = http.createServer(requestHandler);
 
-console.log(`✅ ${cluster.isMaster ? 'I am Master' : `I am worker, my id is ${cluster.worker.id}`}`);
+console.log(`✅ ${cluster.isPrimary ? 'I am Primary' : `I am worker, my id is ${cluster.worker.id}`}`);
 
-// Check is cluster master or not
-if (cluster.isMaster) {
+// Check is cluster primary or not
+if (cluster.isPrimary) {
   const cpuCount = os.cpus().length; // CPU core's amount
 
   for (let i = 0; i < cpuCount; i++) {
@@ -75,7 +75,7 @@ if (cluster.isMaster) {
 
   cluster.on('listening', (worker, address) => {
     console.log(`The worker #${worker.id} is now connected to port #${JSON.stringify(address.port)}`);
-    // Worker is waiting for Master's message
+    // Worker is waiting for Primary message
     worker.on('message', messageHandler);
   });
 
@@ -114,13 +114,27 @@ if (cluster.isMaster) {
 ```
 Then go to the file root and run `node app.js`. Check out the output in the console:
 
-![Cluster Output](img/cluster_output.png)
+```jsx title="node app.js" showLineNumbers
+✅ I am Primary
+Worker #1 is online 👍
+Worker #2 is online 👍
+Worker #3 is online 👍
+✅ I am worker, my id is 1
+✅ I am worker, my id is 2
+✅ I am worker, my id is 3
+Server running 🚀 at http://localhost:6007/
+The worker #1 is now connected to port #6007
+Server running 🚀 at http://localhost:6008/
+The worker #2 is now connected to port #6008
+Server running 🚀 at http://localhost:6009/
+The worker #3 is now connected to port #6009
+```
 
 *I scaled the CPU amount down to 3 for convenience to show it on the screenshot.*
 
 Then, you can go to one of the running servers, e.g [http://localhost:6007/](http://localhost:6007/), and you will see an incoming message in the console:
 
-```
+```jsx title="node app.js" showLineNumbers
 Requests received: 1
 Requests received: 2
 ```
@@ -131,7 +145,7 @@ We got 2 requests because the browser always makes an additional request to `fav
 
 Now, let's have a closer look at what is going on in the aforementioned code.
 
-We started with the creation of a server, where `requestHandler` will handle any incoming request by returning a simple HTML page. There we also notify master about a request, but it will be explained later.
+We started with the creation of a server, where `requestHandler` will handle any incoming request by returning a simple HTML page. There we also notify primary about a request, but it will be explained later.
 
 ```js
 const requestHandler = (request, response) => {
@@ -140,7 +154,7 @@ const requestHandler = (request, response) => {
     throw new Error('Oh no!'); // Uncaught exception
   } else {
     response.end(`<h1 style="text-align:center;margin-top:40px;">It runs &#128640;</h1>`);
-    process.send({ cmd: 'notifyRequest' }); // Notify master about the request
+    process.send({ cmd: 'notifyRequest' }); // Notify primary about the request
   }
 };
 
@@ -151,17 +165,31 @@ If you try to add `/error` at the end of any working server URL, it will cause a
 
 For example, I attended to [http://localhost:6007/error](http://localhost:6007/error), then the server `6007` was disconnected, and a brand-new server with the next free port `6011` was established.
 
-![Cluster Output Error](img/cluster_output2.png)
+```jsx title="node app.js" showLineNumbers
+Tue, 19 Sep 2023 13:47:19 GMT uncaught exception: Oh no!
+Error: Oh no!
+    at Server.requestHandler (/Users/app.js:10:11)
+    at Server.emit (node:events:513:28)
+    at parserOnIncoming (node:_http_server:980:12)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:128:17)
+The worker #1 has disconnected 🥲
+Worker 1 is dead 😵
+Worker #4 is online 👍
+✅ I am worker, my id is 4
+Server running 🚀 at http://localhost:6010/
+The worker #4 is now connected to port #6010
+```
 
-The next thing is to check if the running process is the master instance of our application, or, not one of the workers that we'll create next. If it is the master instance, we create a worker instance with `cluster.fork()`. This forks the running master process, returning a new child or worker instance. In other words, we create a clone of our app for each CPU core on the computer.
+The next thing is to check if the running process is the primary instance of our application, or, not one of the workers that we'll create next. If it is the primary instance, we create a worker instance with `cluster.fork()`. This forks the running primary process, returning a new child or worker instance. In other words, we create a clone of our app for each CPU core on the computer.
 
 ```js
-if (cluster.isMaster) {
+if (cluster.isPrimary) {
   const cpuCount = os.cpus().length; // CPU core's amount
 
   for (let i = 0; i < cpuCount; i++) {
     cluster.fork(); // Forks worker for each CPU core
   }
+}
 ```
 
 :::note
@@ -180,14 +208,14 @@ Further, we add handlers for worker's events:
 
 - Event `listening` runs when the worker has connected to the server and is ready to accept requests. This is a perfect place for adding a handler for a worker. 
 
-  Do you remember, there was mentioned this line `process.send({ cmd: 'notifyRequest' });` above? `process.send()` is a way to send a message from a worker instance back to the master instance. Why is that important? Because worker processes are forks of the main process, we want to treat them like they're children of the master process. If something happens inside of a worker relative to the health or status of the Cluster, it's helpful to have a way to notify the master process. 
+  Do you remember, there was mentioned this line `process.send({ cmd: 'notifyRequest' });` above? `process.send()` is a way to send a message from a worker instance back to the primary instance. Why is that important? Because worker processes are forks of the main process, we want to treat them like they're children of the primary process. If something happens inside of a worker relative to the health or status of the Cluster, it's helpful to have a way to notify the primary process. 
   
-  Master handles a message in `messageHandler` in `message` event as all workers can only send messages to master but not other workers. In the current example, `messageHandler` counts a sum of the incoming requests and logs it.
+  Primary handles a message in `messageHandler` in `message` event as all workers can only send messages to primary but not other workers. In the current example, `messageHandler` counts a sum of the incoming requests and logs it.
 
   ```js
   cluster.on('listening', (worker, address) => {
     console.log(`The worker #${worker.id} is now connected to port #${JSON.stringify(address.port)}`);
-    // Worker is waiting for Master's message
+    // Worker is waiting for Primary message
     worker.on('message', messageHandler);
   });
   ```
@@ -209,7 +237,7 @@ Further, we add handlers for worker's events:
   });
   ```
 
-`else` block includes server setup for each worker. We need to do this because we only want our worker generation to take place inside of the master process, not any of the worker processes (otherwise we'd have an infinite loop of process creation that our computer wouldn't be thrilled about).
+`else` block includes server setup for each worker. We need to do this because we only want our worker generation to take place inside of the primary process, not any of the worker processes (otherwise we'd have an infinite loop of process creation that our computer wouldn't be thrilled about).
 
 Finally, a handler of `uncaughtException` was added for an uncaught JavaScript exception that bubbles all the way back to the event loop. `process.exit(1)` exits the process with uncaught fatal exception. Find more about process events and exit codes [here](https://www.tutorialspoint.com/nodejs/nodejs_process.htm).
 
