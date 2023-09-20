@@ -16,8 +16,8 @@ all information is stored in one table as shown below, and `project` column even
 
 ![zero normal form](/img/rdb/0-NF.PNG)
 
-Notice, that project data is duplicated, and it will be hard to query such data. Of course databases has json column and
-it`s technically possible to create such structure but current model has update, insert and delete anomalies.
+Notice, that project data is duplicated, and it will be hard to query it. Of course databases has json column and
+it's technically possible to create such structure, but current model has update, insert and delete anomalies.
 
 **Update anomaly** happens because information is duplicated in several rows. Everyone who works on the same project or office will
 have the same information, and if we needed to update a project code, we would have to scan all rows and update the data.
