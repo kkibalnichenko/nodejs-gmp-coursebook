@@ -83,4 +83,4 @@ app.listen({ port: 3000 }, () => {
 })
 ```
 
-Now it’s much better. By using express we reduced amount of lines of code, but more important is that now it looks more declarative and readable than it was before.
+Now it’s much better. By using Express we reduced amount of lines of code, but more important is that now it looks more declarative and readable than it was before.

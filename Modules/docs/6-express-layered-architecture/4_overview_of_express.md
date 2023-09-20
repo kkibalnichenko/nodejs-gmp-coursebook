@@ -23,11 +23,11 @@ Expressjs provides us with **three major features:**
 - middleware
 - error handling
 
-In this module, we will explain all three parts.
+In this section, we will go over all three parts.
 
 ### Routing
 
-As you might notice from our previous example of using HTTP it doesn’t have any routing features. If you want to add a new endpoint you need manually check the HTTP method and URL of a request. Express provides quite a handy routing feature. For adding an endpoint you can just use `app.<method>(url, handler)`
+As you might have noticed from our previous example of using HTTP, it doesn’t have any routing features. If you want to add a new endpoint you need manually check the HTTP method and URL of a request. Express provides quite a handy routing feature. For adding an endpoint you can just use `app.<method>(url, handler)`
 
 - *method -* is any HTTP request method, you can add an endpoint for. Or `all` it for all methods.
 - *url* - is a string that represents URL of your endpoint
@@ -43,9 +43,9 @@ app.get('/comments', () => {});
 app.delete('/comments/:commentId', () => {});
 ```
 
-You might notice column`:` symbol in the path, that’s route **param**. `/users/:userId` will match any route that starts with `/users/` and then has anything (except `/` , because it will be another route). It’s useful when we want to have the ability to send some id in the URL. In the handler you don’t need to parse the URL to get this param, the value will be accessible in `req.params.usersId` . It’s possible to have several such params in one endpoint, but they must be named differently. You can also use limited `regexp` functionality inside the path. More details are here.
+You might have noticed column`:` symbol in the path, that’s route **param**. `/users/:userId` will match any route that starts with `/users/` and then has anything specified (except `/` , because it will be another route). It’s useful when we want to send some id in the URL. In the handler you don’t need to parse the URL to get this param, the value will be accessible in `req.params.usersId` . It’s possible to have several such params in one endpoint, but they must be named differently. You can also use limited `regexp` functionality inside the path. More details are [here](https://expressjs.com/en/guide/routing.html).
 
-In big applications can be a big amount of endpoints. For example, a lot of that might be started with `/users/`. Expressjs provides routers to separate such logic. We can improve our previous example by using routers:
+In big applications there can be a big number of endpoints. For example, a lot of endpoints might start with `/users/`. Express provides **routers** to separate such logic. We can improve our previous example by using routers:
 
 ```ts
 const app = express();
@@ -62,12 +62,12 @@ app.use('/users', usersRouter);
 app.use('/comments', commentsRouter);
 ```
 
-In this example, two routers were created. After adding endpoint to routers, we added them to our app by using `app.use('/users', usersRouter)` and `app.use('/comments', commentsRouter)` . Those routers can be located in different modules and you are able to separate logic related to different entities (users and comments in our example).
+In this example, two routers were created. After adding endpoints to routers, we added them automatically to our app by using `app.use('/users', usersRouter)` and `app.use('/comments', commentsRouter)`. Those routers can be located in different modules which helps you to separate logic related to different entities (users and comments in our example).
 
 ### Middlewares
 
-Middleware - is a function that has 3 arguments request, response, and next.
-These functions might be used for some logic that should be executed for several or even all endpoints. For example, if you need to log information about every request you can add a logger invocation in every handler, but much better to implement it only once. Another use case is user authentication. You can create auth middleware that will reject all requests that don’t have correct tokens in their headers. Example of logger middleware:
+Middleware - is a function that has 3 arguments: `request`, `response`, and `next`.
+Middlewares can be used for some logic that should be executed for several or even all endpoints. For example, if you need to log information about every request, you can add a logger invocation in every handler, but it's much better to implement it only once. Another use case is user authentication. You can create auth middleware that will reject all requests that don’t have correct tokens in their headers. Example of logger middleware:
 
 ```ts
 const logger = (req: Request, res: Response, next: NextFunction) => {
@@ -104,13 +104,13 @@ Below you can take a look at visualization of how middleware in Express work:
 
 ![Express middleware](img/express-middleware.png)
 
-Express provide some built-in middleware:
+Express provides some built-in middlewares:
 
 - [express.static](https://expressjs.com/en/4x/api.html#express.static)
 - [express.json](https://expressjs.com/en/4x/api.html#express.json)
 - [express.urlencoded](https://expressjs.com/en/4x/api.html#express.urlencoded)
 
-But there are plenty open-source ones that you can use. Here a small list of middleware that Express team developed:
+Still there are plenty of open-source ones that you can use. Here is a small list of middlewares that Express team developed:
 
 - [body-parser](https://github.com/expressjs/body-parser)
 - [cookie-parser](https://github.com/expressjs/cookie-parser)
@@ -136,9 +136,9 @@ app.use((err, req, res, next) => {
 });
 ```
 
-The error from the handler will be caught in the error handler. It’s still middleware and we have access to the request and the response and we are able to send a response back or any additional useful things.
+The error from the handler will be caught in the error handler. It’s still middleware, we have access to the request and the response and we are able to send a response back or to do any other useful things.
 
-Because an error handler it's a middleware, the order matters. If the error handler declared before middleware that throws an exception, this exception will not be caught by the error handler:
+Because an error handler is a middleware, the order matters. If the error handler declared before middleware that throws an exception, this exception will not be caught by the error handler:
 
 ```ts
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -210,7 +210,7 @@ app.use('/users/search', (req: Request<{}, any, any, { firstName: string, age: n
 
 #### Typescript
 
-Express was written on JS, probably, because when 1.0.0 ExpressJS was introduced TS didn't exist at all. It doesn't mean that you cannot use TS in your Express application. There is typing for it and you can add them to your project by installing `@types/express` package.
+Express was written in JS, probably, because when Express 1.0.0 was introduced TS didn't exist at all. It doesn't mean that you cannot use TS in your Express application. There is typing for it and you can add them to your project by installing `@types/express` package.
 ```shell
 npm install --save-dev @types/express
 ```

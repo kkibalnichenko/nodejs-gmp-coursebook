@@ -4,10 +4,13 @@ title: History of Node.js
 
 # History of Node.js
 
-Before 2009, web browsers used JavaScript. JS was invented in the 1990s by Netscape's [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich) as a scripting language for adding dynamic features to a web page from an HTML file running in the Netscape browser. On the other hand, [Ryan Dahl](https://en.wikipedia.org/wiki/Ryan_Dahl) created a runtime environment for JavaScript to operate outside of web browsers in 2009. npm, a package manager for the Node.js environment, was released in January 2010.
-One key factor that led to the rise of Node.js was the timing. Just a few years earlier, JavaScript had started to be considered as a more serious language, thanks to "[Web 2.0](https://en.wikipedia.org/wiki/Web_2.0)" applications (such as Flickr, Gmail, etc.) that showed the world what a modern experience on the web could be like.
-JavaScript engines improved considerably as many browsers competed to offer users the best performance. Development teams behind major browsers worked hard to offer better support for JavaScript and find ways to make JavaScript run faster, review [The Browser Wars](https://www.mozilla.org/en-US/firefox/browsers/browser-history/). 
-The engine Node.js uses under the hood, V8 (also known as Chrome V8 for being the open-source JavaScript engine of The Chromium Project), improved significantly due to this competition.
+Before 2009, web browsers used JavaScript, which was invented in the 1990s by Netscape's [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich) as a scripting language for adding dynamic features to a web page from an HTML file running in the Netscape browser.
+
+In 2009, [Ryan Dahl](https://en.wikipedia.org/wiki/Ryan_Dahl) created a runtime environment for JavaScript to operate outside of web browsers, which led to the development of Node.js. The Node Package Manager (npm) was released in January 2010.
+
+The rise of Node.js was facilitated by several factors, including its timing. Just a few years earlier, JavaScript had started to be considered as a more serious language, thanks to the popularity of [Web 2.0](https://en.wikipedia.org/wiki/Web_2.0) applications like Gmail, Flickr, and others that demonstrated what modern web experiences could offer. As major browsers worked to improve JavaScript engines' support and performance, the V8 engine (the open-source JavaScript engine of the Chromium Project), which is used under the hood by Node.js, improved significantly due to increased competition between browsers - a period known as [The Browser Wars](https://www.mozilla.org/en-US/firefox/browsers/browser-history/).
+
+The V8 engine, which is the open-source JavaScript engine of The Chromium Project and used under the hood of Node.js (also known as Chrome V8), significantly improved due to the competition among the major browsers.
 
 ## Node.js milestones:
 

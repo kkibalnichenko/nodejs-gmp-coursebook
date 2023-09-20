@@ -149,16 +149,9 @@ app.post('/post', async (req: Request<{}, any, RequestBody>, res: Response<Respo
 });
 ```
 
-Much better, don’t you think so? But, can we do better? Imagine that you created a bunch of endpoints following the
-principle of separating a big controller into smaller ones. And after a while architecture come to you and says: ‘We
-need to switch from MongoDB to PostgreSQL due to performance issues. Also, our customer hates express and we need to
-rewrite our application with Koa/Hapi/Fastify/Nest/whatever else.’.  
-Now, take a look at our code, and find the functions that should be changed to satisfy new requirements from
-architecture. How many functions will be affected? The answer is - **all of them.** That is the thing, our
-code became more readable and understandable, but it’s not ready to be changed.    
+Much better, don’t you think so? But, can we do better? Imagine that you created a bunch of endpoints following the principle of separating a big controller into smaller ones. After a while the Software Architect on your project comes to you and says: ‘We need to switch from MongoDB to PostgreSQL due to performance issues. Also, our customer hates Express and we need to rewrite our application with Koa/Hapi/Fastify/Nest/whatever else.’. Now, take a look at our code, and find the functions that should be changed to satisfy new requirements from the Software Architect. How many functions will be affected? The answer is - **all of them.** That is the thing, our code became more readable and understandable, but it’s not ready to be changed.    
 
-> If rising the codebase of your application slows down the time for delivering a single feature, then you have a **bad architecture**.   
-The idea of **good architecture** is to be changeable and requirements that are often changed shouldn't affect development speed. 
+> If the codebase growth of your application slows down the time for delivering a single feature, then you have a **bad architecture**. The idea of **good architecture** is to be changeable and requirements that are often changed shouldn't affect development speed. 
 
 ## Three layered architecture
 
@@ -175,12 +168,12 @@ access layer.
 ### Presentation Layer
 
 The highest layer. This layer should contain logic related to a presentation of our application to a client. For
-example, this layer can have logic related to the protocol that was chosen for the application. This layer knows what is
-HTTP request, response, header, body, socket, internet, and so on.
+example, this layer can have logic related to the protocol that was chosen for the application. This layer knows what
+HTTP request, response, header, body, socket, internet, and so on are.
 
 ### Business Logic Layer
 
-Or Service layer. The middle layer. All business logic related to our application might be in this layer. This layer
+Or in other words - Service layer. The middle layer. All business logic related to our application should be in this layer. This layer
 knows about our application entities such as user, order, comment, post, and so on. It doesn't care what protocol is
 used for transferring data to a client, or whether data will be sent in a body or in a header.
 
@@ -194,11 +187,11 @@ There are several rules for these layers:
 
 - Each layer is independent
 - One layer shouldn’t know about the internal implementation of other layers
-- The higher layer should depend on a lower one
+- The higher layer should depend on a lower one (not vice versa)
 
 ## Examples
 
-Now, let’s try to rewrite our code by using three-layered architecture. Let’s start with the Data Access Layer. It’s a
+Now, let’s try to rewrite our code by using three-layered architecture. Let’s start with the **Data Access** layer. It’s a
 good idea to create a separate module for working with DB.
 
 ```ts
@@ -225,16 +218,16 @@ async function getUserFollowers(userId: number) {
 }
 ```
 
-This doesn’t know anything about services that will use it. We removed `req` object from the arguments, and if the
+This module doesn’t know anything about services that will use it. We removed `req` object from the arguments, and if the
 framework will be changed, this code will remain the same. **There is no dependency on higher-level modules.** If it’s
-needed to change the database that is being used in the application, we will be needed to change all these methods, but
+needed to change the database that is being used in the application, we will need to change all these methods, but
 the communication interface should remain the same, which means that function names, their arguments, and returning
 values shouldn’t be changed. Other layers don’t care about the internal implementation of the Data Access layer and
-what’s database is used, but they do care about how they use it. That’s a simple example and in real applications, all
+what database is used, but they do care about how they use it. That’s a simple example and in real applications, all
 entities might have their own files (such as user.db.js, post.db.js, recommendation.db.js, etc.) and the logic inside
 might be much more complex.
 
-Let’s rewrite our Service layer.
+Let’s rewrite our **Service** layer.
 
 ```ts
 // notification.service.js
@@ -258,11 +251,11 @@ async function createPost(userId: string, {title, message, attachments}: Partial
 }
 ```
 
-We created two services: notification and post. In these services, we might call Data Access layer methods which were
+We created two services: notification and post. In these services, we might call **Data Access** layer methods which were
 listed before. Here we don’t know either what framework is used or which database stores our data (or even several of
 them).
 
-And the last one is the Presentation layer:
+And the last one is the **Presentation** layer:
 
 ```ts
 // post.validataion.js
@@ -304,13 +297,12 @@ app.post('/post', validation, async (req, res, next) => {
 });
 ```
 
-This layer is responsible for the calling method of the Service layer. It also might have logic related to input
-validation, and we created a separate middleware for that. This layer doesn’t know what will happen during
+This layer is responsible for the calling methods of the **Service layer**. It also might have logic related to input validation (in the example above we've created a separate middleware for that). This layer doesn’t know what will happen during
 post-creation, what database is used, and what other services will be called. But, it does know that HTTP is used as a
 communication protocol, which data format it might receive, and what format should be used in response. If your customer
 decides to switch to WebSockets, RPC, or even SMTP (email protocol) only logic inside this layer should be changed.
 
 As was already mentioned, it’s a simple example of three-layered architecture, but the idea will remain the same:
-following principles and layer separation. In more complex applications you might be needed to have some intermediate
+following principles and layer separation. In more complex applications you might need to have some intermediate
 mappers to map objects from a format that Business logic knows to the one that can be transferred to a client, error
 handlers to map exceptions on the database layer to some HTTP status codes that can be sent in response.

@@ -197,7 +197,7 @@ Delete from Hardware where "serial" = 'serial123';
 ```
 
 ## How to query relations
-In lots of situation you will want to get information from several tables in one request. I.e. we would like to get
+In lots of situations you will want to get information from several tables in one request. I.e. we would like to get
 information about employee and his hardware, or about all projects of employee. There is `JOIN` operator in SQL that is used
 in such situation. A `JOIN` clause is used to combine rows from two or more tables, based on a related column between them.
 There are 4 different types of the JOINs in SQL:

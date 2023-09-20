@@ -112,7 +112,7 @@ await client.query(
         [employee.rows[0].id, 'serialNum1']
 );
 ```
-First we execute request to get employee id, we use parameter as the best practise. An object is returned and data is located
+First we execute request to get employee id, we use parameter as the best practice. An object is returned and data is located
 in `rows` property. Only `id` property is present because we selected only this column in query. Then we simply execute
 update statement and set employee id with this value.
 Now we can select employee and his laptop in one query if we need

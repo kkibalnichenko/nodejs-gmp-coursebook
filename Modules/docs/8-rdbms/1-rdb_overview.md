@@ -9,22 +9,20 @@ There are many data types in RDB: strings, integers, decimals, binary and even j
 The rows in the table represent a record and contains all values from its columns.
 Each row in a table should be marked with some unique identifier called a primary key. Like everyone has its own unique
 passport number that helps to identify you, so every row in table has its own unique identifier.
-Using primary keys we can build relations between objects, i.e. tax office may store information about you and uses your passport number
+By using primary keys we can build relations between objects, i.e. tax office may store information about you and uses your passport number
 (or other unique identifier, depending on your country) to identify and check all your operations.
 So basically there is a relation between records in different tables build by using unique identifiers.
 
 You can think about RDB as a set of tables in your Excel document, each table represents a tab,
 and you added some unique identifier to each row (primary key or PK). So let's imagine a common e-commerce
-application, where users can buy some stuff. When you register system creates a record in `Users` table, assigns
-a unique key to you and store all your data there, let it be your name and age for simplicity. When someone
-makes a purchase system may create a record and store it in `Purchases` table. To maintain a relation
-and to track who actually made each of purchases system stores your PK from `Users` table.
+application, where users can buy some stuff. When you register, system creates a record in `Users` table, assigns
+a unique key to you and stores all your data there, let it be your name and age for simplicity. When someone
+makes a purchase, system may create a record and store it in `Purchases` table. To maintain a relation
+and to track who actually made purchases, system stores your PK from `Users` table.
 
 ![RDB simple example](/img/rdb/rdb-example.PNG)
 
-Thanks to these relations, unlike from NoSQL where you should think about table structure and object compositions beforehand, because it affects
-how you will retrieve your data and relations, in RDB this data can be accessed in many different
-ways without reorganizing the database tables themselves.
+Thanks to these relationships, unlike in NoSQL where you need to consider the table structure and object compositions in advance because it impacts how you can retrieve data and build relationships, in RDB, data can be accessed in various ways without having to reorganize the database tables themselves.
 
 
 ## What is RDBMS
@@ -39,7 +37,7 @@ and support common SQL syntax.
 
 ![most popular rdbms](/img/rdb/rdbms.PNG)
 
-Above listed some of the most popular RDBMS, probably you have heard some names from this list.
+Here is the list of the most popular RDBMS, you might have heard of some of them.
 - **MySQL** is a database by Oracle Corporation, first released in 1995. It's one of the most stable open-source databases available today.
   Facebook and Uber use it in their applications. YouTube uses MySQL to store all the metadata for the videos. While it is a good place to start,
   MySQL is not the best if you want advanced data protection features like throttling and masking.
@@ -53,12 +51,12 @@ Above listed some of the most popular RDBMS, probably you have heard some names 
 - **SQL Server** is a popular Microsoft database offering in the market. SQL Server is a paid database;
   it garners corporate support due to the Microsoft brand name and the compatibility support for other Microsoft applications.
 
-In current program we will stick to PostgresSQL, because it's opensource, easy to install yet powerful database with lots of demand on a market
+In this program we will stick to PostgresSQL, because it's open source, easy to install, yet powerful database with lots of demand on the market.
 
 ## Transactions and ACID
-One of the greatest feature of relational databases is transactions. A transaction is some set of database operations
-that is treated as a "whole". It has to either complete successfully all its operations or to not make any changes at all.
-Let`s consider next example, you want to transfer 20$ to your friend, you open your bank app in your phone and transfer funds.
+One of the greatest features of relational databases is transactions. A transaction is some set of database operations
+that is treated as a "whole". It has to either complete successfully all its operations or not to make any changes at all.
+Let`s consider the following example: you want to transfer 20$ to your friend, you open your bank app in your phone and transfer funds.
 What happens under the hood? Probably, transfer consists of several operations, at first 20$ are withdrawn from your accounts,
 and on the next step are added to your friends account. But what would happen if some error was thrown in application after 1st step?
 
@@ -94,7 +92,7 @@ SQL is a good choice when working with related, structured data. Relational data
 any application. A benefit of a relational database is that when one user updates a specific record, every instance of the
 database automatically refreshes, and that information is provided in real-time.
 
-SQL and a relational database make it easy to handle a great deal of information, scale as necessary and allow flexible 
+SQL and a relational database make it easy to handle a great deal of information, scale based on your needs and allow flexible 
 access to data — only needing to update data once instead of changing multiple files, for instance. Thanks to ACID properties
 it’s also best for assessing data integrity. Since each piece of information is stored in a single place, there’s no problem with former 
 versions confusing the picture. However, SQL databases are not easily scaled horizontally. Unlike from NoSQL, which can
