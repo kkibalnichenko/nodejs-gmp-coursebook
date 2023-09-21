@@ -1,3 +1,7 @@
+---
+sidebar_position: 99
+custom_edit_url: null
+---
 # Practical task
 
 In this task you will need to modify the application you created in Express and Layered Architecture module by moving data storage to Relational database.

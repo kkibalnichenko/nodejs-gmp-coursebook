@@ -2,7 +2,6 @@
 sidebar_position: 10
 title: NoSQL. Resources
 sidebar_label: Resources
-custom_edit_url: null
 pagination_label: Databases. NoSQL - Resources
 ---
 
