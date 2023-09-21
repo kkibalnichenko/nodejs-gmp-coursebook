@@ -2,7 +2,6 @@
 sidebar_position: 11
 title: NoSQL. Migration from RDB
 sidebar_label: Migration from RDB
-custom_edit_url: null
 pagination_label: Databases. NoSQL - Migration from RDB
 ---
 

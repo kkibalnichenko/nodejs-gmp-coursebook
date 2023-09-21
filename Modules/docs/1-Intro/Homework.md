@@ -1,7 +1,7 @@
 ---
 title: Practical task
 sidebar_position: 8
-
+custom_edit_url: null
 ---
 
 # Practical task

@@ -2,8 +2,8 @@
 sidebar_position: 1
 title: NoSQL. Introduction
 sidebar_label: Introduction
-custom_edit_url: null
 pagination_label: Databases. NoSQL - Introduction
+custom_edit_url: null
 ---
 
 # Introduction
