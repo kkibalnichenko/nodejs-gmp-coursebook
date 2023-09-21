@@ -3,9 +3,7 @@ Welcome to the Node.js Global Mentoring Program 🚀
 
 This repository contains all the content related to program. We use [Docusaurus](https://docusaurus.io/) as platform to document the modules.
 
-There are 2 sub-folders:
-- `/Modules` - contains the content of the book itself (there is a separate folder for each module, e.g `/docs/1-Intro`)
-- `/Homework` - contains examples of solutions for home tasks
+`/Modules/docs` - contains the content of the book itself (there is a separate folder for each module, e.g `/Modules/docs/1-Intro`)
 
 ## Run the book
 
