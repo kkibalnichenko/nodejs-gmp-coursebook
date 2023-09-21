@@ -11,10 +11,10 @@ pagination_label: Databases. NoSQL - Homework
 In this task you will need to modify the application you created in Express and Layered Architecture module by moving data storage to NoSQL database.
 
 **The application has 4 primary entities:**
-- `User` - can add some products to the cart and then order them ([example](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/express-layered-architecture/schemas/user.entity.ts)).
-- `Product` - represents product information that user can order ([example](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/express-layered-architecture/schemas/product.entity.ts)).
-- `Cart` - contains a list of products and their amount that user wants to order ([example](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/express-layered-architecture/schemas/cart.entity.ts)).
-- `Order` - contains list of products from cart that user has ordered ([example](https://gitbud.epam.com/diana_baburina/ngmp-public/-/blob/main/express-layered-architecture/schemas/order.entity.ts)).
+- `User` - can add some products to the cart and then order them ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/user.entity.ts)).
+- `Product` - represents product information that user can order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/product.entity.ts)).
+- `Cart` - contains a list of products and their amount that user wants to order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/cart.entity.ts)).
+- `Order` - contains list of products from cart that user has ordered ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/order.entity.ts)).
 
 **Relations between entities:**
 - Each `User` can have only one **non-deleted** `Cart` at a time. Each `Cart` is attached to a specific `User`.
@@ -28,7 +28,7 @@ In this task you will need to modify the application you created in Express and 
 1. Data is stored in MongoDB database. [Docker image](https://hub.docker.com/_/mongo) is used for local development (check [Running MongoDB as a Docker Container](https://www.baeldung.com/linux/mongodb-as-docker-container#2-building-container-using-a-compose-file) for an example of docker-compose file). 
 2. [Mongoose](https://mongoosejs.com/) is used as ODM for querying.
 3. Data Access Layer is rewritten to query MongoDB.
-4. Models are created based on entity [schemas](https://gitbud.epam.com/diana_baburina/ngmp-public/-/tree/main/express-layered-architecture/schemas) used in Express and Layered Architecture module.
+4. Models are created based on entity [schemas](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas) used in Express and Layered Architecture module.
 5. Models have proper relations between each other based on information specified above.
 
 ### Evaluation criteria
