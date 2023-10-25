@@ -17,7 +17,7 @@ The syntax for including the OS module in your application:
 | Method              | Description                                                                                    |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
 | arch()              | Returns the operating system CPU architecture                                                  |
-| constants           | Returns an object containing the operating system's constants for process signals, error cotes |
+| constants           | Returns an object containing the operating system's constants for process signals, error codes |
 | cpus()              | Returns an array containing information about the computer's CPUs                              |
 | endianness()        | Returns the endianness of the CPU                                                              |
 | EOL                 | Returns the end-of-line marker for the current operating system                                |
