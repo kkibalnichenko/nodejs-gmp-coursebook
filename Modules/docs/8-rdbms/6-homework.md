@@ -7,10 +7,10 @@ custom_edit_url: null
 In this task you will need to modify the application you created in Express and Layered Architecture module by moving data storage to Relational database.
 
 **The application has 4 primary entities:**
-- `User` - can add some products to the cart and then order them ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/user.entity.ts)).
-- `Product` - represents product information that user can order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/product.entity.ts)).
-- `Cart` - contains a list of products and their amount that user wants to order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/cart.entity.ts)).
-- `Order` - contains list of products from cart that user has ordered ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/order.entity.ts)).
+- `User` - can add some products to the cart and then order them ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/user.entity.ts)).
+- `Product` - represents product information that user can order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/product.entity.ts)).
+- `Cart` - contains a list of products and their amount that user wants to order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/cart.entity.ts)).
+- `Order` - contains list of products from cart that user has ordered ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/order.entity.ts)).
 
 **Relations between entities:**
 - Each `User` can have only one **non-deleted** `Cart` at a time. Each `Cart` is attached to a specific `User`.
