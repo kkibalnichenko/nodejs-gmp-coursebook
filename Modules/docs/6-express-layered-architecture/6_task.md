@@ -8,10 +8,10 @@ custom_edit_url: null
 We are going to create an Express application for online shop which sells different types of products (like e.g Amazon). We are going to implement functionality for managing carts, creating orders and products.
 
 **The application has 4 primary entities:**
-- `User` - can add some products to the cart and then order them ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/user.entity.ts)).
-- `Product` - represents product information that user can order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/product.entity.ts)).
-- `Cart` - contains a list of products and their amount that user wants to order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/cart.entity.ts)).
-- `Order` - contains list of products from cart that user has ordered ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/for-mentees/Homework/6-express-layered-architecture/schemas/order.entity.ts)).
+- `User` - can add some products to the cart and then order them ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/user.entity.ts)).
+- `Product` - represents product information that user can order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/product.entity.ts)).
+- `Cart` - contains a list of products and their amount that user wants to order ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/cart.entity.ts)).
+- `Order` - contains list of products from cart that user has ordered ([example](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/schemas/order.entity.ts)).
 
 **Relations between entities:**
 - Each `User` can have only one non-deleted `Cart` at a time. Each `Cart` is attached to a specific `User`.
@@ -22,7 +22,7 @@ We are going to create an Express application for online shop which sells differ
 
 **Note:** TypeScript should be used.
 
-1. API is implemented based on [swagger.yaml](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/for-mentees/Homework/6-express-layered-architecture/swagger.yaml). Proper [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) are returned in responses (not only 200 or 500).
+1. API is implemented based on [swagger.yaml](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/swagger.yaml). Proper [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) are returned in responses (not only 200 or 500).
 2. Application is implemented following Three Layered Architecture. Layers are separated by file names. For example `xxx.repository.ts` contains functions to retrieve data (data access layer), `xxx.service.ts` contains services that implement business logic, `xxx.controller.ts` contains functions that manage status codes/responses returned (presentation layer).
 3. Data is stored either in memory or on file system.
 4. [joi](https://www.npmjs.com/package/joi) is used to validate data in `PUT` `/api/profile/cart`.
