@@ -27,6 +27,9 @@
     "@docusaurus/module-type-aliases": "^2.2.0",
     "standard-version": "^9.5.0"
   },
+  "optionalDependencies": {
+    "@ebook/access-epm-wrapper": "^0.0.4"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
@@ -40,6 +43,6 @@
     ]
   },
   "engines": {
-    "node": "^18"
+    "node": ">=18.0.0"
   }
 }

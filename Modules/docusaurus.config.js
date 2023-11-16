@@ -11,7 +11,7 @@ const config = {
   title: 'Node.js Global Mentoring Program',
   tagline: 'node.js',
   url,
-  baseUrl: '/',
+  baseUrl: '/node-gmp/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/nodejs.ico',
@@ -22,7 +22,6 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   presets: [
     [
       'classic',
@@ -45,7 +44,6 @@ const config = {
       }),
     ],
   ],
-
   plugins: [
     [
       '@docusaurus/plugin-pwa',
@@ -103,7 +101,6 @@ const config = {
       },
     ],
   ],
-
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
