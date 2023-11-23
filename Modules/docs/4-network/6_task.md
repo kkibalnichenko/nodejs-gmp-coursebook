@@ -51,13 +51,6 @@ const users = [
 2. Hypermedia links (HATEOAS) are included (for each user to retrieve a list of hobbies).
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - All endpoints are implemented. Some Acceptance criteria are skipped.
-- `4` - Implementation meets Acceptance criteria mentioned above.
-- `5` - Implementation meets Acceptance criteria mentioned above. One or both additional tasks are implemented.
-
-#### 100-point scoring system
 - `60 - 69` - Acceptance criteria 1-2 are **partially** implemented.
 - `70 - 79` - Acceptance criteria 1-2 are **partially** implemented without any issues.
 - `80 - 89` - Implementation meets Acceptance criteria mentioned above.

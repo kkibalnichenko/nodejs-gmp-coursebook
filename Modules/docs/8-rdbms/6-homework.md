@@ -30,13 +30,6 @@ In this task you will need to modify the application you created in Express and 
 2. If you are using Mikro-ORM, [type-safe relations](https://mikro-orm.io/docs/type-safe-relations) and collections are used.
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - Acceptance criteria 1-4 are **partially** implemented.
-- `4` - Acceptance criteria 1-4 are implemented.
-- `5` - Acceptance criteria 1-5 are implemented.
-
-#### 100-point scoring system
 - `60 - 69` - Acceptance criteria 1-2 are **partially** implemented.
 - `70 - 79` - Acceptance criteria 1-2 are **partially** implemented without any issues.
 - `80 - 89` - Acceptance criteria 1-3 are implemented.

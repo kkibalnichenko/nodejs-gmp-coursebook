@@ -33,12 +33,6 @@ We are going to create an Express application for online shop which sells differ
 1. For `DELETE` `/api/profile/cart` soft-delete approach is be used. _Make sure that client of your API will not know that soft-delete approach is used_.
 
 ### Evaluation criteria
-#### 5-point scoring system
-- `3` - Acceptance criteria 1-3 are implemented.
-- `4` - Acceptance criteria 1-6 are implemented.
-- `5` - Acceptance criteria 1-6 are implemented and Additional task is done.
-
-#### 100-point scoring system
 - `60 - 69` - Acceptance criteria 1-3 are **partially** implemented.
 - `70 - 79` - Acceptance criteria 1-3 are implemented.
 - `80 - 89` - Acceptance criteria 1-6 are implemented.

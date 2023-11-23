@@ -111,13 +111,6 @@ Write a program which should do the following: Read the content of csvfile from.
 Write the csvfile content to a new txtfile. Use the following [format](https://epa.ms/nodejs19-hw1-ex2). Do not load all the content of the csvfile into RAM via stream (read/write file content line by line). In case of read/write errors, log them in the console. The program should be started via npm script using nodemon(i.e. npm run task2).
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - Task 1 and 2 are done.
-- `4` - Task 1 and 2 are done. Task 3 is partially done.
-- `5` - All tasks are completed.
-
-#### 100-point scoring system
 - `60 - 69` - Task 1 is done.
 - `70 - 79` - Tasks 1 and 2 are done.
 - `80 - 89` - Tasks 1 and 2 are done. Task 3 is partially done.

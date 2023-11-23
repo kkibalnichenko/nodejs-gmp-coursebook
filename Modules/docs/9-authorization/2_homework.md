@@ -18,13 +18,6 @@ In this task you will need to modify existing Express application by extending u
 1. Only admin users can delete user cart. Authorization middleware is added for this purpose. If token provided doesn't belong to admin member, `403 Forbidden` status code is returned.
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - Acceptance criteria 1-3 are implemented.
-- `4` - Acceptance criteria 1-5 are implemented.
-- `5` - Acceptance criteria 1-5 are implemented and Additional task is done.
-
-#### 100-point scoring system
 - `60 - 69` - Acceptance criteria 1 are implemented.
 - `70 - 79` - Acceptance criteria 1-3 are implemented.
 - `80 - 89` - Acceptance criteria 1-5 are implemented.
