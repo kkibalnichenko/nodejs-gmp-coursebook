@@ -25,13 +25,6 @@ System commands to retrieve the process:
 - Carriage return escape sequence is `\r`
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - Acceptance criteria 1 and 2 are implemented.
-- `4` - Acceptance criteria 1-4 are implemented.
-- `5` - Acceptance criteria 1-6 are implemented.
-
-#### 100-point scoring system
 - `60 - 69` - Acceptance criteria 1 and 2 are implemented.
 - `70 - 79` - Acceptance criteria 1-4 are implemented.
 - `80 - 89` - Acceptance criteria 1-5 are implemented.

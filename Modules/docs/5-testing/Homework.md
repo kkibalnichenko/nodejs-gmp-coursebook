@@ -36,13 +36,6 @@ Get code coverage with tests for your application. Strive to have no less than 9
 Select any 2 endpoints from [Nager.Date API](https://date.nager.at/swagger/index.html) and write e2e tests for them. 
 
 ### Evaluation criteria
-
-#### 5-point scoring system
-- `3` - Tasks 1, 2 and 3 are done.
-- `4` - All tasks are completed. Code coverage is less than 90%.
-- `5` - All tasks are completed. Code coverage is more than 90%.
-
-#### 100-point scoring system
 - `60 - 69` - Tasks 1 and/or 2 are done.
 - `70 - 79` - Tasks 1, 2 and 3 are done.
 - `80 - 89` - All tasks are completed. Code coverage is less than 90%.
