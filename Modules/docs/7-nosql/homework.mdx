@@ -6,6 +6,8 @@ custom_edit_url: null
 pagination_label: Databases. NoSQL - Homework
 ---
 
+import { TableForMentors } from '../../src/components/TableForMentors';
+
 # Practical task
 
 In this task you will need to modify the application you created in Express and Layered Architecture module by moving data storage to NoSQL database.
@@ -28,11 +30,22 @@ In this task you will need to modify the application you created in Express and 
 1. Data is stored in MongoDB database. [Docker image](https://hub.docker.com/_/mongo) is used for local development (check [Running MongoDB as a Docker Container](https://www.baeldung.com/linux/mongodb-as-docker-container#2-building-container-using-a-compose-file) for an example of docker-compose file). 
 2. [Mongoose](https://mongoosejs.com/) is used as ODM for querying.
 3. Data Access Layer is rewritten to query MongoDB.
-4. Models are created based on entity [schemas](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/master/public-for-mentees/6-express-layered-architecture/schemas) used in Express and Layered Architecture module.
-5. Models have proper relations between each other based on information specified above.
+   - Models are created based on entity [schemas](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/tree/master/public-for-mentees/6-express-layered-architecture/schemas) used in Express and Layered Architecture module.
+   - Models have proper relations between each other based on information specified above.
 
-### Evaluation criteria
-- `60 - 69` - Acceptance criteria 1-4 are **partially** implemented.
-- `70 - 79` - Acceptance criteria 1-4 are **partially** implemented without any issues.
-- `80 - 89` - Acceptance criteria 1-4 are implemented.
-- `90 - 100` - Acceptance criteria 1-5 are implemented.
+## Evaluation criteria
+
+<TableForMentors data={[
+  {
+    items: [
+      {
+        text: "Data is stored in MongoDB database. Docker image is used for local development",
+        points: 1,
+      },
+      {
+        text: "All existing endpoints are switched to use MongoDB database",
+        points: 5,
+      }
+    ]
+  },
+]}/>

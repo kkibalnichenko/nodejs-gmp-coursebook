@@ -1,0 +1,48 @@
+---
+sidebar_position: 99
+custom_edit_url: null
+---
+
+import { TableForMentors } from '../../src/components/TableForMentors';
+
+# Practical task
+
+In this task you will need to modify existing Express application by extending user model, adding authorization and authentication flows.
+
+## Acceptance criteria
+1. User entity is added - contains id ([uuid](https://www.npmjs.com/package/uuid)), email (unique), password, role (admin or simple user). Password is stored as hashed value in the database. [Bcrypt](https://www.npmjs.com/package/bcrypt) module is used for hashing passwords.
+2. Auth API endpoints are added from [Swagger](https://git.epam.com/ld-global-coordinators/js-programs/nodejs-gmp-coursebook/-/blob/master/public-for-mentees/6-express-layered-architecture/swagger.yaml)
+    - Password is not encoded in token payload. JWT token expires in 2 hours.
+3. Authentication middleware is added to check if token provided is valid and if user encoded in token exists
+    - JWT token is passed in `Authorization` header for each request (except sign in and sign up) in the following format `Authorization: Bearer <token>`
+    - If token is not provided, 401 status code should be returned. If there is no such a user, 403 status code should be returned.
+6. Only admin users can delete user cart. Authorization middleware is added for this purpose. If token provided doesn't belong to admin member, `403 Forbidden` status code is returned.
+
+## Evaluation criteria
+
+<TableForMentors data={[
+  {
+    items: [
+      {
+        text: "User entity is added",
+        points: 1,
+      },
+      {
+        text: "POST /api/auth/register - create new user is implemented based on Swagger",
+        points: 2,
+      },
+      {
+        text: "POST /api/auth/login - user login is implemented based on Swagger",
+        points: 2,
+      },
+      {
+        text: "Authentication middleware is added",
+        points: 2,
+      },
+      {
+        text: "Authorization middleware is added",
+        points: 2,
+      }
+    ]
+  },
+]}/>
