@@ -13,7 +13,7 @@ You can create this file by your own or generate base manifest using npm cli, th
 npm init
 ```
 
-Command above will ask you to answer some questions to specify base metadata of you project tp generate package.json file. You can add `-y` flag in the end of the command to skip this questions and use default metadata for you project.
+Command above will ask you to answer some questions to specify base metadata of you project to generate package.json file. You can add `-y` flag in the end of the command to skip this questions and use default metadata for you project.
 
 ## Manifest structure
 
@@ -42,7 +42,7 @@ We have discovered what is package.json is, and now lets check how the project m
 }
 ```
 
-There are more sections that can be used inside package.json and you can find them in official [documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)
+There are more sections that can be used inside package.json and you can find them in official [documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-json).
 
 ### Base metadata
 
