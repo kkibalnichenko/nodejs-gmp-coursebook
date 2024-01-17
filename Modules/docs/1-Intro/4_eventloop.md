@@ -161,6 +161,7 @@ There are 6 Event Loop phases: Timers, Pending callbacks, Idle/prepare, Poll, Ch
 
 **Note 6.**
 
+
 Event Loop is a single threaded and semi-infinite loop. Non-blocking nature of Node.js is achieved by Event Loop that doesn’t wait until the operation is done. It continues to perform normally. Only when the result of the operation is received, Event Loop starts to execute the callback registered for it.
 
 **Note 7.**
