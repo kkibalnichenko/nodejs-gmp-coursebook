@@ -8,10 +8,12 @@ sidebar_position: 6
 
 ## What is Docker
 
-:::info
+:::danger Docker
+This section references to Docker and Docker Compose. They are widely recognized and established tools in the industry. Most probably during interviews you will be asked about Docker, but not about Podman. The essential point to comprehend here is that Podman serves as a complimentary alternative to Docker (as does Podman Compose). Thus, anything you can execute with Docker can also be accomplished using Podman. **We strongly recommend you to read about Docker and Docker Compose, but still use Podman to run commands mentioned below.** Please check cheat sheet in [Docker basics section](../0-docker-basics/1_intro.md#cheat-sheet) for Podman commands.
+:::
+
 [Docker](https://docs.docker.com/engine/) is a containerization platform that allows developers to package and deploy applications in a consistent and reliable way, regardless of the underlying infrastructure.
 Docker uses a technology called [containers](https://www.docker.com/resources/what-container/), which are isolated environments that can run an application and all of its dependencies, libraries, and configuration files.
-:::
 
 <details>
   <summary>What Docker container is</summary>
