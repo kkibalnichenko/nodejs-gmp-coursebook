@@ -53,10 +53,10 @@ npm install -D ts-node nodemon
 ```
 
 ## Connect DB
-First we will run mongo db server using docker:
+Firstly we will run MongoDB server using Podman:
 
 ```shell
-docker run -d -p 27017:27017 --name books-api-mongo mongo:latest
+podman run -d -p 27017:27017 --name books-api-mongo mongo:latest
 ```
 Now we can configure our db connector to communicate with mongo server that we've already started. For this we will modify `config/database.ts` file:
 

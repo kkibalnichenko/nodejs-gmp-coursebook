@@ -8,10 +8,12 @@ custom_edit_url: null
 
 # Introduction
 
-The previous module was dedicated to SQL databases. Now it's time to learn about NoSQL.
+Now, we're moving into exploring the fascinating world of NoSQL. These databases are designed to handle and manage large volumes of data across many distributed systems. Its flexibility, scalability, and performance capabilities when navigating complex, diverse data sets make it an ideal choice for applications dealing with big data or real-time processing. 
 
-**In this module you will:**
-- Get core concepts of NoSQL databases
-- Get common information about NoSQL database types
-- See NoSQL databases use cases
-- Get overview of Object Document Mapping
+**In this module, you will:**
+- Grasp the fundamental concepts underlying NoSQL databases, illuminating your understanding of how they form the backbone of many modern applications
+- Gain broad insight into different types of NoSQL databases, enhancing your ability to choose the right tool for your data needs
+- Explore various use cases of NoSQL databases, illustrating how they can be implemented in real-world scenarios
+- Get an overview of Object Document Mapping (ODM), a technique that will add another tool to your data manipulation arsenal
+
+Get ready to explore the diverse and powerful world of NoSQL databases and expand your knowledge and skills in database management.

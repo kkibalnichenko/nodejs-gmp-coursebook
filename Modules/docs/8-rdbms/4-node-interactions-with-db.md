@@ -1,11 +1,8 @@
 # Node.js and database interactions
 
-## Local installation
-Before we start we need some local instance of PostgreSQL. The easiest way is to run a Docker container with PostgreSQL image.
+## Run database
 
-**Note:** At this point we will not dive deep into the way how Docker works. As it is mentioned above - that's the quickest and the easiest way to run a database. Just follow the instructions below. You will learn more about Docker in [Deployment and automation tools module](../10-deploy-and-tools/7_docker_and_tools.md).
-
-If you don't have Docker installed on your machine, go to [Docker Desktop](https://www.docker.com/products/docker-desktop/) and install it for your OS. Next, create a file in your project named `docker-compose.yml` and place the following content into it:
+Before we start interacting with databases in Node.js, we have to run an instance of PostgreSQL locally. The easiest way to do it is to run a Podman container with PostgreSQL image. So create a file in your project named `podman-compose.yml` and place the following content into it:
 
 ```yml
 version: '3'
@@ -22,8 +19,7 @@ services:
       - '5432:5432'
 ```
 
-After that open terminal in this folder and run `docker-compose up -d` command. You can connect to this instance using any DB client, i.e. [DBeaver](https://dbeaver.io/) or [pgAdmin](https://www.pgadmin.org/).
-Host is `localhost`, DB name and user are `node_gmp`, password is `password123`.
+Next, open a terminal in the same directory where you saved the `podman-compose.yml` file and execute the `podman-compose up -d` command. Good job! You've just launched a PostgreSQL instance on your local machine! Now, you can connect to this instance using any DB client you prefer, such as [DBeaver](https://dbeaver.io/) or [pgAdmin](https://www.pgadmin.org/). The host is `localhost`, both DB name and user are `node_gmp`, and the password is `password123`.
 
 ![connection_example](/img/rdb/docker-connection.PNG)
 
@@ -52,7 +48,7 @@ const client = new pg.Client({
 await client.connect();
 ```
 Here we used configuration object which was passed to `Client` constructor. We specified DB host, port, user and password
-for our instance of PostgreSQL which is running inside docker container.
+for our instance of PostgreSQL which is running inside Podman container.
 
 Now we can use ` query ` method to execute any sql operation. Let's first create two tables from previous example:
 

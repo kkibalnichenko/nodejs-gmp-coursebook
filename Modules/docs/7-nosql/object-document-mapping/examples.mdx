@@ -1,137 +1,319 @@
 ---
 sidebar_position: 3
-title: Examples
-sidebar_label: Examples
-pagination_label: Databases. NoSQL - ODM. Examples
+title: MongoDB and Mongoose
+sidebar_label: MongoDB and Mongoose
+pagination_label: Databases. NoSQL - ODM. MongoDB and Mongoose
 ---
 
-## [Mongoose](https://mongoosejs.com/docs/index.html)
+## Introduction
 
-:::info
-Mongoose provides a straight-forward, schema-based solution to model your application data.
-It includes built-in type casting, validation, query building, business logic hooks and more, out of the box.
-:::
+We will begin our journey into NoSQL databases with [MongoDB](https://www.mongodb.com/) as our starting point. MongoDB is a popular NoSQL database that uses a document-oriented model and supports a variety of data structures. It's designed for high availability and scalability. MongoDB is widely used for powering high-traffic web applications, big data, and real-time analytics due to its flexible schema and ability to handle large amounts of data.
 
-### Requirements
-- Installed NodeJS
-- MongoDB on your machine or use the MongoDB cloud
-- Installed ```mongoose``` and ```@types/mongoose``` npm package to your project
+[Mongoose](https://mongoosejs.com/docs/index.html) is a popular Node.js package used to interact with MongoDB databases. It provides a straight-forward, schema-based solution to model your application data and includes built-in type casting, validation, query building, and business logic hooks.
 
-### Before start
+Let's roll up our sleeves and dive into the practical side of things.
 
-- Before use ODM, create your first database in MongoDB. Then, create your first collection (Example - ```User```).
-- Create file ```index.js``` in your project.
+## Step 1 - Run MongoDB database
 
-## Step 1
-
-- Include ```mongoose``` in your project
-- Open a connection to the created database. [How to connect](https://mongoosejs.com/docs/connections.html)
-
-```ts
-    import { connect, Schema, model, disconnect } from 'mongoose';
-
-    await connect("YOUR_DB_CONNECTION_STRING");
+First of all we have to set up a MongoDB instance on your local machine. The easiest way to do it is to run a Podman container with MongoDB image. So create a file in your project named `podman-compose.yml` and place the following content into it:
+```yml
+version: '3'
+services:
+  mongo:
+    image: "mongo"
+    container_name: "nodegmp-nosql"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=nodegmp
+    ports:
+      - '27017:27017'
 ```
 
-## Step 2
+Then, open a terminal in the same directory where you saved the `podman-compose.yml` file and execute the `podman-compose up -d` command. With that, you now have a MongoDB instance running on your local machine at `localhost:27017`. Use the credentials `root` as the username and `nodegmp` as the password to connect to the MongoDB instance.
 
-- Create database schema using ```mongoose```. [About schema](https://mongoosejs.com/docs/guide.html)
-- Create new model using this schema. [About model](https://mongoosejs.com/docs/models.html)
+## Step 2 - Create your first collection
+
+To create a `users` collection in the MongoDB instance running inside the `nodegmp-nosql` Podman container, follow the steps below:
+
+1. Get a shell to the running container:
+  ```bash
+  podman exec -it nodegmp-nosql mongo -u root -p nodegmp
+  ```
+  This command opens a MongoDB shell connected to your running container.
+
+2. Once you're inside the MongoDB shell, select the database where you want to create the `users` collection. If the database doesn't exist yet, MongoDB will create it:
+  ```bash
+  use mydatabase
+  ```
+  Replace `mydatabase` with the name of your database.
+
+3. Now, you can create the `users` collection:
+  ```bash
+  db.createCollection("users")
+  ```
+
+This creates a new collection named `users` within your selected database. Once the collection has been created, you can start adding documents to it. Remember that in MongoDB, you don’t need to create a collection before you insert documents, MongoDB creates collections automatically when you insert the first document.
+
+## Step 3 - Connect to MongoDB using Mongoose
+
+To connect to your MongoDB instance using Mongoose, you'll first need to set up a Node.js application with Mongoose installed. You can install Mongoose with the npm package manager:
+
+```bash
+npm install mongoose
+npm install --save-dev @types/mongoose
+```
+
+Once you've done that, here's a basic example of how to connect to your MongoDB instance named `mydatabase` using Mongoose:
 
 ```ts
-    interface IUser {
-      name: string;
-      email: string;
-      age?: number;
-    }
+import mongoose from 'mongoose';
 
-    const userSchema = new Schema<IUser>({
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        age: { type: Number, required: false },
+const uri: string = 'mongodb://root:nodegmp@localhost:27017/mydatabase';
+
+const options = { useNewUrlParser: true };
+
+mongoose.connect(uri, options).then(() => {
+  console.log("Succesfully connected to MongoDB");
+}).catch((error: Error) => {
+  console.log(`Error connecting to MongoDB: ${error.message}`);
+});
+```
+
+
+Now when you run your Node.js application, Mongoose will attempt to connect to the MongoDB instance running inside your `nodegmp-nosql` container.
+
+## Step 4 - Create user schema and model
+
+Everything in Mongoose starts with a [Schema](https://mongoosejs.com/docs/guide.html). Each schema maps to a MongoDB collection and defines the shape of the documents within that collection. [Models](https://mongoosejs.com/docs/models.html) are constructors compiled from Schema definitions. An instance of a model is called a document. Models are responsible for creating and reading documents from the underlying MongoDB database.
+
+```ts
+import mongoose, { Schema, Document } from 'mongoose';
+
+interface IUser extends Document {
+  name: string,
+  email: string,
+  password: string,
+  createdAt: Date,
+  updatedAt: Date,
+}
+
+const UserSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  createdAt: { type: Date, required: true, default: Date.now },
+  updatedAt: { type: Date, required: true, default: Date.now },
+});
+
+export default mongoose.model<IUser>('User', UserSchema);
+```
+
+The schema for `user` is then defined using the `Schema` constructor. It defines four fields for `users` collection: `name`, `email`, `password`, `createdAt` and `updatedAt`. Each field is associated with a specific data type, and the `required` flag signifies that the field is mandatory. The `default` option for `createdAt` and `updatedAt` fields is set to `Date.now` which sets the default value of these fields to the current date and time when a new document is created.
+
+The `mongoose.model<IUser>('User', UserSchema)` function creates a new `User` model which you can use to interact with the `users` collection. This User model is then exported for use in other parts of your application.
+
+## Step 5 - Working with users collection
+
+Here are some simple examples of how to perform Create, Read, Update, and Delete operations in MongoDB using Mongoose. You can check the list of model methods available in [Model API](https://mongoosejs.com/docs/api/model.html).
+
+### Create user
+
+```ts
+import User from './models/user'; // from the previous step
+
+const createUser = async () => {
+  try {
+    const user = new User({
+      name: "John Doe",
+      email: "john.doe@example.com",
+      password: "password",
     });
 
-  const User = model<IUser>("User", userSchema);
+    const savedUser = await user.save();
+    console.log("User created: ", savedUser);
+  } catch (err) {
+    console.error("Error creating user: ", err);
+  }
+};
 ```
-[Schemas types](https://mongoosejs.com/docs/schematypes.html) for ```mongoose```.
-When we created ```User``` model, it means that ```mongoose``` will automatically look for your created collection.
-Now, you are able to work with this collection.
 
-## Work with collection
-
-- [Model API])(https://mongoosejs.com/docs/api/model.html)
+### Read users
 
 ```ts
-  // Create new model entity
-  // Save this entity into DB
+const fetchUser = async () => {
+  try {
+    const user = await User.findOne({ email: "john.doe@example.com" });
+    console.log("User found: ", user);
+  } catch (err) {
+    console.error("Error finding user: ", err);
+  }
+};
 
-  const user = new User({
-    name: "Name",
-    email: "test@test.com",
-    age: 18
-  });
-
-  await user.save();
-
-  // To find one user or get an array of users
-  const user: IUser = await User.findOne({ email: 'test@test.com' });
-  const users: Array<IUser> = await User.find({ email: 'test@test.com' });
-
-  // Or it is possible to use .where()
-  const users: Array<IUser> = await User.where('email').eq('test@test.com');
-
-  // Or get all rows and then use .where()
-  const users: Array<IUser> = User.find().where({ email: 'test@test.com' });
-
-  // Also it is possible to chain queries
-  const users: Array<IUser> = User.find().where({ email: 'test@test.com' }).where({ age: 18 });
+const fetchAllUsers = async () => {
+  try {
+    const users = await User.find();
+    console.log("All users: ", users);
+  } catch (err) {
+    console.error("Error finding users: ", err);
+  }
+};
 ```
 
-## Work with aggregations
+### Update user
+
+```ts
+const updateUser = async () => {
+  try {
+    const result = await User.updateOne(
+      { email: "john.doe@example.com" },
+      { name: "Jane Doe" }
+    );
+    console.log("Update result: ", result);
+  } catch (err) {
+    console.error("Error updating user: ", err);
+  }
+};
+```
+
+### Delete user
+
+```ts 
+const deleteUser = async () => {
+  try {
+    const result = await User.deleteOne({ email: "john.doe@example.com" });
+    console.log("Delete result: ", result);
+  } catch (err) {
+    console.error("Error deleting user: ", err);
+  }
+};
+```
+
+## Step 6 - Working with aggregations
 
 Aggregation is a way of processing a large number of documents in a collection by means of passing them through different stages.
 The stages make up what is known as a pipeline.
 The stages in a pipeline can filter, sort, group, reshape and modify documents that pass through the pipeline.
-MongoDB Aggregation can also perform relational-like joins, reshape documents, create new and update existing collections.
-
-- [Aggregation Docs](https://mongoosejs.com/docs/api/aggregate.html)
+MongoDB Aggregation can also perform relational-like joins, reshape documents, create new and update existing collections ([Aggregation Docs](https://mongoosejs.com/docs/api/aggregate.html)).
 
 Most popular aggregation stages:
 - $match – filters those documents we need to work with
 - $group – does the aggregation job
 - $sort – sorts the resulting documents
 
-```db.collectionName.aggregate(stages, options)```
+### $match
+
+`getUsersOver18()` function retrieves all users whose age is 18 or over. It does use the `$match` stage to filter out any documents where the 'age' field is less than 18.
 
 ```ts
-{
-   _id: 1
-   username: 'UserName_1',
-   firstName: 'FirstName_1',
-   lastName: 'LastName_1',
-   age: 40
-},
-{
-   _id: 2
-   username: 'UserName_2',
-   firstName: 'FirstName_2',
-   lastName: 'LastName_1',
-   age: 20
-}
+const getUsersOver18 = async () => {
+  try {
+    const users = await User.aggregate([
+      {
+        $match: {
+          age: { $gte: 18 },
+        },
+      },
+    ]);
+
+    console.log(users);
+  } catch (err) {
+    console.error(err);
+  }
+};
 ```
 
-```ts
-const result = await User.aggregate([ {$group : { _id : "$lastName", total:  { $sum : 1 }} }]);
+### $group
 
-// output: { "_id" : "LastName_1", total: 2 }
+`groupByCountry()` function groups all users based on their country of residence. It does use the `$group` aggregation stage. In the `$group` stage, `_id` is the field by which we want to group the documents, here, we use `$country`. The `total` field in the `$group` stage uses the `$sum` operator to keep a count of how many users belong to each country.
+
+```ts
+const groupByCountry = async () => {
+  try {
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: "$country",
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+
+    console.log(users);
+  } catch (err) {
+    console.error(err);
+  }
+};
 ```
 
-### Before end
+### $sort
 
-- Close database connection
+`sortUsersByAge()` async function sorts all users from the database based on their age in descending order, i.e., the oldest users first. The `$sort` stage used to achieve this takes a field to sort by (here, 'age') and an order (-1 for descending order, 1 for ascending order).
 
 ```ts
-    import { disconnect } from 'mongoose';
+const sortUsersByAge = async () => {
+  try {
+    const users = await User.aggregate([
+      {
+        $sort: {
+          age: -1,
+        },
+      },
+    ]);
 
-    await disconnect();
+    console.log(users);
+  } catch (err) {
+    console.error(err);
+  }
+};
+```
+
+### Chaining aggregations
+
+`complexAggregation()` function combines all of the above operations. It first filters users who are 18 or older. Then, it groups these filtered users by their country. Finally, it sorts the groups by the total number of users in each group, in descending order. 
+
+```ts
+const complexAggregation = async () => {
+  try {
+    const users = await User.aggregate([
+      {
+        $match: {
+          age: { $gte: 18 },
+        },
+      },
+      {
+        $group: {
+          _id: '$country',
+          total: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          total: -1,
+        },
+      },
+    ]);
+
+    console.log(users);
+  } catch (err) {
+    console.error(err);
+  }
+};
+```
+
+## Step 7 - Close database connection
+
+Closing the MongoDB connection in a Mongoose application is achieved using `mongoose.connection.close()`. This can be very useful in scenarios like integration tests where you need to close the connection once you're done.
+
+```ts
+import mongoose from 'mongoose';
+
+const closeDatabaseConnection = async (): Promise<void> => {
+  try {
+    await mongoose.connection.close();
+    console.log("Database connection closed");
+  } catch (error) {
+    console.error("Error while closing the database connection: ", error);
+  }
+};
 ```
