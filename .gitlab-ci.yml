@@ -34,7 +34,7 @@ build:
     # Login to CodeArtifact
     - aws codeartifact login --tool npm --domain ebook --domain-owner $AWS_ACCOUNT_ID --repository ebook-management --region $AWS_DEFAULT_REGION
     # Install dependencies & built
-    - npm ci
+    - npm ci --force
     - npm run build
   artifacts:
     paths:
