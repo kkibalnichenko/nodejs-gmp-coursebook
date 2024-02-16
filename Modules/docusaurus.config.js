@@ -45,6 +45,7 @@ const config = {
     ],
   ],
   plugins: [
+    require.resolve('docusaurus-lunr-search'),
     [
       '@docusaurus/plugin-pwa',
       {
@@ -151,12 +152,15 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()}. Node.js Global mentoring program (GMP). Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} EPAM Systems. All Rights Reserved.`,
       },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+      colorMode: {
+        disableSwitch: true
+      }
     }),
 };
 

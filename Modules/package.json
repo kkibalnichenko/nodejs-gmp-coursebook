@@ -17,6 +17,7 @@
     "@docusaurus/core": "^2.2.0",
     "@docusaurus/plugin-pwa": "^2.2.0",
     "@docusaurus/preset-classic": "^2.2.0",
+    "@ebook/core": "^0.0.16",
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.1.1",
     "prism-react-renderer": "^1.3.3",
@@ -28,7 +29,7 @@
     "standard-version": "^9.5.0"
   },
   "optionalDependencies": {
-    "@ebook/access-epm-wrapper": "^0.0.4"
+    "@ebook/access-epm-wrapper": "^1.0.3"
   },
   "browserslist": {
     "production": [
